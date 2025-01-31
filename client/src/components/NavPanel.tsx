@@ -18,10 +18,10 @@ import {
 import {
   Bars3Icon,
   BellIcon,
-  CalendarIcon,
-  ChartPieIcon,
+  // CalendarIcon,
+  // ChartPieIcon,
   Cog6ToothIcon,
-  DocumentDuplicateIcon,
+  // DocumentDuplicateIcon,
   FolderIcon,
   HomeIcon,
   UsersIcon,
