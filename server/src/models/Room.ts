@@ -1,6 +1,6 @@
+// Document: A Typescript interface from Mongoose that provide document methods
 // Schema will define the structure of the documents
 // model is used to create a model from a schema
-// Document: A Typescript interface from Mongoose that provide document methods
 
 import { Schema, model, Document } from "mongoose";
 
