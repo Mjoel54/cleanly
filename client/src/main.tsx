@@ -6,9 +6,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 
 import App from "./App.tsx";
-import RoomsPage from "./pages/RoomsPage";
-import ModuleProgress from "./pages/ModuleProgress";
-import Dashboard from "./pages/Dashboard";
+import RoomsPage from "./pages/RoomsPage.tsx";
+import ModuleProgress from "./pages/ModuleProgress.tsx";
+import Dashboard from "./pages/Dashboard.tsx";
 
 const router = createBrowserRouter([
   {
