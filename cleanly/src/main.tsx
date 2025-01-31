@@ -6,7 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 
 import App from "./App.tsx";
-import AssignmentGroupPage from "./pages/AssignmentGroupPage";
+import RoomsPage from "./pages/RoomsPage";
 import ModuleProgress from "./pages/ModuleProgress";
 import Dashboard from "./pages/Dashboard";
 
@@ -21,8 +21,8 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: "/assignment-group",
-        element: <AssignmentGroupPage />,
+        path: "/rooms",
+        element: <RoomsPage />,
       },
       {
         path: "/module-progress",
