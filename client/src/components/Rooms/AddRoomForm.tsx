@@ -1,9 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useMutation } from "@apollo/client";
+
+// import helper functions
+import { CREATE_ROOM } from "../../utils/api/index";
 
 export default function AddRoomForm() {
   const [roomName, setRoomName] = useState("");
+  const [
+    createRoom,
+    // {
+    //   data: createRoomData,
+    //   loading: createRoomLoading,
+    //   error: createRoomError,
+    // },
+  ] = useMutation(CREATE_ROOM);
   //   const [loading, setLoading] = useState(false);
-  const [roomList, setRoomList] = useState<string[]>([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value);
@@ -13,10 +24,14 @@ export default function AddRoomForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (roomName.trim()) {
-      setRoomList([...roomList, roomName]);
+      createRoom({ variables: { name: roomName } });
       setRoomName(""); // Reset input field
     }
   };
+
+  useEffect(() => {
+    // console.log(createRoomData, createRoomLoading, createRoomError, createRoom);
+  });
 
   return (
     <div className="bg-white shadow-sm sm:rounded-lg">
@@ -47,13 +62,6 @@ export default function AddRoomForm() {
             Add
           </button>
         </form>
-      </div>
-      <div>
-        {roomList.map((room, index) => (
-          <p key={index} className="mb-2">
-            {room}
-          </p>
-        ))}
       </div>
     </div>
   );
