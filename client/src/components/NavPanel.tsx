@@ -367,8 +367,8 @@ export default function NavPanel() {
             </div>
           </div>
 
-          <main className="py-10">
-            <div className="px-4 sm:px-6 lg:px-8">
+          <main className="flex py-10 bg-gray-100">
+            <div className="flex-1 px-4 sm:px-6 lg:px-8 ">
               <Outlet />
             </div>
           </main>

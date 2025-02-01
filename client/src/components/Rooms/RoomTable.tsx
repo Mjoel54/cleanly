@@ -1,3 +1,9 @@
+import { useState, useEffect } from "react";
+import { useMutation } from "@apollo/client";
+
+// import helper functions
+import { GET_ROOMS } from "../../utils/api/index";
+
 const people = [
   {
     name: "Lindsay Walton",
@@ -8,7 +14,7 @@ const people = [
   // More people...
 ];
 
-export default function AddRoomTable() {
+export default function RoomTable() {
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="mt-8 flow-root">
