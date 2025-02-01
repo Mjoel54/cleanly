@@ -1,28 +1,39 @@
-// Import required dependencies
-import express from "express"; // Import the express framework to build the server
-import db from "./config/connection"; // Import the connection to the database
-import routes from "./routes/api/index"; // Import defined routes for handling API requests
+import express from "express";
+import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from "@apollo/server/express4";
+import path from "node:path";
 
-const cwd = process.cwd();
+import { typeDefs, resolvers } from "./schemas/index.js";
+import db from "./config/connection.js";
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 const app = express();
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+});
 
-// Note: not necessary for the Express server to function. This just helps indicate what activity's server is running in the terminal.
-// const activity = cwd.includes("01-Activities")
-//   ? cwd.split("01-Activities")[1]
-//   : cwd;
+const startApolloServer = async () => {
+  await server.start();
+  await db();
 
-// Middleware to parse incoming request bodies
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+  app.use(express.urlencoded({ extended: false }));
+  app.use(express.json());
 
-// Attaches the imported routes to the Express application
-app.use(routes);
+  if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "../client/dist")));
 
-// Once the database connection is established, the server starts listening on the specified PORT. The server will only start if the database connection is successful.
-db.once("open", () => {
+    app.get("*", (_req, res) => {
+      res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+    });
+  }
+
+  app.use("/graphql", expressMiddleware(server));
+
   app.listen(PORT, () => {
     console.log(`API server running on port ${PORT}!`);
+    console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
   });
-});
+};
+
+startApolloServer();
