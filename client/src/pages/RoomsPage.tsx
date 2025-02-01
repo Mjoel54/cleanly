@@ -1,5 +1,5 @@
 import AddRoomForm from "../components/Rooms/AddRoomForm";
-import AddRoomTable from "../components/Rooms/AddRoomTable";
+import RoomTable from "../components/Rooms/RoomTable";
 
 export default function RoomsPage() {
   return (
@@ -8,7 +8,7 @@ export default function RoomsPage() {
         <h2>Rooms</h2>
       </div>
       <AddRoomForm />
-      <AddRoomTable />
+      <RoomTable />
     </>
   );
 }
