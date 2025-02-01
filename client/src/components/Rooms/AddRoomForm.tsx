@@ -4,16 +4,20 @@ import { useMutation } from "@apollo/client";
 // import helper functions
 import { CREATE_ROOM } from "../../utils/api/index";
 
+// import components
+import SuccessNotification from "../Notifications/SuccessNotification";
+
 export default function AddRoomForm() {
   const [roomName, setRoomName] = useState("");
-  const [
-    createRoom,
-    // {
-    //   data: createRoomData,
-    //   loading: createRoomLoading,
-    //   error: createRoomError,
-    // },
-  ] = useMutation(CREATE_ROOM);
+  const [showNotification, setShowNotification] = useState(false);
+
+  const [createRoom] = useMutation(CREATE_ROOM, {
+    onCompleted: () => {
+      setShowNotification(true);
+      // Auto-hide after 3 seconds
+      setTimeout(() => setShowNotification(false), 3000);
+    },
+  });
   //   const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,6 +66,11 @@ export default function AddRoomForm() {
             Add
           </button>
         </form>
+        <SuccessNotification
+          show={showNotification}
+          onClose={() => setShowNotification(false)}
+          title="Room added successfully!"
+        />
       </div>
     </div>
   );
