@@ -3,7 +3,7 @@
 // model is used to create a model from a schema
 import { Schema, model } from "mongoose";
 // We use IRoom as the type of the Schema
-// Defines the name field properties
+// This schema will map to the Room collection and define the shape of the documents within that collection
 const roomSchema = new Schema({
     name: {
         type: String,
@@ -13,7 +13,7 @@ const roomSchema = new Schema({
 }, {
     timestamps: true,
 });
-// Creates a Mongoose model that is named Room, uses the Schema we defined, is typed using the IRoom interface
+// To use the schema definition, we need to convert roomSchema into a Model we can work with
 const Room = model("Room", roomSchema);
 // Exports the Room model
 export default Room;

@@ -11,7 +11,7 @@ export interface IRoom extends Document {
 }
 
 // We use IRoom as the type of the Schema
-// Defines the name field properties
+// This schema will map to the Room collection and define the shape of the documents within that collection
 const roomSchema = new Schema<IRoom>(
   {
     name: {
@@ -25,7 +25,7 @@ const roomSchema = new Schema<IRoom>(
   }
 );
 
-// Creates a Mongoose model that is named Room, uses the Schema we defined, is typed using the IRoom interface
+// To use the schema definition, we need to convert roomSchema into a Model we can work with
 const Room = model<IRoom>("Room", roomSchema);
 
 // Exports the Room model

@@ -1,15 +1,15 @@
-import { Router } from "express";
-const router = Router();
-import {
-  getUsers,
-  getSingleUser,
-  createUser,
-} from "../../controllers/userController.js";
+// import { Router } from "express";
+// const router = Router();
+// import {
+//   getUsers,
+//   getSingleUser,
+//   createUser,
+// } from "../../controllers/userController.js";
 
-// /api/users
-router.route("/").get(getUsers).post(createUser);
+// // /api/users
+// router.route("/").get(getUsers).post(createUser);
 
-// /api/users/:userId
-router.route("/:userId").get(getSingleUser);
+// // /api/users/:userId
+// router.route("/:userId").get(getSingleUser);
 
-export default router;
+// export default router;
