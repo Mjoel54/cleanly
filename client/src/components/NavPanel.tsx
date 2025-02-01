@@ -62,7 +62,7 @@ function classNames(...classes) {
 export default function NavPanel() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
-  console.log(location);
+  // console.log(location);
 
   return (
     <>
