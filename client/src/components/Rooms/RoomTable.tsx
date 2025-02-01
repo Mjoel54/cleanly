@@ -1,20 +1,19 @@
-import { useState, useEffect } from "react";
-import { useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 
 // import helper functions
 import { GET_ROOMS } from "../../utils/api/index";
 
-const people = [
-  {
-    name: "Lindsay Walton",
-    title: "Front-end Developer",
-    email: "lindsay.walton@example.com",
-    role: "Member",
-  },
-  // More people...
-];
+// import types
+import { Room } from "../../models/Room";
 
 export default function RoomTable() {
+  const { loading, error, data } = useQuery(GET_ROOMS);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+  const rooms = data?.rooms || [];
+
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="mt-8 flow-root">
@@ -57,26 +56,20 @@ export default function RoomTable() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {people.map((person) => (
-                    <tr key={person.email}>
+                  {rooms.map((room: Room) => (
+                    <tr key={room._id}>
                       <td className="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-6">
-                        {person.name}
+                        {room.name}
                       </td>
-                      <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
-                        {person.title}
-                      </td>
-                      <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
-                        {person.email}
-                      </td>
-                      <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
-                        {person.role}
-                      </td>
+                      <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500"></td>
+                      <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500"></td>
+                      <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500"></td>
                       <td className="relative py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-6">
                         <a
                           href="#"
                           className="text-indigo-600 hover:text-indigo-900"
                         >
-                          Edit<span className="sr-only">, {person.name}</span>
+                          Edit<span className="sr-only"></span>
                         </a>
                       </td>
                     </tr>
