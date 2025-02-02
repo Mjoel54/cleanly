@@ -40,8 +40,8 @@ const navigation = [
     icon: UsersIcon,
   },
   {
-    name: "Module Progress",
-    href: "/module-progress",
+    name: "Tasks",
+    href: "/tasks",
     icon: FolderIcon,
   },
 ];

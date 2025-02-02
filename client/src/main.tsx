@@ -8,7 +8,7 @@ import "./index.css";
 
 import App from "./App.tsx";
 import RoomsPage from "./pages/RoomsPage.tsx";
-import ModuleProgress from "./pages/ModuleProgress.tsx";
+import TasksPage from "./pages/TasksPage.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 
 // Create an ApolloClient instance
@@ -32,8 +32,8 @@ const router = createBrowserRouter([
         element: <RoomsPage />,
       },
       {
-        path: "/module-progress",
-        element: <ModuleProgress />,
+        path: "/tasks",
+        element: <TasksPage />,
       },
     ],
   },

@@ -8,7 +8,7 @@ import { Schema, model, Document } from "mongoose";
 // Defines which properties Room will have
 export interface ITask extends Document {
   name: string;
-  description: string;
+  description?: string;
 }
 
 // Use ITask as the type of the Schema
@@ -22,7 +22,7 @@ const taskSchema = new Schema<ITask>(
     },
     description: {
       type: String,
-      required: false,
+      required: false, // MongoDB will allow documents without a description field
       trim: true,
     },
   },

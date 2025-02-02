@@ -1,37 +1,42 @@
 import { useState, useEffect } from "react";
-import { useMutation } from "@apollo/client";
+// import { useMutation } from "@apollo/client";
+
+// imports for dropdown selection
 
 // import helper functions
-import { CREATE_ROOM } from "../../utils/api/index";
+
+// import {  } from "../../utils/api/index";<div className="w-full sm:max-w-xs">
 
 // import components
 import SuccessNotification from "../Notifications/SuccessNotification";
 
-export default function AddTaskForm() {
-  const [roomName, setRoomName] = useState("");
+export default function AddRoomForm() {
+  const [taskName, setTaskName] = useState("");
   const [showNotification, setShowNotification] = useState(false);
 
-  const [createRoom] = useMutation(CREATE_ROOM, {
-    onCompleted: () => {
-      setShowNotification(true);
-      // Auto-hide after 3 seconds
-      setTimeout(() => setShowNotification(false), 3000);
-    },
-  });
+  // Add the mutation here
+  //   const [createRoom] = useMutation(CREATE_ROOM, {
+  //     onCompleted: () => {
+  //       setShowNotification(true);
+  //       // Auto-hide after 3 seconds
+  //       setTimeout(() => setShowNotification(false), 3000);
+  //     },
+  //   });
+
   //   const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // console.log(e.target.value);
-    setRoomName(e.target.value);
+    setTaskName(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (roomName.trim()) {
-      createRoom({ variables: { name: roomName } });
-      setRoomName(""); // Reset input field
-    }
-  };
+  //   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //     e.preventDefault();
+  //     if (taskName.trim()) {
+  //       createRoom({ variables: { name: roomName } });
+  //       setRoomName(""); // Reset input field
+  //     }
+  //   };
 
   useEffect(() => {
     // console.log(createRoomData, createRoomLoading, createRoomError, createRoom);
@@ -41,18 +46,19 @@ export default function AddTaskForm() {
     <div className="bg-white shadow-sm sm:rounded-lg">
       <div className="px-4 py-5 sm:p-6">
         <h3 className="text-base font-semibold text-gray-900">
-          Add a new room
+          Add a new task
         </h3>
         <div className="mt-2 max-w-xl text-sm text-gray-500">
           {/* <p>Change the email address you want associated with your account.</p> */}
         </div>
-        <form onSubmit={handleSubmit} className="mt-5 sm:flex sm:items-center">
+        <form className="mt-5 sm:flex sm:items-center">
+          <div></div>
           <div className="w-full sm:max-w-xs">
             <input
-              id="email"
-              name="email"
+              id="taskNameInput"
+              name="taskNameInput"
               type="text"
-              value={roomName}
+              value={taskName}
               onChange={handleChange}
               placeholder="room name"
               aria-label="Room"
