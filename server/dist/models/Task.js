@@ -12,7 +12,7 @@ const taskSchema = new Schema({
     },
     description: {
         type: String,
-        required: false,
+        required: false, // MongoDB will allow documents without a description field
         trim: true,
     },
 }, {

@@ -1,23 +1,29 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useMutation } from "@apollo/client";
 
 // import helper functions
-import { CREATE_ROOM } from "../../utils/api/index";
+import { CREATE_ROOM, GET_ROOMS } from "../../utils/api/index";
 
 // import components
 import SuccessNotification from "../Notifications/SuccessNotification";
+
+// import types
+import { RoomRequest } from "../../models/Room";
 
 export default function AddTaskForm() {
   const [roomName, setRoomName] = useState("");
   const [showNotification, setShowNotification] = useState(false);
 
   const [createRoom] = useMutation(CREATE_ROOM, {
+    refetchQueries: [{ query: GET_ROOMS }], // ✅ Automatically refresh RoomTable
+    awaitRefetchQueries: true, // ✅ Ensures fresh data before continuing
     onCompleted: () => {
       setShowNotification(true);
       // Auto-hide after 3 seconds
       setTimeout(() => setShowNotification(false), 3000);
     },
   });
+
   //   const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,14 +34,16 @@ export default function AddTaskForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (roomName.trim()) {
-      createRoom({ variables: { name: roomName } });
-      setRoomName(""); // Reset input field
+      const newRoom: RoomRequest = { name: roomName };
+      createRoom({ variables: newRoom });
+      // setRoomName(""); // Reset input field
+      // window.location.assign("/rooms");
     }
   };
 
-  useEffect(() => {
-    // console.log(createRoomData, createRoomLoading, createRoomError, createRoom);
-  });
+  // useEffect(() => {
+  //   // console.log(createRoomData, createRoomLoading, createRoomError, createRoom);
+  // });
 
   return (
     <div className="bg-white shadow-sm sm:rounded-lg">
@@ -69,7 +77,7 @@ export default function AddTaskForm() {
         <SuccessNotification
           show={showNotification}
           onClose={() => setShowNotification(false)}
-          title="Room added successfully!"
+          title="Room added!"
         />
       </div>
     </div>
