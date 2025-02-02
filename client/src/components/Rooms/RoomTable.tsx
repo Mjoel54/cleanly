@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/client";
 import { GET_ROOMS } from "../../utils/api/index";
 
 // import types
-import { Room } from "../../models/Room";
+// import { Room } from "../../models/Room";
 
 export default function RoomTable() {
   const { loading, error, data } = useQuery(GET_ROOMS);
