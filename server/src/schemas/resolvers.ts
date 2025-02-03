@@ -1,4 +1,4 @@
-import { Room } from "../models/index.js";
+import { User, Room, Task } from "../models/index.js";
 
 // Define the shape of arguments for room-related operations
 interface RoomArgs {

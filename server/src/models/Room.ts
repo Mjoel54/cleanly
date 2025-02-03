@@ -39,7 +39,7 @@ const roomSchema = new Schema<IRoom>(
     toJSON: {
       virtuals: true,
     },
-    id: false,
+    toObject: { getters: true },
   }
 );
 
