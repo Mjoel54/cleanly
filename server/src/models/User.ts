@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 
 interface IUser extends Document {
   _id: string;
-  name: string;
+  username: string;
   email: string;
   password: string;
   rooms: ObjectId[];
@@ -15,7 +15,7 @@ interface IUser extends Document {
 // Schema to create User model
 const userSchema = new Schema<IUser>(
   {
-    name: {
+    username: {
       type: String,
       required: [true, "Please provide a name"],
       unique: true,
