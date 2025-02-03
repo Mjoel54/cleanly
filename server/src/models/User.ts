@@ -1,51 +1,74 @@
 import { Schema, Document, model, ObjectId } from "mongoose";
+import bcrypt from "bcrypt";
 
 interface IUser extends Document {
-  first: string;
-  last: string;
-  age: number;
-  videos: ObjectId[];
-  fullName: string;
+  _id: string;
+  name: string;
+  email: string;
+  password: string;
+  rooms: ObjectId[];
+  tasks: ObjectId[];
+  isCorrectPassword(password: string): Promise<boolean>;
 }
 
 // Schema to create User model
 const userSchema = new Schema<IUser>(
   {
-    first: String,
-    last: String,
-    age: Number,
-    videos: [
+    name: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      match: [/.+@.+\..+/, "Must match an email address!"],
+    },
+    password: {
+      type: String,
+      required: true,
+      minlength: 5,
+    },
+    rooms: [
       {
         type: Schema.Types.ObjectId,
-        ref: "video",
+        ref: "Room", // Where is this reference coming from?
+      },
+    ],
+    tasks: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Task", // Where is this reference coming from?
       },
     ],
   },
   {
-    // Mongoose supports two Schema options to transform Objects after querying MongoDb: toJSON and toObject.
-    // Here we are indicating that we want virtuals to be included with our response, overriding the default behavior
-    toJSON: {
-      virtuals: true,
-    },
-    id: false,
+    timestamps: true,
+    toJSON: { getters: true },
+    toObject: { getters: true },
   }
 );
 
-// Create a virtual property `fullName` that gets and sets the user's full name
-userSchema
-  .virtual("fullName")
-  // Getter
-  .get(function (this: any) {
-    return `${this.first} ${this.last}`;
-  })
-  // Setter to set the first and last name
-  .set(function (this: any, v: any) {
-    const first = v.split(" ")[0];
-    const last = v.split(" ")[1];
-    this.set({ first, last });
-  });
+// set up pre-save middleware to create password
+userSchema.pre<IUser>("save", async function (next) {
+  if (this.isNew || this.isModified("password")) {
+    const saltRounds = 10;
+    this.password = await bcrypt.hash(this.password, saltRounds);
+  }
+
+  next();
+});
+
+// compare the incoming password with the hashed password
+userSchema.methods.isCorrectPassword = async function (
+  password: string
+): Promise<boolean> {
+  return bcrypt.compare(password, this.password);
+};
 
 // Initialize our User model
-const User = model("user", userSchema);
+const User = model<IUser>("user", userSchema);
 
 export default User;
