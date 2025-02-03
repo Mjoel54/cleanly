@@ -8,6 +8,7 @@ interface IUser extends Document {
   password: string;
   rooms: ObjectId[];
   tasks: ObjectId[];
+  createdAt: Date;
   isCorrectPassword(password: string): Promise<boolean>;
 }
 
@@ -16,19 +17,19 @@ const userSchema = new Schema<IUser>(
   {
     name: {
       type: String,
-      required: true,
+      required: [true, "Please provide a name"],
       unique: true,
       trim: true,
     },
     email: {
       type: String,
-      required: true,
+      required: [true, "Please provide an email"],
       unique: true,
       match: [/.+@.+\..+/, "Must match an email address!"],
     },
     password: {
       type: String,
-      required: true,
+      required: [true, "Please provide a password"],
       minlength: 5,
     },
     rooms: [
@@ -43,6 +44,10 @@ const userSchema = new Schema<IUser>(
         ref: "Task", // Where is this reference coming from?
       },
     ],
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
   {
     timestamps: true,

@@ -8,8 +8,9 @@ import { Schema, model, Document, ObjectId } from "mongoose";
 // Defines which properties Room will have
 export interface IRoom extends Document {
   name: string;
-  createdAt: Date;
   tasks: ObjectId[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 // We use IRoom as the type of the Schema
@@ -18,21 +19,23 @@ const roomSchema = new Schema<IRoom>(
   {
     name: {
       type: String,
-      required: true,
+      required: [true, "Room name is required"],
       trim: true,
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now,
+      maxLength: 30,
     },
     tasks: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Task", // Where is this reference coming from?
+        ref: "Task", // The ref property inside the tasks array tells Mongoose that each ObjectId in tasks refers to a document in another collection, specifically the Task collection.
       },
     ],
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
   {
+    timestamps: true,
     toJSON: {
       virtuals: true,
     },
