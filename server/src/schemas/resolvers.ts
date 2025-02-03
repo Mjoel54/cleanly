@@ -1,42 +1,54 @@
 import { User, Room, Task } from "../models/index.js";
+import { signToken, AuthenticationError } from "../utils/auth.js";
 
-// Define the shape of arguments for room-related operations
+// Define types for the arguments
+
+interface addUserArgs {
+  input: {
+    username: string;
+    email: string;
+    password: string;
+  };
+}
+
+interface LoginUserArgs {
+  email: string;
+  password: string;
+}
+
+interface UserArgs {
+  username: string;
+}
+
 interface RoomArgs {
-  id: string;
+  roomId: string;
+}
+
+interface AddRoomArgs {
+  input: {
+    name: string;
+  };
+}
+
+interface TaskArgs {
+  name: string;
+  description?: string;
+}
+
+interface AddTaskArgs {
+  input: {
+    name: string;
+    description?: string;
+  };
 }
 
 const resolvers = {
-  // Query resolvers handle data fetching operations
-  Query: {
-    // Resolver for fetching a single room by ID
-    // The '_' parameter is the parent object (unused here, hence the any type)
-    // The second parameter destructures the 'id' from the query arguments
-    room: async (_: any, { id }: RoomArgs) => {
-      return await Room.findById(id);
-    },
-
-    // Resolver for fetching all rooms
-    // No arguments needed for this query
-    rooms: async () => {
-      return await Room.find();
-    },
+  // queries to get rooms
+  rooms: async () => {
+    return await Room.find().sort({ createdAt: -1 });
   },
-
-  // Mutation resolvers handle data modification operations
-  Mutation: {
-    // Resolver for creating a new room
-    // Destructures the 'name' parameter from the mutation arguments
-    createRoom: async (_: any, { name }: { name: string }) => {
-      const room = new Room({ name });
-      await room.save();
-      return room;
-    },
-
-    // Resolver for deleting a room by ID
-    // Returns the deleted room object
-    deleteRoom: async (_: any, { id }: RoomArgs) => {
-      return await Room.findByIdAndDelete(id);
-    },
+  room: async (_parent: any, { roomId }: RoomArgs) => {
+    return await Room.findOne({ _id: roomId });
   },
 };
 
