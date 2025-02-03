@@ -2,12 +2,14 @@
 // Schema will define the structure of the documents
 // model is used to create a model from a schema
 
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, ObjectId } from "mongoose";
 
 // Extends the Mongoose Document interface giving it all MongoDB document properties
 // Defines which properties Room will have
 export interface IRoom extends Document {
   name: string;
+  createdAt: Date;
+  tasks: ObjectId[];
 }
 
 // We use IRoom as the type of the Schema
@@ -19,9 +21,22 @@ const roomSchema = new Schema<IRoom>(
       required: true,
       trim: true,
     },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    tasks: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Task", // Where is this reference coming from?
+      },
+    ],
   },
   {
-    timestamps: true,
+    toJSON: {
+      virtuals: true,
+    },
+    id: false,
   }
 );
 
