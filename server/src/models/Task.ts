@@ -49,7 +49,7 @@ const taskSchema = new Schema<ITask>(
     toJSON: {
       virtuals: true,
     },
-    id: false,
+    toObject: { getters: true },
   }
 );
 
