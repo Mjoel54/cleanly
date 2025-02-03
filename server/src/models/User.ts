@@ -7,7 +7,6 @@ interface IUser extends Document {
   email: string;
   password: string;
   rooms: ObjectId[];
-  tasks: ObjectId[];
   createdAt: Date;
   isCorrectPassword(password: string): Promise<boolean>;
 }
@@ -36,12 +35,6 @@ const userSchema = new Schema<IUser>(
       {
         type: Schema.Types.ObjectId,
         ref: "Room", // Where is this reference coming from?
-      },
-    ],
-    tasks: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Task", // Where is this reference coming from?
       },
     ],
     createdAt: {
