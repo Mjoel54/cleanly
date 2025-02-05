@@ -70,6 +70,7 @@ const typeDefs = `
     updateTask(taskId: ID!, input: TaskInput!): Task
     deleteTask(taskId: ID!): Task
     deleteAllTasks: Boolean!
+    deleteRoomsAndTasks: Boolean!
   }
 `;
 
