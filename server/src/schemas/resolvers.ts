@@ -271,6 +271,20 @@ const resolvers = {
         throw new Error("Failed to delete all tasks");
       }
     },
+    deleteRoomsAndTasks: async () => {
+      try {
+        // Step 1: Delete all tasks first
+        await Task.deleteMany({});
+
+        // Step 2: Delete all rooms
+        await Room.deleteMany({});
+
+        return true; // Indicate success
+      } catch (error) {
+        console.error("Error deleting rooms and tasks:", error);
+        throw new Error("Failed to delete rooms and tasks");
+      }
+    },
   },
 };
 
