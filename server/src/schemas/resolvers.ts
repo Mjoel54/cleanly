@@ -35,7 +35,7 @@ interface UpdateRoomArgs {
 }
 
 interface TaskInput {
-  name: string;
+  name?: string;
   description?: string;
   status?: "ACTIVE" | "COMPLETED" | "DELETED";
 }
@@ -54,6 +54,10 @@ interface UpdateTaskArgs {
   };
 }
 
+interface DeleteTaskArgs {
+  taskId: string;
+}
+
 const resolvers = {
   Query: {
     rooms: async () => {
@@ -65,21 +69,25 @@ const resolvers = {
       }
     },
     room: async (_: any, { id }: RoomArgs) => {
-      const room = await Room.findById(id);
-      if (!room) {
-        throw new Error("Room not found");
-      }
-      return room;
-    },
-    tasks: async () => {
-      // <-- New Resolver for fetching all tasks
       try {
-        return await Task.find().sort({ createdAt: -1 });
+        const room = await Room.findById(id).populate({
+          path: "tasks",
+          model: "Task",
+          select:
+            "_id name description status dueDate completedAt createdAt updatedAt", // Select necessary fields
+        });
+
+        if (!room) {
+          throw new Error("Room not found");
+        }
+
+        return room;
       } catch (error) {
-        console.error("Error fetching tasks:", error);
-        throw new Error("Unable to fetch tasks");
+        console.error("Error fetching room:", error);
+        throw new Error("Unable to fetch room");
       }
     },
+
     task: async (_: any, { id }: { id: string }) => {
       try {
         const task = await Task.findById(id);
@@ -171,7 +179,7 @@ const resolvers = {
       try {
         // Create and save the task
         const newTask = await Task.create({
-          name: input.name,
+          name: input.name || "",
           description: input.description,
           status: input.status,
         });
@@ -229,6 +237,38 @@ const resolvers = {
       } catch (error) {
         console.error("Error updating task:", error);
         throw new Error(`Failed to update task: ${error}`);
+      }
+    },
+    deleteTask: async (_: any, { taskId }: DeleteTaskArgs) => {
+      try {
+        // First find and delete the task
+        const deletedTask = await Task.findByIdAndDelete(taskId);
+
+        if (!deletedTask) {
+          throw new Error("Task not found");
+        }
+
+        // Update all rooms that might contain this task ID by pulling it from their tasks array
+        await Room.updateMany({ tasks: taskId }, { $pull: { tasks: taskId } });
+
+        return deletedTask;
+      } catch (error) {
+        console.error("Error deleting task:", error);
+        throw new Error(`Failed to delete task: ${error}`);
+      }
+    },
+    deleteAllTasks: async () => {
+      try {
+        // Remove all tasks
+        await Task.deleteMany({});
+
+        // Update all rooms by clearing their tasks array
+        await Room.updateMany({}, { $set: { tasks: [] } });
+
+        return true; // Indicate success
+      } catch (error) {
+        console.error("Error deleting all tasks:", error);
+        throw new Error("Failed to delete all tasks");
       }
     },
   },
