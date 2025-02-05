@@ -1,8 +1,8 @@
 const typeDefs = `
   enum TaskStatus {
-    active
-    completed
-    deleted
+    ACTIVE
+    COMPLETED
+    DELETED
   }
 
   type Task {
@@ -10,7 +10,10 @@ const typeDefs = `
     name: String!
     description: String
     status: TaskStatus
+    dueDate: String
+    completedAt: String
     createdAt: String
+    updatedAt: String
   }
 
   type Room {
@@ -39,7 +42,7 @@ const typeDefs = `
   }
 
   input TaskInput {
-    name: String!
+    name: String
     description: String
     status: TaskStatus
   }
@@ -64,6 +67,7 @@ const typeDefs = `
     updateRoom(id: ID!, name: String!): Room
     deleteRoom(id: ID!): Room
     createTask(roomId: ID!, input: TaskInput!): Room
+    updateTask(taskId: ID!, input: TaskInput!): Task
   }
 `;
 
