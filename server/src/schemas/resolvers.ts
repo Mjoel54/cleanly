@@ -37,12 +37,21 @@ interface UpdateRoomArgs {
 interface TaskInput {
   name: string;
   description?: string;
-  status?: "active" | "completed" | "deleted";
+  status?: "ACTIVE" | "COMPLETED" | "DELETED";
 }
 
 interface CreateTaskArgs {
   roomId: string;
   input: TaskInput;
+}
+
+interface UpdateTaskArgs {
+  taskId: string;
+  input: {
+    name?: string;
+    description?: string;
+    status?: "ACTIVE" | "COMPLETED" | "DELETED";
+  };
 }
 
 const resolvers = {
@@ -186,6 +195,40 @@ const resolvers = {
         return updatedRoom;
       } catch (error) {
         throw new Error(`Failed to create task: ${error}`);
+      }
+    },
+    updateTask: async (_: any, { taskId, input }: UpdateTaskArgs) => {
+      try {
+        // Convert the input status to lowercase to match the schema enum if it exists
+        const normalizedInput = {
+          ...input,
+          ...(input.status && { status: input.status }),
+          // If status is being set to completed, set completedAt
+          ...(input.status === "COMPLETED" && { completedAt: new Date() }),
+          // If status is being changed from completed to something else, clear completedAt
+          ...(input.status &&
+            input.status !== "COMPLETED" && { completedAt: null }),
+        };
+
+        // Find and update the task
+        const updatedTask = await Task.findByIdAndUpdate(
+          taskId,
+          { $set: normalizedInput },
+          {
+            new: true, // Return the updated document
+            runValidators: true, // Run schema validators on update
+          }
+        );
+
+        // Check if task exists
+        if (!updatedTask) {
+          throw new Error("Task not found");
+        }
+
+        return updatedTask;
+      } catch (error) {
+        console.error("Error updating task:", error);
+        throw new Error(`Failed to update task: ${error}`);
       }
     },
   },
