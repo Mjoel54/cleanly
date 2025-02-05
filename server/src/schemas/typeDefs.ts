@@ -38,6 +38,12 @@ const typeDefs = `
     name: String!
   }
 
+  input TaskInput {
+    name: String!
+    description: String
+    status: TaskStatus
+  }
+
   type Auth {
     token: ID!
     user: User
@@ -46,6 +52,8 @@ const typeDefs = `
   type Query {
     rooms: [Room]!
     room(id: ID!): Room
+    tasks: [Task]!
+    task(id: ID!): Task
     me: User
   }
 
@@ -55,6 +63,7 @@ const typeDefs = `
     createRoom(name: String!): Room
     updateRoom(id: ID!, name: String!): Room
     deleteRoom(id: ID!): Room
+    createTask(roomId: ID!, input: TaskInput!): Room
   }
 `;
 

@@ -1,6 +1,6 @@
 // A resolver is a function that resolves the data from the database
 
-import { Room, User } from "../models/index.js";
+import { Room, User, Task } from "../models/index.js";
 import { signToken, AuthenticationError } from "../utils/auth.js";
 
 // Define types for the arguments
@@ -34,23 +34,16 @@ interface UpdateRoomArgs {
   name: string;
 }
 
-// interface AddRoomArgs {
-//   input: {
-//     name: string;
-//   };
-// }
+interface TaskInput {
+  name: string;
+  description?: string;
+  status?: "active" | "completed" | "deleted";
+}
 
-// interface TaskArgs {
-//   name: string;
-//   description?: string;
-// }
-
-// interface AddTaskArgs {
-//   input: {
-//     name: string;
-//     description?: string;
-//   };
-// }
+interface CreateTaskArgs {
+  roomId: string;
+  input: TaskInput;
+}
 
 const resolvers = {
   Query: {
@@ -68,6 +61,27 @@ const resolvers = {
         throw new Error("Room not found");
       }
       return room;
+    },
+    tasks: async () => {
+      // <-- New Resolver for fetching all tasks
+      try {
+        return await Task.find().sort({ createdAt: -1 });
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+        throw new Error("Unable to fetch tasks");
+      }
+    },
+    task: async (_: any, { id }: { id: string }) => {
+      try {
+        const task = await Task.findById(id);
+        if (!task) {
+          throw new Error("Task not found");
+        }
+        return task;
+      } catch (error) {
+        console.error("Error fetching task:", error);
+        throw new Error("Unable to fetch task");
+      }
     },
     // Query to get the authenticated user's information
     // The 'me' query relies on the context to check if the user is authenticated
@@ -143,6 +157,36 @@ const resolvers = {
         throw new Error("Room not found");
       }
       return deletedRoom;
+    },
+    createTask: async (_: any, { roomId, input }: CreateTaskArgs) => {
+      try {
+        // Create and save the task
+        const newTask = await Task.create({
+          name: input.name,
+          description: input.description,
+          status: input.status,
+        });
+
+        // Find the room and update it with the new task ID
+        const updatedRoom = await Room.findByIdAndUpdate(
+          roomId,
+          {
+            $push: { tasks: newTask._id }, // Store the ObjectId
+          },
+          {
+            new: true,
+            runValidators: true,
+          }
+        ).populate("tasks"); // Ensure tasks are populated
+
+        if (!updatedRoom) {
+          throw new Error("Room not found");
+        }
+
+        return updatedRoom;
+      } catch (error) {
+        throw new Error(`Failed to create task: ${error}`);
+      }
     },
   },
 };
