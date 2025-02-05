@@ -7,7 +7,7 @@ const typeDefs = `
 
   type Task {
     _id: ID!
-    name: String!
+    name: String
     description: String
     status: TaskStatus
     dueDate: String
@@ -42,7 +42,7 @@ const typeDefs = `
   }
 
   input TaskInput {
-    name: String
+    name: String!
     description: String
     status: TaskStatus
   }
@@ -68,6 +68,8 @@ const typeDefs = `
     deleteRoom(id: ID!): Room
     createTask(roomId: ID!, input: TaskInput!): Room
     updateTask(taskId: ID!, input: TaskInput!): Task
+    deleteTask(taskId: ID!): Task
+    deleteAllTasks: Boolean!
   }
 `;
 
