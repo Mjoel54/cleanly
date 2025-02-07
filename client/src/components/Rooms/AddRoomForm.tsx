@@ -8,7 +8,7 @@ import { CREATE_ROOM, GET_ROOMS } from "../../utils/api/index";
 import SuccessNotification from "../Notifications/SuccessNotification";
 
 // import types
-import { RoomRequest } from "../../models/Room";
+import { RoomRequest } from "../../interfaces/Room";
 
 export default function AddTaskForm() {
   const [roomName, setRoomName] = useState("");
