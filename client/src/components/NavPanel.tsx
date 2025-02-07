@@ -2,7 +2,7 @@
 import { Link, useLocation, Outlet } from "react-router-dom";
 
 // import types
-import { Team } from "../models/teams";
+import { Team } from "../interfaces/teams";
 
 import { useState } from "react";
 import {
