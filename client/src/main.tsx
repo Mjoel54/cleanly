@@ -1,5 +1,4 @@
 // import { StrictMode } from "react";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import ReactDOM from "react-dom/client";
 
 // Bringing in the required imports from 'react-router-dom' to set up application routing behavior
@@ -9,13 +8,8 @@ import "./index.css";
 import App from "./App.tsx";
 import RoomsPage from "./pages/RoomsPage.tsx";
 import TasksPage from "./pages/TasksPage.tsx";
+import SignupPage from "./pages/Signup.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
-
-// Create an ApolloClient instance
-const client = new ApolloClient({
-  uri: "http://localhost:3001/graphql", // Replace with your actual GraphQL endpoint
-  cache: new InMemoryCache(), // Caching strategy for GraphQL data
-});
 
 const router = createBrowserRouter([
   {
@@ -24,8 +18,12 @@ const router = createBrowserRouter([
     // errorElement: <Error />
     children: [
       {
-        path: "/",
+        index: true,
         element: <Dashboard />,
+      },
+      {
+        path: "/signup",
+        element: <SignupPage />,
       },
       {
         path: "/rooms",
@@ -35,6 +33,7 @@ const router = createBrowserRouter([
         path: "/tasks",
         element: <TasksPage />,
       },
+      { path: "/signup", element: <SignupPage /> },
     ],
   },
 ]);
