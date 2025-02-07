@@ -100,6 +100,15 @@ const resolvers = {
         throw new Error("Unable to fetch task");
       }
     },
+    tasks: async () => {
+      try {
+        const allTasks = await Task.find({}).sort({ createdAt: -1 }); // Optional: sorts by creation date, newest first
+
+        return allTasks;
+      } catch (error) {
+        throw new Error(`Failed to fetch tasks: ${error}`);
+      }
+    },
     // Query to get the authenticated user's information
     // The 'me' query relies on the context to check if the user is authenticated
     me: async (_parent: any, _args: any, context: any) => {
@@ -169,10 +178,16 @@ const resolvers = {
       return updatedRoom;
     },
     deleteRoom: async (_: any, { id }: RoomArgs) => {
-      const deletedRoom = await Room.findByIdAndDelete(id);
-      if (!deletedRoom) {
+      const room = await Room.findById(id);
+      if (!room) {
         throw new Error("Room not found");
       }
+
+      // Delete all associated tasks first
+      await Task.deleteMany({ _id: { $in: room.tasks } });
+
+      // Then delete the room
+      const deletedRoom = await Room.findByIdAndDelete(id);
       return deletedRoom;
     },
     createTask: async (_: any, { roomId, input }: CreateTaskArgs) => {
