@@ -39,17 +39,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-// Runtime check: Check if the root element exists in the DOM before rendering to ensure the app fails gracefully with a clear error if the element is missing.
 const rootElement = document.getElementById("root");
-
-if (!rootElement) {
-  throw new Error(
-    "Root element not found. Please ensure the HTML contains a <div id='root'></div>."
-  );
+if (rootElement) {
+  ReactDOM.createRoot(rootElement).render(<RouterProvider router={router} />);
 }
-
-ReactDOM.createRoot(rootElement).render(
-  <ApolloProvider client={client}>
-    <RouterProvider router={router} />
-  </ApolloProvider>
-);
