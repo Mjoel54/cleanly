@@ -8,7 +8,7 @@ import "./index.css";
 import App from "./App.tsx";
 import RoomsPage from "./pages/RoomsPage.tsx";
 import TasksPage from "./pages/TasksPage.tsx";
-import SignupPage from "./pages/Signup.tsx";
+import SignupPage from "./pages/SignupPage.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 
 const router = createBrowserRouter([

@@ -9,3 +9,6 @@ export { GET_TASKS, DELETE_ALL_TASKS } from "./tasks/index";
 
 // Task operations
 export { CREATE_TASK, GET_TASK, UPDATE_TASK, DELETE_TASK } from "./task/index";
+
+// User operations
+export { ADD_USER } from "./user/index";
