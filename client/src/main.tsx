@@ -9,6 +9,7 @@ import App from "./App.tsx";
 import RoomsPage from "./pages/RoomsPage.tsx";
 import TasksPage from "./pages/TasksPage.tsx";
 import SignupPage from "./pages/SignupPage.tsx";
+import LoginPage from "./pages/LoginPage.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 
 const router = createBrowserRouter([
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <SignupPage />,
+      },
+      {
+        path: "/login",
+        element: <LoginPage />,
       },
       {
         path: "/rooms",
