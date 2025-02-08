@@ -12,3 +12,6 @@ export { CREATE_TASK, GET_TASK, UPDATE_TASK, DELETE_TASK } from "./task/index";
 
 // User operations
 export { ADD_USER } from "./user/index";
+
+// Auth operations
+export { LOGIN_USER } from "./auth/index";
