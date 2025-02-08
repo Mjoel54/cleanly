@@ -3,11 +3,10 @@ import bcrypt from "bcrypt";
 
 interface IUser extends Document {
   _id: string;
-  name: string;
+  username: string;
   email: string;
   password: string;
   rooms: ObjectId[];
-  tasks: ObjectId[];
   createdAt: Date;
   isCorrectPassword(password: string): Promise<boolean>;
 }
@@ -15,7 +14,7 @@ interface IUser extends Document {
 // Schema to create User model
 const userSchema = new Schema<IUser>(
   {
-    name: {
+    username: {
       type: String,
       required: [true, "Please provide a name"],
       unique: true,
@@ -36,12 +35,6 @@ const userSchema = new Schema<IUser>(
       {
         type: Schema.Types.ObjectId,
         ref: "Room", // Where is this reference coming from?
-      },
-    ],
-    tasks: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Task", // Where is this reference coming from?
       },
     ],
     createdAt: {
