@@ -28,7 +28,7 @@ export default function SuccessNotification({
                 <div className="shrink-0">
                   <CheckCircleIcon
                     aria-hidden="true"
-                    className="size-6 text-green-400"
+                    className="size-6 text-green-600"
                   />
                 </div>
                 <div className="ml-3 w-0 flex-1 pt-0.5">

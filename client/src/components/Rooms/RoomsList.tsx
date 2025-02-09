@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import RoomBar from "./RoomBar";
+import RoomCard from "./RoomCard";
 
 // import helper functions
 import { GET_ROOMS } from "../../utils/api/index";
@@ -14,13 +14,14 @@ export default function RoomsList() {
   if (error) return <p>Error: {error.message}</p>;
 
   const rooms = data?.rooms || [];
-  console.log(rooms);
+  // console.log(rooms);
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       {rooms.map((room: Room) => (
-        <RoomBar
+        <RoomCard
           key={room._id}
+          roomId={room._id}
           roomName={room.name}
           taskCount={room.tasks.length}
         />
