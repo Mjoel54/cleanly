@@ -56,7 +56,7 @@ export default function LoginPage() {
             className="mx-auto h-10 w-auto"
           />
           <h2 className="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
-            Sign up to get started
+            Login to get started
           </h2>
         </div>
 
@@ -167,7 +167,7 @@ export default function LoginPage() {
                       type="submit"
                       className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer"
                     >
-                      Create account
+                      Login
                     </button>
                   </div>
                 </form>
