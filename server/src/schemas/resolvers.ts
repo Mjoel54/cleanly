@@ -203,31 +203,101 @@ const resolvers = {
         throw new Error("Unable to create room");
       }
     },
-    updateRoom: async (_: any, { id, name }: UpdateRoomArgs) => {
-      const updatedRoom = await Room.findByIdAndUpdate(
-        id,
-        { name },
-        { new: true }
-      );
-
-      if (!updatedRoom) {
-        throw new Error("Room not found");
+    updateRoom: async (_: any, { id, name }: UpdateRoomArgs, context: any) => {
+      // Check if user is authenticated
+      if (!context.user) {
+        throw new AuthenticationError(
+          "You need to be logged in to update a room"
+        );
       }
 
-      return updatedRoom;
+      try {
+        // Find the user and check if they own the room
+        const user = await User.findById(context.user._id).populate("rooms");
+
+        if (!user) {
+          throw new AuthenticationError("User not found");
+        }
+
+        // Check if the room belongs to the user
+        const userOwnsRoom = user.rooms.some(
+          (room: any) => room._id.toString() === id
+        );
+
+        if (!userOwnsRoom) {
+          throw new AuthenticationError(
+            "You can only update rooms that belong to you"
+          );
+        }
+
+        // Perform the update
+        const updatedRoom = await Room.findByIdAndUpdate(
+          id,
+          { name },
+          { new: true }
+        );
+
+        if (!updatedRoom) {
+          throw new Error("Room not found");
+        }
+
+        return updatedRoom;
+      } catch (error) {
+        console.error("Error updating room:", error);
+        throw new Error("Unable to update room");
+      }
     },
-    deleteRoom: async (_: any, { id }: RoomArgs) => {
-      const room = await Room.findById(id);
-      if (!room) {
-        throw new Error("Room not found");
+    deleteRoom: async (_: any, { id }: RoomArgs, context: any) => {
+      // Check if user is authenticated
+      if (!context.user) {
+        throw new AuthenticationError(
+          "You need to be logged in to delete a room"
+        );
       }
 
-      // Delete all associated tasks first
-      await Task.deleteMany({ _id: { $in: room.tasks } });
+      try {
+        // Find the user and check if they own the room
+        const user = await User.findById(context.user._id).populate("rooms");
 
-      // Then delete the room
-      const deletedRoom = await Room.findByIdAndDelete(id);
-      return deletedRoom;
+        if (!user) {
+          throw new AuthenticationError("User not found");
+        }
+
+        // Check if the room belongs to the user
+        const userOwnsRoom = user.rooms.some(
+          (room: any) => room._id.toString() === id
+        );
+
+        if (!userOwnsRoom) {
+          throw new AuthenticationError(
+            "You can only delete rooms that belong to you"
+          );
+        }
+
+        // Find the room to get its tasks
+        const room = await Room.findById(id);
+        if (!room) {
+          throw new Error("Room not found");
+        }
+
+        // Delete all associated tasks
+        await Task.deleteMany({ _id: { $in: room.tasks } });
+
+        // Delete the room
+        const deletedRoom = await Room.findByIdAndDelete(id);
+
+        // Remove the room from the user's rooms array
+        await User.findByIdAndUpdate(
+          context.user._id,
+          { $pull: { rooms: id } },
+          { new: true }
+        );
+
+        return deletedRoom;
+      } catch (error) {
+        console.error("Error deleting room:", error);
+        throw new Error("Unable to delete room");
+      }
     },
     createTask: async (_: any, { roomId, input }: CreateTaskArgs) => {
       try {
