@@ -17,7 +17,7 @@ export default function RoomsList() {
   // console.log(rooms);
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
+    <div>
       {rooms.map((room: Room) => (
         <RoomCard
           key={room._id}

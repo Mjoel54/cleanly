@@ -4,11 +4,15 @@ import RoomTable from "../components/Rooms/RoomsList";
 export default function RoomsPage() {
   return (
     <>
-      <div className="p-5">
-        <h2>Rooms</h2>
+      <div className="px-4 sm:px-6 lg:px-8">
+        <div>
+          <h2 className="text-2xl/7 font-bold text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight mb-8 text-center py-6">
+            Manage the rooms in your household
+          </h2>
+        </div>
+        <AddRoomForm />
+        <RoomTable />
       </div>
-      <AddRoomForm />
-      <RoomTable />
     </>
   );
 }
