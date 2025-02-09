@@ -1,12 +1,16 @@
 import Dropdown from "./Dropdown";
 
-interface RoomBarProps {
-  key: string;
+interface RoomCardProps {
+  roomId: string;
   roomName: string;
   taskCount: number;
 }
 
-export default function RoomBar({ key, roomName, taskCount }: RoomBarProps) {
+export default function RoomCard({
+  roomId,
+  roomName,
+  taskCount,
+}: RoomCardProps) {
   return (
     <div className="bg-white shadow-sm sm:rounded-lg my-5">
       <div className="px-4 py-5 sm:p-6">
@@ -24,7 +28,7 @@ export default function RoomBar({ key, roomName, taskCount }: RoomBarProps) {
           </div>
           {/* Right section: Dropdown */}
           <div>
-            <Dropdown roomId={key} />
+            <Dropdown roomId={roomId} />
           </div>
         </div>
       </div>
