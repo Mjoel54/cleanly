@@ -9,7 +9,7 @@ interface DropdownProps {
   roomId: string;
 }
 
-export default function Dropdown({ roomId }: DropdownProps) {
+export default function RoomActionsDropdown({ roomId }: DropdownProps) {
   const [showNotification, setShowNotification] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [newRoomName, setNewRoomName] = useState("");

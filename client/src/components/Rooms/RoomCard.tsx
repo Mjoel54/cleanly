@@ -1,5 +1,6 @@
-import Dropdown from "./Dropdown";
+// import RoomActionsDropdown from "./RoomActionsDropdown";
 // import EditableRoomName from "./EditableRoomName";
+import RoomActions from "./RoomActions";
 
 interface RoomCardProps {
   roomId: string;
@@ -29,7 +30,11 @@ export default function RoomCard({
           </div>
           {/* Right section: Dropdown */}
           <div>
-            <Dropdown roomId={roomId} />
+            <RoomActions
+              roomId={roomId}
+              onRename={() => setIsRenameModalOpen(true)}
+            />
+            {/* <RoomActionsDropdown roomId={roomId} /> */}
           </div>
         </div>
       </div>
