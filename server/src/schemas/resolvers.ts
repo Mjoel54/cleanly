@@ -60,9 +60,25 @@ interface DeleteTaskArgs {
 
 const resolvers = {
   Query: {
-    rooms: async () => {
+    rooms: async (_: any, __: any, context: any) => {
+      // Check if user is authenticated
+      if (!context.user) {
+        throw new AuthenticationError("You need to be logged in to see rooms");
+      }
+
       try {
-        return await Room.find().sort({ createdAt: -1 }).populate("tasks");
+        const user = await User.findById(context.user._id).populate({
+          path: "rooms",
+          populate: {
+            path: "tasks",
+          },
+        });
+
+        if (!user) {
+          throw new AuthenticationError("User not found");
+        }
+
+        return user.rooms || [];
       } catch (error) {
         console.error("Error fetching rooms:", error);
         throw new Error("Unable to fetch rooms");
@@ -155,14 +171,37 @@ const resolvers = {
       // Return the token and the user
       return { token, user };
     },
-    createRoom: async (_: any, { name }: CreateRoomArgs) => {
-      const newRoom = new Room({
-        name,
-        createdAt: new Date().toISOString(),
-        tasks: [],
-      });
+    createRoom: async (_: any, { name }: CreateRoomArgs, context: any) => {
+      // Check if user is authenticated
+      if (!context.user) {
+        throw new AuthenticationError(
+          "You need to be logged in to create a room"
+        );
+      }
 
-      return await newRoom.save();
+      try {
+        // Create the new room
+        const newRoom = new Room({
+          name,
+          createdAt: new Date().toISOString(),
+          tasks: [],
+        });
+
+        // Save the room
+        const savedRoom = await newRoom.save();
+
+        // Add the room to the user's rooms array
+        await User.findByIdAndUpdate(
+          context.user._id,
+          { $push: { rooms: savedRoom._id } },
+          { new: true }
+        );
+
+        return savedRoom;
+      } catch (error) {
+        console.error("Error creating room:", error);
+        throw new Error("Unable to create room");
+      }
     },
     updateRoom: async (_: any, { id, name }: UpdateRoomArgs) => {
       const updatedRoom = await Room.findByIdAndUpdate(
