@@ -77,11 +77,11 @@ export default function Dropdown({ roomId }: DropdownProps) {
           transition
           className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white ring-1 shadow-lg ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
         >
-          <div className="py-1">
+          <div className="m-1">
             <MenuItem>
               <button
                 onClick={() => setIsEditModalOpen(true)}
-                className="block w-full px-4 py-2 text-left text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                className="block w-full px-4 py-2 text-left text-sm rounded-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden cursor-pointer"
               >
                 Rename
               </button>
@@ -98,7 +98,7 @@ export default function Dropdown({ roomId }: DropdownProps) {
               <button
                 onClick={() => deleteRoom()} // ✅ Correctly triggers mutation
                 disabled={loading}
-                className="block px-4 py-2 text-sm w-full text-left  text-red-600 data-focus:bg-gray-100 data-focus:text-red-700 data-focus:outline-hidden cursor-pointer"
+                className="block px-4 py-2 text-sm w-full text-left rounded-sm text-red-600 data-focus:bg-gray-100 data-focus:text-red-700 data-focus:outline-hidden cursor-pointer"
               >
                 {loading ? "Deleting..." : "Delete"}
               </button>
@@ -182,7 +182,7 @@ export default function Dropdown({ roomId }: DropdownProps) {
       <SuccessNotification
         show={showNotification}
         onClose={() => setShowNotification(false)}
-        title="Room added!"
+        title="Room updated"
       />
     </>
   );
