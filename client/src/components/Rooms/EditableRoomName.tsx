@@ -69,7 +69,7 @@ const EditableRoomName = ({ roomName, roomId }: EditableRoomNameProps) => {
             onChange={(e) => setEditedName(e.target.value)}
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
-            className="w-full px-1 py-0.5 font-semibold bg-transparent border border-blue-500 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
           />
         ) : (
           <h3
