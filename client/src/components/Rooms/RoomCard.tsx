@@ -30,10 +30,7 @@ export default function RoomCard({
           </div>
           {/* Right section: Dropdown */}
           <div>
-            <RoomActions
-              roomId={roomId}
-              onRename={() => setIsRenameModalOpen(true)}
-            />
+            <RoomActions roomId={roomId} currentName={roomName} />
             {/* <RoomActionsDropdown roomId={roomId} /> */}
           </div>
         </div>
