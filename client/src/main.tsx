@@ -6,11 +6,11 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 
 import App from "./App.tsx";
-import RoomsPage from "./pages/RoomsPage.tsx";
-import TasksPage from "./pages/TasksPage.tsx";
-import SignupPage from "./pages/SignupPage.tsx";
-import LoginPage from "./pages/LoginPage.tsx";
-import Dashboard from "./pages/Dashboard.tsx";
+import Rooms from "./pages/Rooms";
+import Tasks from "./pages/Tasks";
+import SignupPage from "./pages/SignupPage";
+import LoginPage from "./pages/LoginPage";
+import Dashboard from "./pages/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -32,11 +32,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/rooms",
-        element: <RoomsPage />,
+        element: <Rooms />,
       },
       {
         path: "/tasks",
-        element: <TasksPage />,
+        element: <Tasks />,
       },
       { path: "/signup", element: <SignupPage /> },
     ],
