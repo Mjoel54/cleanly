@@ -64,9 +64,8 @@ export default function DeleteRoomModal({
                 </DialogTitle>
                 <div className="mt-2">
                   <p className="text-sm text-gray-500">
-                    Are you sure you want to delete this room? All tasks
-                    associated with this room will be deleted as well. This
-                    action cannot be undone.
+                    All tasks associated with this room will be deleted along
+                    with the room. This action cannot be undone.
                   </p>
                 </div>
               </div>

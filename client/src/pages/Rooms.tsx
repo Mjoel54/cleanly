@@ -1,7 +1,7 @@
 import AddRoomForm from "../components/Rooms/AddRoomForm";
 import RoomTable from "../components/Rooms/RoomsList";
 
-export default function RoomsPage() {
+export default function Rooms() {
   return (
     <>
       <div className="px-4 sm:px-6 lg:px-8">

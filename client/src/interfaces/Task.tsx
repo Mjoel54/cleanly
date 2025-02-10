@@ -3,3 +3,11 @@ export interface Task {
   name: string;
   description: string;
 }
+
+export interface TaskRequest {
+  roomId: string;
+  input: {
+    name: string;
+    description: string;
+  };
+}
