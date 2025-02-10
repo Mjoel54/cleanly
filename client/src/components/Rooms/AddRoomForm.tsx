@@ -24,8 +24,6 @@ export default function AddTaskForm() {
     },
   });
 
-  //   const [loading, setLoading] = useState(false);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // console.log(e.target.value);
     setRoomName(e.target.value);
@@ -37,13 +35,8 @@ export default function AddTaskForm() {
       const newRoom: RoomRequest = { name: roomName };
       createRoom({ variables: newRoom });
       setRoomName(""); // Reset input field
-      // window.location.assign("/rooms");
     }
   };
-
-  // useEffect(() => {
-  //   // console.log(createRoomData, createRoomLoading, createRoomError, createRoom);
-  // });
 
   return (
     <div className="bg-white shadow-sm sm:rounded-lg">

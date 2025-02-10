@@ -92,7 +92,7 @@ export default function RenameRoomModal({
                   }
                   className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 sm:ml-3 sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
-                  {isSubmitting ? "Saving..." : "Save Changes"}
+                  Save changes
                 </button>
                 <button
                   type="button"

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { DELETE_ROOM, UPDATE_ROOM, GET_ROOMS } from "../../utils/api/index";
-import NewDropdown from "./NewDropdown";
+import RoomActionsDropdown from "./RoomActionsDropdown";
 import DeleteRoomModal from "./DeleteRoomModal";
 import RenameRoomModal from "./RenameRoomModal";
 import SuccessNotification from "../Notifications/SuccessNotification";
@@ -28,7 +28,7 @@ export default function RoomActions({ roomId, currentName }: RoomActionsProps) {
     awaitRefetchQueries: true,
     onCompleted: () => {
       setIsDeleteModalOpen(false);
-      showNotification("Room deleted successfully");
+      showNotification("Room deleted");
     },
   });
 
@@ -38,7 +38,7 @@ export default function RoomActions({ roomId, currentName }: RoomActionsProps) {
     awaitRefetchQueries: true,
     onCompleted: () => {
       setIsRenameModalOpen(false);
-      showNotification("Room updated successfully");
+      showNotification("Room updated");
     },
   });
 
@@ -67,7 +67,7 @@ export default function RoomActions({ roomId, currentName }: RoomActionsProps) {
 
   return (
     <>
-      <NewDropdown
+      <RoomActionsDropdown
         onDelete={() => setIsDeleteModalOpen(true)}
         onRename={() => setIsRenameModalOpen(true)}
         onDuplicate={handleDuplicate}
