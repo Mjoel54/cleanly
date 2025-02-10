@@ -60,7 +60,7 @@ export default function DeleteRoomModal({
                   as="h3"
                   className="text-base font-semibold text-red-600"
                 >
-                  WARNING: Permanent Deletion
+                  Permanent Deletion
                 </DialogTitle>
                 <div className="mt-2">
                   <p className="text-sm text-gray-500">
