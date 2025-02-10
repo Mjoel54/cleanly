@@ -1,6 +1,6 @@
 // import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import Auth from "./utils/auth.ts";
+import Auth from "./utils/auth";
 import ProtectedRoute from "./utils/ProtectedRoute.js";
 
 // Bringing in the required imports from 'react-router-dom' to set up application routing behavior
