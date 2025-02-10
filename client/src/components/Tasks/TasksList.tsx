@@ -3,6 +3,8 @@ import { useQuery } from "@apollo/client";
 // import helper functions
 import { GET_TASKS } from "../../utils/api/index";
 
+import TaskCard from "./TaskCard";
+
 // import types
 // import { RoomResponse } from "../../interfaces/Room";
 
@@ -17,15 +19,14 @@ export default function TasksList() {
 
   return (
     <div>
-      {/* {rooms.map((room: Room) => (
-        <RoomCard
-          key={room._id}
-          roomId={room._id}
-          roomName={room.name}
-          taskCount={room.tasks.length}
+      {tasks.map((task: Task) => (
+        <TaskCard
+          key={task._id}
+          taskName={task.name}
+          // roomName={task.room.name}
+          // dueDate={task.dueDate}
         />
-      ))} */}
-      <></>
+      ))}
     </div>
   );
 }
