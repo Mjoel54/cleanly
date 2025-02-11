@@ -115,9 +115,9 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
               </button>
             </div>
 
-            <div className="bg-white shadow-sm sm:rounded-lg my-5">
+            <div className="bg-white sm:rounded-lg my-5">
               <div className="px-4 py-5 sm:p-6">
-                <h3 className="text-base font-semibold text-gray-900">
+                <h3 className="text-xl font-bold text-indigo-700 text-center">
                   New Task
                 </h3>
 
@@ -147,16 +147,17 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
                       </select>
                     </div>
                   </div>
-                  <div>
+                  <div className="mt-6">
                     <label
                       htmlFor="taskNameInput"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Task Name
+                      Name
                     </label>
                     <div className="mt-1">
                       <input
                         id="taskNameInput"
+                        required
                         name="name"
                         type="text"
                         value={formState.input.name}
@@ -166,12 +167,12 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
                     </div>
                   </div>
 
-                  <div>
+                  <div className="mt-6">
                     <label
                       htmlFor="taskDescriptionInput"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Task Description
+                      Description
                     </label>
                     <div className="mt-1">
                       <input
@@ -185,7 +186,7 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
                     </div>
                   </div>
 
-                  <div>
+                  <div className="flex justify-center pt-4">
                     <button
                       type="submit"
                       className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:mt-0 sm:w-auto cursor-pointer"
