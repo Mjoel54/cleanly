@@ -31,7 +31,6 @@ export default function RoomCard({
           {/* Right section: Dropdown */}
           <div>
             <RoomActions roomId={roomId} currentName={roomName} />
-            {/* <RoomActionsDropdown roomId={roomId} /> */}
           </div>
         </div>
       </div>

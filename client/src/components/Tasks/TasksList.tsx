@@ -23,8 +23,9 @@ export default function TasksList() {
         <TaskCard
           key={task._id}
           taskName={task.name}
+          taskID={task._id}
           // roomName={task.room.name}
-          // dueDate={task.dueDate}
+          dueDate={task.dueDate}
         />
       ))}
     </div>
