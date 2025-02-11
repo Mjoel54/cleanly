@@ -1,11 +1,18 @@
 import { useState, type FormEvent, type ChangeEvent } from "react";
+import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 import { useMutation, useQuery } from "@apollo/client";
 
 import { CREATE_TASK, GET_TASKS, GET_ROOMS } from "../../utils/api/index";
 import { TaskRequest } from "../../interfaces/Task";
 
-export default function AddTaskForm() {
+export interface AddTaskFormProps {
+  onClose: () => void;
+}
+
+export default function AddTaskForm({ onClose }: AddTaskFormProps) {
+  const [open, setOpen] = useState(true);
   const [formState, setFormState] = useState({
     roomId: "",
     input: {
@@ -24,7 +31,7 @@ export default function AddTaskForm() {
     refetchQueries: [{ query: GET_TASKS }],
     awaitRefetchQueries: true,
     onCompleted: () => {
-      // console.log("Task added successfully");
+      onClose();
     },
   });
 
@@ -82,88 +89,116 @@ export default function AddTaskForm() {
   };
 
   return (
-    <div className="bg-white shadow-sm sm:rounded-lg my-5">
-      <div className="px-4 py-5 sm:p-6">
-        <h3 className="text-base font-semibold text-gray-900">
-          Add a new task
-        </h3>
-        <div className="mt-2 max-w-xl text-sm text-gray-500">
-          <p>Enter the details of the task you want to add.</p>
-        </div>
-        <form onSubmit={handleSubmit} className="mt-5 space-y-4">
-          <div>
-            <label
-              htmlFor="roomSelect"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Select Room
-            </label>
-            <div className="mt-1">
-              <select
-                id="roomSelect"
-                name="roomId"
-                value={formState.roomId}
-                onChange={handleInputChange}
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                required
+    <Dialog open={open} onClose={onClose} className="relative z-10">
+      <DialogBackdrop
+        transition
+        className="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
+      />
+
+      <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <DialogPanel
+            transition
+            className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg sm:p-6 data-closed:sm:translate-y-0 data-closed:sm:scale-95"
+          >
+            <div className="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
+              <button
+                type="button"
+                onClick={onClose}
+                className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden"
               >
-                <option value=""></option>
-                {roomsData?.rooms.map((room: Room) => (
-                  <option key={room._id} value={room._id}>
-                    {room.name}
-                  </option>
-                ))}
-              </select>
+                <span className="sr-only">Close</span>
+                <XMarkIcon
+                  aria-hidden="true"
+                  className="size-6 cursor-pointer"
+                />
+              </button>
             </div>
-          </div>
-          <div>
-            <label
-              htmlFor="taskNameInput"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Task Name
-            </label>
-            <div className="mt-1">
-              <input
-                id="taskNameInput"
-                name="name"
-                type="text"
-                value={formState.input.name}
-                onChange={handleInputChange}
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-              />
-            </div>
-          </div>
 
-          <div>
-            <label
-              htmlFor="taskDescriptionInput"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Task Description
-            </label>
-            <div className="mt-1">
-              <input
-                id="taskDescriptionInput"
-                name="description"
-                type="text"
-                value={formState.input.description}
-                onChange={handleInputChange}
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-              />
-            </div>
-          </div>
+            <div className="bg-white shadow-sm sm:rounded-lg my-5">
+              <div className="px-4 py-5 sm:p-6">
+                <h3 className="text-base font-semibold text-gray-900">
+                  New Task
+                </h3>
 
-          <div>
-            <button
-              type="submit"
-              className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:mt-0 sm:w-auto cursor-pointer"
-            >
-              Add
-            </button>
-          </div>
-        </form>
+                <form onSubmit={handleSubmit} className="mt-5 space-y-4">
+                  <div>
+                    <label
+                      htmlFor="roomSelect"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Select Room
+                    </label>
+                    <div className="mt-1">
+                      <select
+                        id="roomSelect"
+                        name="roomId"
+                        value={formState.roomId}
+                        onChange={handleInputChange}
+                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                        required
+                      >
+                        <option value=""></option>
+                        {roomsData?.rooms.map((room: Room) => (
+                          <option key={room._id} value={room._id}>
+                            {room.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="taskNameInput"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Task Name
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        id="taskNameInput"
+                        name="name"
+                        type="text"
+                        value={formState.input.name}
+                        onChange={handleInputChange}
+                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="taskDescriptionInput"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Task Description
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        id="taskDescriptionInput"
+                        name="description"
+                        type="text"
+                        value={formState.input.description}
+                        onChange={handleInputChange}
+                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <button
+                      type="submit"
+                      className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:mt-0 sm:w-auto cursor-pointer"
+                    >
+                      Add
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </DialogPanel>
+        </div>
       </div>
-    </div>
+    </Dialog>
   );
 }
