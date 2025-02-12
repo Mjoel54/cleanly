@@ -4,7 +4,7 @@ import { DELETE_ROOM, UPDATE_ROOM, GET_ROOMS } from "../../utils/api/index";
 import RoomActionsDropdown from "./RoomActionsDropdown";
 import DeleteRoomModal from "./DeleteRoomModal";
 import RenameRoomModal from "./RenameRoomModal";
-import SuccessNotification from "../Notifications/SuccessNotification";
+import successNotification from "../../utils/successNotification";
 
 interface RoomActionsProps {
   roomId: string;
@@ -15,12 +15,6 @@ export default function RoomActions({ roomId, currentName }: RoomActionsProps) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
 
-  // Notification state
-  const [notification, setNotification] = useState<{
-    show: boolean;
-    message: string;
-  }>({ show: false, message: "" });
-
   // Delete mutation
   const [deleteRoom, { loading: isDeleting }] = useMutation(DELETE_ROOM, {
     variables: { deleteRoomId: roomId },
@@ -28,7 +22,7 @@ export default function RoomActions({ roomId, currentName }: RoomActionsProps) {
     awaitRefetchQueries: true,
     onCompleted: () => {
       setIsDeleteModalOpen(false);
-      showNotification("Room deleted");
+      successNotification("Room deleted");
     },
   });
 
@@ -38,16 +32,9 @@ export default function RoomActions({ roomId, currentName }: RoomActionsProps) {
     awaitRefetchQueries: true,
     onCompleted: () => {
       setIsRenameModalOpen(false);
-      showNotification("Room updated");
+      successNotification("Room updated");
     },
   });
-
-  const showNotification = (message: string) => {
-    setNotification({ show: true, message });
-    setTimeout(() => {
-      setNotification({ show: false, message: "" });
-    }, 3000);
-  };
 
   const handleUpdateRoom = (newName: string) => {
     if (newName.trim() && newName !== currentName) {
@@ -86,12 +73,6 @@ export default function RoomActions({ roomId, currentName }: RoomActionsProps) {
         onSubmit={handleUpdateRoom}
         currentName={currentName}
         isSubmitting={isUpdating}
-      />
-
-      <SuccessNotification
-        show={notification.show}
-        onClose={() => setNotification({ show: false, message: "" })}
-        title={notification.message}
       />
     </>
   );

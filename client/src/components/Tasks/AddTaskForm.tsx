@@ -7,6 +7,8 @@ import { useMutation, useQuery } from "@apollo/client";
 import { CREATE_TASK, GET_TASKS, GET_ROOMS } from "../../utils/api/index";
 import { TaskRequest } from "../../interfaces/Task";
 
+import successNotification from "../../utils/successNotification";
+
 export interface AddTaskFormProps {
   onClose: () => void;
 }
@@ -32,6 +34,7 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
     awaitRefetchQueries: true,
     onCompleted: () => {
       onClose();
+      successNotification("Task created");
     },
   });
 
