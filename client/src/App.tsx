@@ -5,6 +5,7 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { SnackbarProvider } from "notistack";
 // import { Outlet } from "react-router-dom";
 
 import NavPanel from "./components/NavPanel.js";
@@ -36,8 +37,9 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <NavPanel />
-      {/* <Outlet /> */}
+      <SnackbarProvider>
+        <NavPanel />
+      </SnackbarProvider>
     </ApolloProvider>
   );
 }

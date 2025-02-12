@@ -1,26 +1,28 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
+import SuccessNotification from "../../utils/successNotification";
 
 // import helper functions
 import { CREATE_ROOM, GET_ROOMS } from "../../utils/api/index";
 
 // import components
-import SuccessNotification from "../Notifications/SuccessNotification";
+// import SuccessNotification from "../Notifications/SuccessNotification";
 
 // import types
 import { RoomRequest } from "../../interfaces/Room";
 
 export default function AddTaskForm() {
   const [roomName, setRoomName] = useState("");
-  const [showNotification, setShowNotification] = useState(false);
+  // const [showNotification, setShowNotification] = useState(false);
 
   const [createRoom] = useMutation(CREATE_ROOM, {
     refetchQueries: [{ query: GET_ROOMS }], // ✅ Automatically refresh RoomTable
     awaitRefetchQueries: true, // ✅ Ensures fresh data before continuing
     onCompleted: () => {
-      setShowNotification(true);
-      // Auto-hide after 3 seconds
-      setTimeout(() => setShowNotification(false), 3000);
+      SuccessNotification("Room added");
+      // setShowNotification(true);
+      // // Auto-hide after 3 seconds
+      // setTimeout(() => setShowNotification(false), 3000);
     },
   });
 
@@ -64,11 +66,11 @@ export default function AddTaskForm() {
             Add
           </button>
         </form>
-        <SuccessNotification
+        {/* <SuccessNotification
           show={showNotification}
           onClose={() => setShowNotification(false)}
           title="Room added"
-        />
+        /> */}
       </div>
     </div>
   );
