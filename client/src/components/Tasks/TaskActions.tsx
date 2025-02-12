@@ -36,14 +36,6 @@ export default function TaskActions({ taskId }: TaskActionsProps) {
         onConfirm={() => deleteTask()}
         isDeleting={isDeleting}
       />
-
-      {/* <RenameRoomModal
-        isOpen={isRenameModalOpen}
-        onClose={() => setIsRenameModalOpen(false)}
-        onSubmit={handleUpdateRoom}
-        currentName={currentName}
-        isSubmitting={isUpdating}
-      /> */}
     </>
   );
 }
