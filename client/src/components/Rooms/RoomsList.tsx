@@ -1,5 +1,6 @@
 import { useQuery } from "@apollo/client";
 import RoomCard from "./RoomCard";
+import { motion } from "framer-motion";
 
 // import helper functions
 import { GET_ROOMS } from "../../utils/api/index";
@@ -18,14 +19,32 @@ export default function RoomsList() {
 
   return (
     <div>
-      {rooms.map((room: Room) => (
-        <RoomCard
-          key={room._id}
-          roomId={room._id}
-          roomName={room.name}
-          taskCount={room.tasks.length}
-        />
-      ))}
+      <motion.div
+        variants={{
+          hidden: { opacity: 0 },
+          show: {
+            opacity: 1,
+            transition: {
+              staggerChildren: 0.15,
+            },
+          },
+        }}
+        initial="hidden"
+        animate="show"
+      >
+        {rooms.map((room: Room) => (
+          <motion.div
+            variants={{ hidden: { opacity: 0 }, show: { opacity: 1 } }}
+          >
+            <RoomCard
+              key={room._id}
+              roomId={room._id}
+              roomName={room.name}
+              taskCount={room.tasks.length}
+            />
+          </motion.div>
+        ))}
+      </motion.div>
     </div>
   );
 }
