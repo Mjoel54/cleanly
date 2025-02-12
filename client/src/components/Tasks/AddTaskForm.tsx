@@ -1,6 +1,8 @@
 import { useState, type FormEvent, type ChangeEvent } from "react";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 import { useMutation, useQuery } from "@apollo/client";
 
@@ -38,39 +40,29 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
     },
   });
 
-  // {  "roomId": "67a66d9e265f23eeeefb15dd",
-  //   "input": {
-  //     "name": "Clean the cupboards",
-  //     "description": "dust and disinfect"
-  //   }
-  // }
+  const handleRoomSelect = (roomId: string) => {
+    setFormState((prevState) => ({
+      ...prevState,
+      roomId,
+    }));
+  };
 
   const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-
-    if (name === "roomId") {
-      // Handle roomId separately
-      setFormState((prevState) => ({
-        ...prevState,
+    setFormState((prevState) => ({
+      ...prevState,
+      input: {
+        ...prevState.input,
         [name]: value,
-      }));
-    } else {
-      // Handle name and description
-      setFormState((prevState) => ({
-        ...prevState,
-        input: {
-          ...prevState.input,
-          [name]: value,
-        },
-      }));
-    }
+      },
+    }));
   };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (formState) {
+    if (formState.roomId && formState.input.name) {
       const newTask: TaskRequest = {
         roomId: formState.roomId,
         input: {
@@ -86,10 +78,13 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
           description: "",
         },
       });
-      // Handle form submission here
-      // console.log("Form submitted:", formState);
     }
   };
+
+  // Find the selected room name based on roomId
+  const selectedRoom = roomsData?.rooms.find(
+    (room: Room) => room._id === formState.roomId
+  );
 
   return (
     <Dialog open={open} onClose={onClose} className="relative z-10">
@@ -126,30 +121,54 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
 
                 <form onSubmit={handleSubmit} className="mt-5 space-y-4">
                   <div>
-                    <label
-                      htmlFor="roomSelect"
-                      className="block text-sm font-medium text-gray-700"
-                    >
+                    <label id="room-select-label" className="sr-only">
                       Select Room
                     </label>
                     <div className="mt-1">
-                      <select
-                        id="roomSelect"
-                        name="roomId"
-                        value={formState.roomId}
-                        onChange={handleInputChange}
-                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                        required
+                      <Menu
+                        as="div"
+                        className="relative inline-block w-full text-left"
+                        aria-labelledby="room-select-label"
                       >
-                        <option value=""></option>
-                        {roomsData?.rooms.map((room: Room) => (
-                          <option key={room._id} value={room._id}>
-                            {room.name}
-                          </option>
-                        ))}
-                      </select>
+                        <div>
+                          <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50 cursor-pointer">
+                            {selectedRoom ? selectedRoom.name : "Select a room"}
+                            <ChevronDownIcon
+                              aria-hidden="true"
+                              className="-mr-1 size-5 text-gray-400"
+                            />
+                          </MenuButton>
+                        </div>
+
+                        <MenuItems
+                          transition
+                          className="absolute left-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white ring-1 shadow-lg ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                        >
+                          <div className="flex flex-col p-1">
+                            {" "}
+                            {/* Use flex column layout */}
+                            {roomsData?.rooms.map((room: Room) => (
+                              <MenuItem key={room._id} as="button">
+                                {({ active }) => (
+                                  <button
+                                    onClick={() => handleRoomSelect(room._id)}
+                                    className={`flex w-full text-left px-4 py-2 text-sm cursor-pointer rounded-sm ${
+                                      active
+                                        ? "bg-gray-100 text-gray-900"
+                                        : "text-gray-700"
+                                    }`}
+                                  >
+                                    <span className="w-full">{room.name}</span>
+                                  </button>
+                                )}
+                              </MenuItem>
+                            ))}
+                          </div>
+                        </MenuItems>
+                      </Menu>
                     </div>
                   </div>
+
                   <div className="mt-6">
                     <label
                       htmlFor="taskNameInput"
