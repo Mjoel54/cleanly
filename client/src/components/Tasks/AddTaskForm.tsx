@@ -207,6 +207,26 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
                       />
                     </div>
                   </div>
+                  <div className="mt-6">
+                    <label
+                      htmlFor="taskDescriptionInput"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Due date
+                    </label>
+                    <div className="mt-1">
+                      <input type="date" required name="date" />
+
+                      {/* <input
+                        id="taskDescriptionInput"
+                        name="description"
+                        type="text"
+                        value={formState.input.description}
+                        onChange={handleInputChange}
+                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                      /> */}
+                    </div>
+                  </div>
 
                   <div className="flex justify-center pt-4">
                     <button
