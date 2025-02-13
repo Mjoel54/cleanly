@@ -1,8 +1,8 @@
 ("use client");
+
 import { Link, useLocation, Outlet } from "react-router-dom";
 import Auth from "../utils/auth";
 // import types
-import { Team } from "../interfaces/teams";
 
 import { useState } from "react";
 import {
@@ -18,10 +18,7 @@ import {
 import {
   Bars3Icon,
   BellIcon,
-  // CalendarIcon,
-  // ChartPieIcon,
   Cog6ToothIcon,
-  // DocumentDuplicateIcon,
   FolderIcon,
   HomeIcon,
   UsersIcon,
@@ -45,11 +42,11 @@ const navigation = [
     icon: FolderIcon,
   },
 ];
-const teams: Team[] = [
-  { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
-  { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
-  { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
-];
+// const teams: Team[] = [
+//   { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
+//   { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
+//   { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
+// ];
 const userNavigation = [
   { name: "Your profile", href: "#" },
   { name: "Sign out", href: "#" },
@@ -149,7 +146,7 @@ export default function NavPanel() {
                           })}
                         </ul>
                       </li>
-                      <li>
+                      {/* <li>
                         <div className="text-xs/6 font-semibold text-indigo-200">
                           Your teams
                         </div>
@@ -173,7 +170,7 @@ export default function NavPanel() {
                             </li>
                           ))}
                         </ul>
-                      </li>
+                      </li> */}
                       <li className="mt-auto">
                         <a
                           href="#"
@@ -242,7 +239,7 @@ export default function NavPanel() {
                       })}
                     </ul>
                   </li>
-                  <li>
+                  {/* <li>
                     <div className="text-xs/6 font-semibold text-indigo-200">
                       Your teams
                     </div>
@@ -266,7 +263,7 @@ export default function NavPanel() {
                         </li>
                       ))}
                     </ul>
-                  </li>
+                  </li> */}
                   <li className="mt-auto">
                     <a
                       href="#"
@@ -352,7 +349,9 @@ export default function NavPanel() {
                           aria-hidden="true"
                           className="ml-4 text-sm/6 font-semibold text-gray-900"
                         >
-                          Tom Cook
+                          {Auth.getProfile().data.username
+                            ? Auth.getProfile().data.username
+                            : ""}
                         </span>
                         <ChevronDownIcon
                           aria-hidden="true"
