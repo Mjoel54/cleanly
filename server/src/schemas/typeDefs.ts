@@ -45,6 +45,7 @@ const typeDefs = `
     name: String!
     description: String
     status: TaskStatus
+    dueDate: String
   }
 
   type Auth {

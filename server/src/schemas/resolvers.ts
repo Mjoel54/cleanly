@@ -38,6 +38,7 @@ interface TaskInput {
   name?: string;
   description?: string;
   status?: "ACTIVE" | "COMPLETED" | "DELETED";
+  dueDate?: string;
 }
 
 interface CreateTaskArgs {
@@ -306,6 +307,7 @@ const resolvers = {
           name: input.name || "",
           description: input.description,
           status: input.status,
+          dueDate: input.dueDate,
         });
 
         // Find the room and update it with the new task ID
