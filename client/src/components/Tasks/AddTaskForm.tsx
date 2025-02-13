@@ -22,6 +22,7 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
     input: {
       name: "",
       description: "",
+      dueDate: "",
     },
   });
 
@@ -68,6 +69,7 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
         input: {
           name: formState.input.name,
           description: formState.input.description,
+          dueDate: formState.input.dueDate,
         },
       };
       createTask({ variables: newTask });
@@ -76,6 +78,7 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
         input: {
           name: "",
           description: "",
+          dueDate: "",
         },
       });
     }
@@ -215,7 +218,13 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
                       Due date
                     </label>
                     <div className="mt-1">
-                      <input type="date" required name="date" />
+                      <input
+                        type="date"
+                        required
+                        name="dueDate"
+                        value={formState.input.dueDate}
+                        onChange={handleInputChange}
+                      />
 
                       {/* <input
                         id="taskDescriptionInput"

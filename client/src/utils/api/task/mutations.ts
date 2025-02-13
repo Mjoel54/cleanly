@@ -10,6 +10,7 @@ export const CREATE_TASK = gql`
         name
         description
         status
+        dueDate
       }
       createdAt
     }

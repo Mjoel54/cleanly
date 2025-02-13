@@ -9,5 +9,6 @@ export interface TaskRequest {
   input: {
     name: string;
     description: string;
+    dueDate: string;
   };
 }
