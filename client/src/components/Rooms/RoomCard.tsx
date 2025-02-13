@@ -25,7 +25,9 @@ export default function RoomCard({
             </div>
             <div className="text-right w-24">
               {/* Use `w-24` to standardize width */}
-              <h3 className="text-gray-600">{taskCount} tasks</h3>
+              <h3 className="text-gray-600">
+                {taskCount !== 1 ? `${taskCount} tasks` : `${taskCount} task`}
+              </h3>
             </div>
           </div>
           {/* Right section: Dropdown */}
