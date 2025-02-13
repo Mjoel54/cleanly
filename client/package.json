@@ -14,6 +14,7 @@
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
     "@tailwindcss/vite": "^4.0.1",
+    "dayjs": "^1.11.13",
     "dotenv": "^16.4.6",
     "graphql": "^16.6.0",
     "jwt-decode": "^4.0.0",

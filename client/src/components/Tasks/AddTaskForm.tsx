@@ -3,6 +3,8 @@ import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import dayjs from "dayjs";
+import capitaliseFirst from "../../utils/capitaliseFirst";
 
 import { useMutation, useQuery } from "@apollo/client";
 
@@ -28,8 +30,8 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
 
   const {
     data: roomsData,
-    loading: roomsLoading,
-    error: roomsError,
+    // loading: roomsLoading,
+    // error: roomsError,
   } = useQuery(GET_ROOMS);
 
   const [createTask] = useMutation(CREATE_TASK, {
@@ -67,9 +69,10 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
       const newTask: TaskRequest = {
         roomId: formState.roomId,
         input: {
-          name: formState.input.name,
-          description: formState.input.description,
-          dueDate: formState.input.dueDate,
+          name: capitaliseFirst(formState.input.name),
+          description: capitaliseFirst(formState.input.description),
+          dueDate: dayjs(formState.input.dueDate).unix(), // Convert to Unix timestamp (seconds)
+          // or use .valueOf() for milliseconds: dayjs(formState.input.dueDate).valueOf()
         },
       };
       createTask({ variables: newTask });
@@ -81,6 +84,8 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
           dueDate: "",
         },
       });
+      // console.log("Unix timestamp:", dayjs(formState.input.dueDate).unix());
+      // console.log("Original date:", formState.input.dueDate);
     }
   };
 
