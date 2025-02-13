@@ -19,7 +19,6 @@ import {
   Bars3Icon,
   BellIcon,
   Cog6ToothIcon,
-  FolderIcon,
   HomeIcon,
   UsersIcon,
   XMarkIcon,

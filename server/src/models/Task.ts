@@ -13,7 +13,7 @@ export interface ITask extends Document {
   name?: string;
   description?: string;
   status?: TaskStatus;
-  dueDate?: Date;
+  dueDate?: number;
   completedAt?: Date | null;
   createdAt: Date;
   updatedAt: Date;
@@ -43,7 +43,7 @@ const taskSchema = new Schema<ITask>(
       default: "ACTIVE",
     },
     dueDate: {
-      type: Date,
+      type: Number,
       required: false,
     },
     completedAt: {

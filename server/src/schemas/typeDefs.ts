@@ -10,7 +10,7 @@ const typeDefs = `
     name: String
     description: String
     status: TaskStatus
-    dueDate: String
+    dueDate: Int
     completedAt: String
     createdAt: String
     updatedAt: String
@@ -45,7 +45,7 @@ const typeDefs = `
     name: String!
     description: String
     status: TaskStatus
-    dueDate: String
+    dueDate: Int
   }
 
   type Auth {

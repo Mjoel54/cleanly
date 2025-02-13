@@ -38,7 +38,7 @@ interface TaskInput {
   name?: string;
   description?: string;
   status?: "ACTIVE" | "COMPLETED" | "DELETED";
-  dueDate?: string;
+  dueDate?: number;
 }
 
 interface CreateTaskArgs {

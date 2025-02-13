@@ -1,4 +1,5 @@
 import { useQuery } from "@apollo/client";
+import dayjs from "dayjs";
 
 // import helper functions
 import { GET_TASKS } from "../../utils/api/index";
@@ -15,7 +16,6 @@ export default function TasksList() {
   if (error) return <p>Error: {error.message}</p>;
 
   const tasks = data?.tasks || [];
-  console.log(tasks);
 
   return (
     <div>
@@ -25,7 +25,7 @@ export default function TasksList() {
           taskName={task.name}
           taskID={task._id}
           // roomName={task.room.name}
-          dueDate={task.dueDate}
+          dueDate={dayjs.unix(task.dueDate).format("DD/MM/YYYY")}
         />
       ))}
     </div>
