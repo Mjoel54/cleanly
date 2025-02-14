@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { DELETE_ROOM, UPDATE_ROOM, GET_ROOMS } from "../../utils/api/index";
+import {
+  DELETE_ROOM,
+  UPDATE_ROOM,
+  GET_ROOMS,
+  GET_TASKS,
+} from "../../utils/api/index";
 import RoomActionsDropdown from "./RoomActionsDropdown";
 import DeleteRoomModal from "./DeleteRoomModal";
 import RenameRoomModal from "./RenameRoomModal";
@@ -18,7 +23,7 @@ export default function RoomActions({ roomId, currentName }: RoomActionsProps) {
   // Delete mutation
   const [deleteRoom, { loading: isDeleting }] = useMutation(DELETE_ROOM, {
     variables: { deleteRoomId: roomId },
-    refetchQueries: [{ query: GET_ROOMS }],
+    refetchQueries: [{ query: GET_ROOMS }, { query: GET_TASKS }],
     awaitRefetchQueries: true,
     onCompleted: () => {
       setIsDeleteModalOpen(false);
