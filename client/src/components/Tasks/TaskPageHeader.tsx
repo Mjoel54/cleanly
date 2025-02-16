@@ -21,16 +21,13 @@ export default function TaskPageHeader() {
     deleteAllTasks();
   };
 
-  const [deleteAllTasks, { loading: isDeleting }] = useMutation(
-    DELETE_ALL_TASKS,
-    {
-      refetchQueries: [{ query: GET_TASKS }, { query: GET_ROOMS }],
-      awaitRefetchQueries: true,
-      onCompleted: () => {
-        successNotification("Tasks deleted");
-      },
-    }
-  );
+  const [deleteAllTasks] = useMutation(DELETE_ALL_TASKS, {
+    refetchQueries: [{ query: GET_TASKS }, { query: GET_ROOMS }],
+    awaitRefetchQueries: true,
+    onCompleted: () => {
+      successNotification("Tasks deleted");
+    },
+  });
 
   return (
     <>

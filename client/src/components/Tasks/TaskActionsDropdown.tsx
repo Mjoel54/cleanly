@@ -3,13 +3,13 @@ import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 
 interface TaskActionsDropdownProps {
   onDelete: () => void;
-  onEdit: () => void;
+  // onEdit: () => void;
 }
 
 export default function TaskActionsDropdown({
   onDelete,
-  onEdit,
-}: TaskActionsDropdownProps) {
+}: // onEdit,
+TaskActionsDropdownProps) {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -22,7 +22,7 @@ export default function TaskActionsDropdown({
         <div className="m-1">
           <MenuItem>
             <button
-              onClick={onEdit}
+              // onClick={onEdit}
               className="block w-full px-4 py-2 text-left text-sm rounded-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden cursor-pointer inline-flex items-center gap-x-2"
             >
               <svg

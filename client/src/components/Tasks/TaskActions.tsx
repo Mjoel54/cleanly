@@ -27,7 +27,7 @@ export default function TaskActions({ taskId }: TaskActionsProps) {
     <>
       <TaskActionsDropdown
         onDelete={() => setIsDeleteModalOpen(true)}
-        onEdit={{}} // onEdit={() => setIsRenameModalOpen(true)}
+        // onEdit={{}} // onEdit={() => setIsRenameModalOpen(true)}
       />
 
       <DeleteTaskModal

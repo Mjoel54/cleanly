@@ -5,6 +5,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import dayjs from "dayjs";
 import capitaliseFirst from "../../utils/capitaliseFirst";
+import { RoomResponse } from "../../interfaces/Room";
 
 import { useMutation, useQuery } from "@apollo/client";
 
@@ -18,7 +19,6 @@ export interface AddTaskFormProps {
 }
 
 export default function AddTaskForm({ onClose }: AddTaskFormProps) {
-  const [open, setOpen] = useState(true);
   const [formState, setFormState] = useState({
     roomId: "",
     input: {
@@ -91,11 +91,12 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
 
   // Find the selected room name based on roomId
   const selectedRoom = roomsData?.rooms.find(
-    (room: Room) => room._id === formState.roomId
+    (room: RoomResponse) => room._id === formState.roomId
   );
+  // console.log(selectedRoom);
 
   return (
-    <Dialog open={open} onClose={onClose} className="relative z-10">
+    <Dialog open={true} onClose={onClose} className="relative z-10">
       <DialogBackdrop
         transition
         className="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
@@ -155,7 +156,7 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
                           <div className="flex flex-col p-1">
                             {" "}
                             {/* Use flex column layout */}
-                            {roomsData?.rooms.map((room: Room) => (
+                            {roomsData?.rooms.map((room: RoomResponse) => (
                               <MenuItem key={room._id} as="button">
                                 {({ active }) => (
                                   <button

@@ -40,6 +40,13 @@ export default function dueInFormatting(dueIn: number) {
       </>
     );
   } else {
-    return "Past due";
+    return (
+      <>
+        <div className="flex items-center text-sm text-red-600">
+          <CalendarDaysIcon className={"h-4 w-4 mr-2"} />
+          <p>Overdue</p>
+        </div>
+      </>
+    );
   }
 }

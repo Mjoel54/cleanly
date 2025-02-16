@@ -6,7 +6,7 @@ import { GET_TASKS } from "../../utils/api/index";
 import TaskCard from "./TaskCard";
 
 // import types
-// import { RoomResponse } from "../../interfaces/Room";
+import { TaskResponse } from "../../interfaces/Task";
 
 export default function TasksList() {
   const { loading, error, data } = useQuery(GET_TASKS);
@@ -18,7 +18,7 @@ export default function TasksList() {
 
   return (
     <div>
-      {tasks.map((task: Task) => (
+      {tasks.map((task: TaskResponse) => (
         <TaskCard
           key={task._id}
           taskName={task.name}
