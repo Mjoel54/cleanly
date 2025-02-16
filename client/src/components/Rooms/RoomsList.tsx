@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client";
 import RoomCard from "./RoomCard";
 import { motion } from "framer-motion";
+import { RoomResponse } from "../../interfaces/Room";
 
 // import helper functions
 import { GET_ROOMS } from "../../utils/api/index";
@@ -32,7 +33,7 @@ export default function RoomsList() {
         initial="hidden"
         animate="show"
       >
-        {rooms.map((room: Room) => (
+        {rooms.map((room: RoomResponse) => (
           <motion.div
             variants={{ hidden: { opacity: 0 }, show: { opacity: 1 } }}
           >
