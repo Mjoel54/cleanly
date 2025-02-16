@@ -35,10 +35,11 @@ interface UpdateRoomArgs {
 }
 
 interface TaskInput {
-  name?: string;
+  name: string;
   description?: string;
   status?: "ACTIVE" | "COMPLETED" | "DELETED";
   dueDate?: number;
+  room?: string;
 }
 
 interface CreateTaskArgs {
@@ -52,6 +53,8 @@ interface UpdateTaskArgs {
     name?: string;
     description?: string;
     status?: "ACTIVE" | "COMPLETED" | "DELETED";
+    dueDate?: number;
+    room?: string;
   };
 }
 
@@ -107,7 +110,7 @@ const resolvers = {
 
     task: async (_: any, { id }: { id: string }) => {
       try {
-        const task = await Task.findById(id);
+        const task = await Task.findById(id).populate("room");
         if (!task) {
           throw new Error("Task not found");
         }
@@ -308,6 +311,7 @@ const resolvers = {
           description: input.description,
           status: input.status,
           dueDate: input.dueDate,
+          room: roomId,
         });
 
         // Find the room and update it with the new task ID

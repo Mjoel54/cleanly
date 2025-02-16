@@ -73,8 +73,10 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
           description: capitaliseFirst(formState.input.description),
           dueDate: dayjs(formState.input.dueDate).unix(), // Convert to Unix timestamp (seconds)
           // or use .valueOf() for milliseconds: dayjs(formState.input.dueDate).valueOf()
+          // room: formState.roomId,
         },
       };
+      console.log(newTask);
       createTask({ variables: newTask });
       setFormState({
         roomId: "",

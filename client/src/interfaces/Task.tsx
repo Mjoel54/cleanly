@@ -7,6 +7,7 @@ export interface TaskResponse {
   completedAt?: Date | null;
   createdAt: Date;
   updatedAt: Date;
+  room: string;
 }
 
 export interface TaskRequest {
@@ -15,5 +16,6 @@ export interface TaskRequest {
     name: string;
     description: string;
     dueDate: number;
+    // room: string;
   };
 }
