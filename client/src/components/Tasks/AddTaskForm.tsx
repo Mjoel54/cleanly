@@ -35,7 +35,7 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
   } = useQuery(GET_ROOMS);
 
   const [createTask] = useMutation(CREATE_TASK, {
-    refetchQueries: [{ query: GET_TASKS }],
+    refetchQueries: [{ query: GET_TASKS }, { query: GET_ROOMS }],
     awaitRefetchQueries: true,
     onCompleted: () => {
       onClose();
