@@ -17,6 +17,7 @@ export interface ITask extends Document {
   completedAt?: Date | null;
   createdAt: Date;
   updatedAt: Date;
+  room: Schema.Types.ObjectId;
 }
 
 // Use ITask as the type of the Schema
@@ -54,6 +55,11 @@ const taskSchema = new Schema<ITask>(
     createdAt: {
       type: Date,
       default: Date.now,
+    },
+    room: {
+      type: Schema.Types.ObjectId,
+      ref: "Room",
+      required: true,
     },
   },
   {

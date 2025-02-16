@@ -15,6 +15,7 @@ export default function TasksList() {
   if (error) return <p>Error: {error.message}</p>;
 
   const tasks = data?.tasks || [];
+  console.log(tasks);
 
   return (
     <div>

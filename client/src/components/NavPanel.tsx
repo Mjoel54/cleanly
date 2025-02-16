@@ -20,9 +20,9 @@ import {
   BellIcon,
   Cog6ToothIcon,
   HomeIcon,
-  UsersIcon,
   XMarkIcon,
   ClipboardDocumentCheckIcon,
+  Squares2X2Icon,
 } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
@@ -34,7 +34,7 @@ const navigation = [
   {
     name: "Rooms",
     href: "/rooms",
-    icon: UsersIcon,
+    icon: Squares2X2Icon,
   },
   {
     name: "Tasks",
