@@ -122,7 +122,9 @@ const resolvers = {
     },
     tasks: async () => {
       try {
-        const allTasks = await Task.find({}).sort({ createdAt: -1 }); // Optional: sorts by creation date, newest first
+        const allTasks = await Task.find({})
+          .sort({ createdAt: -1 })
+          .populate("room"); // Optional: sorts by creation date, newest first
 
         return allTasks;
       } catch (error) {

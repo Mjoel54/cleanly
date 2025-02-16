@@ -9,6 +9,10 @@ export const GET_TASKS = gql`
       status
       dueDate
       completedAt
+      room {
+        _id
+        name
+      }
     }
   }
 `;
