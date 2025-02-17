@@ -10,16 +10,17 @@ const typeDefs = `
     name: String
     description: String
     status: TaskStatus
-    dueDate: String
+    dueDate: Int
     completedAt: String
     createdAt: String
     updatedAt: String
+    room: Room!
   }
 
   type Room {
     _id: ID!
     name: String!
-    tasks: [Task]!
+    tasks: [Task]
     createdAt: String
   }
 
@@ -42,9 +43,10 @@ const typeDefs = `
   }
 
   input TaskInput {
-    name: String!
+    name: String
     description: String
     status: TaskStatus
+    dueDate: Int
   }
 
   type Auth {
@@ -66,7 +68,7 @@ const typeDefs = `
     createRoom(name: String!): Room
     updateRoom(id: ID!, name: String!): Room
     deleteRoom(id: ID!): Room
-    createTask(roomId: ID!, input: TaskInput!): Room
+    createTask(roomId: ID!, input: TaskInput!): Task
     updateTask(taskId: ID!, input: TaskInput!): Task
     deleteTask(taskId: ID!): Task
     deleteAllTasks: Boolean!
