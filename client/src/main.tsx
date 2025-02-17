@@ -13,6 +13,7 @@ import Tasks from "./pages/Tasks";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
+import Home from "./pages/Home";
 
 const isAuthenticated = Auth.loggedIn();
 
@@ -21,7 +22,8 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
-      { index: true, element: <LoginPage /> },
+      { index: true, element: <Home /> },
+      { path: "/login", element: <LoginPage /> },
       { path: "/signup", element: <SignupPage /> },
       {
         element: <ProtectedRoute isAuthenticated={isAuthenticated} />,
