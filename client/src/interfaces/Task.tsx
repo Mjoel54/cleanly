@@ -1,3 +1,4 @@
+import { Room } from "./Room";
 export interface TaskResponse {
   _id: string;
   name: string;
@@ -7,7 +8,7 @@ export interface TaskResponse {
   completedAt?: Date | null;
   createdAt: Date;
   updatedAt: Date;
-  room: string;
+  room: Room;
 }
 
 export interface TaskRequest {
