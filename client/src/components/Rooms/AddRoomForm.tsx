@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import SuccessNotification from "../../utils/successNotification";
+import PrimaryButton from "../General/PrimaryButton";
 
 // import helper functions
 import { CREATE_ROOM, GET_ROOMS } from "../../utils/api/index";
@@ -59,18 +60,10 @@ export default function AddTaskForm() {
               className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
             />
           </div>
-          <button
-            type="submit"
-            className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
-          >
-            Add
-          </button>
+          <div className="ml-5">
+            <PrimaryButton text="Add" type="submit" />
+          </div>
         </form>
-        {/* <SuccessNotification
-          show={showNotification}
-          onClose={() => setShowNotification(false)}
-          title="Room added"
-        /> */}
       </div>
     </div>
   );

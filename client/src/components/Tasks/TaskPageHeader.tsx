@@ -1,10 +1,13 @@
 import { useState } from "react";
-import AddTaskButton from "./AddTaskButton";
+
 import AddTaskForm from "./AddTaskForm";
 import { DELETE_ALL_TASKS, GET_TASKS, GET_ROOMS } from "../../utils/api/index";
 import { useMutation } from "@apollo/client";
 import successNotification from "../../utils/successNotification";
 import FilterTaskDropdown from "./FilterTaskDropdown";
+import PrimaryButton from "../General/PrimaryButton";
+
+import { PlusIcon } from "@heroicons/react/20/solid";
 
 export default function TaskPageHeader() {
   const [showForm, setShowForm] = useState(false);
@@ -34,10 +37,13 @@ export default function TaskPageHeader() {
     <>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-5">
-          <AddTaskButton onClick={handleButtonClick} />
-          {/* <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl sm:tracking-tight">
-            Tasks
-          </h2> */}
+          <PrimaryButton
+            text="Add Task"
+            icon={<PlusIcon className="w-5 h-5" />}
+            type="button"
+            onClick={handleButtonClick}
+          />
+
           <FilterTaskDropdown />
         </div>
 
