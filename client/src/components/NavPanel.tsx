@@ -47,9 +47,13 @@ const navigation = [
 //   { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
 //   { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
 // ];
+const handleSignOutClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  Auth.logout();
+};
+
 const userNavigation = [
-  { name: "Your profile", href: "#" },
-  { name: "Sign out", href: "#" },
+  // { name: "Your profile", href: "#" },
+  { name: "Sign out", onClick: handleSignOutClick },
 ];
 
 function classNames(...classes: (string | false | null | undefined)[]): string {
@@ -340,7 +344,7 @@ export default function NavPanel() {
 
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative">
-                    <MenuButton className="-m-1.5 flex items-center p-1.5">
+                    <MenuButton className="-m-1.5 flex items-center p-1.5 cursor-pointer">
                       <span className="sr-only">Open user menu</span>
                       <img
                         alt=""
@@ -364,16 +368,16 @@ export default function NavPanel() {
                     </MenuButton>
                     <MenuItems
                       transition
-                      className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 ring-1 shadow-lg ring-gray-900/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                      className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white p-1 ring-1 shadow-lg ring-gray-900/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                     >
                       {userNavigation.map((item) => (
                         <MenuItem key={item.name}>
-                          <a
-                            href={item.href}
-                            className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
+                          <button
+                            onClick={item.onClick}
+                            className="block px-3 py-1 w-full text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden cursor-pointer text-left"
                           >
                             {item.name}
-                          </a>
+                          </button>
                         </MenuItem>
                       ))}
                     </MenuItems>
