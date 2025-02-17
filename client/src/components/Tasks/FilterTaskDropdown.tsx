@@ -25,7 +25,7 @@ export default function FilterTaskDropdown() {
         className="absolute left-0 z-10 mt-2 w-56 origin-top-left divide-y divide-gray-100 rounded-md bg-white ring-1 shadow-lg ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
       >
         <div className="p-1">
-          <MenuItem className="group">
+          <MenuItem>
             <a
               href="#"
               className="group flex items-center px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
@@ -39,7 +39,7 @@ export default function FilterTaskDropdown() {
           </MenuItem>
         </div>
         <div className="p-1">
-          <MenuItem className="group">
+          <MenuItem>
             <a
               href="#"
               className="group flex items-center px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
@@ -51,7 +51,7 @@ export default function FilterTaskDropdown() {
               Status
             </a>
           </MenuItem>
-          <MenuItem className="group">
+          <MenuItem>
             <a
               href="#"
               className="group flex items-center px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
@@ -66,7 +66,7 @@ export default function FilterTaskDropdown() {
         </div>
 
         <div className="p-1">
-          <MenuItem className="group">
+          <MenuItem>
             <a
               href="#"
               className="group flex items-center px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"

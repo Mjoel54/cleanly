@@ -23,7 +23,7 @@ export default function TasksList() {
           key={task._id}
           taskName={task.name}
           taskID={task._id}
-          room={task.room?.name}
+          room={task.room.name}
           // dueDate={dayjs.unix(task.dueDate).format("DD/MM/YYYY")}
           dueDate={task.dueDate}
         />

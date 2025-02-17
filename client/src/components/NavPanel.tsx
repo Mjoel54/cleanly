@@ -47,7 +47,7 @@ const navigation = [
 //   { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
 //   { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
 // ];
-const handleSignOutClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+const handleSignOutClick = () => {
   Auth.logout();
 };
 
