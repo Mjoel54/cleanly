@@ -4,7 +4,11 @@ import Auth from "./utils/auth";
 import ProtectedRoute from "./utils/ProtectedRoute.js";
 
 // Bringing in the required imports from 'react-router-dom' to set up application routing behavior
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
 import "./index.css";
 
 import App from "./App.tsx";
@@ -22,7 +26,14 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
-      { index: true, element: <Home /> },
+      {
+        index: true,
+        element: isAuthenticated ? (
+          <Navigate to="/dashboard" replace />
+        ) : (
+          <Home />
+        ),
+      },
       { path: "/login", element: <LoginPage /> },
       { path: "/signup", element: <SignupPage /> },
       {
