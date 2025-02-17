@@ -1,11 +1,15 @@
 import { useState } from "react";
-
 import AddTaskForm from "./AddTaskForm";
 import { DELETE_ALL_TASKS, GET_TASKS, GET_ROOMS } from "../../utils/api/index";
 import { useMutation } from "@apollo/client";
 import successNotification from "../../utils/successNotification";
 import FilterTaskDropdown from "./FilterTaskDropdown";
 import PrimaryButton from "../General/PrimaryButton";
+import DropdownMenu, {
+  ButtonItem,
+  redButtonStyling,
+} from "../General/DropdownMenu";
+import { EllipsisVerticalIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 import { PlusIcon } from "@heroicons/react/20/solid";
 
@@ -33,6 +37,15 @@ export default function TaskPageHeader() {
     },
   });
 
+  const menuItems: ButtonItem[] = [
+    {
+      name: "Delete all tasks",
+      action: () => deleteAllTasks(),
+      className: redButtonStyling,
+      icon: <TrashIcon className="h-4 w-4" />,
+    },
+  ];
+
   return (
     <>
       <div className="flex items-center justify-between">
@@ -48,12 +61,10 @@ export default function TaskPageHeader() {
         </div>
 
         <div className="flex items-center gap-3">
-          <button
-            onClick={handleDeleteAllTasksButtonclick}
-            className="px-4 py-2 bg-gray-100 rounded-md hover:bg-gray-200 cursor-pointer"
-          >
-            Delete All Tasks
-          </button>
+          <DropdownMenu
+            buttonIcon={<EllipsisVerticalIcon className="h-4 w-4" />}
+            menuItems={menuItems}
+          />
         </div>
       </div>
 
