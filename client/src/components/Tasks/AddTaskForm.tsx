@@ -6,6 +6,7 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import dayjs from "dayjs";
 import capitaliseFirst from "../../utils/capitaliseFirst";
 import { RoomResponse } from "../../interfaces/Room";
+import PrimaryButton from "../General/PrimaryButton";
 
 import { useMutation, useQuery } from "@apollo/client";
 
@@ -246,12 +247,7 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
                   </div>
 
                   <div className="flex justify-center pt-4">
-                    <button
-                      type="submit"
-                      className="mt-3 inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:mt-0 sm:w-auto cursor-pointer"
-                    >
-                      Add
-                    </button>
+                    <PrimaryButton text="Add" type="submit" />
                   </div>
                 </form>
               </div>

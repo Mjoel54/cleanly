@@ -1,6 +1,5 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import {
-  ArrowRightCircleIcon,
   ChevronDownIcon,
   TrashIcon,
   Squares2X2Icon,
