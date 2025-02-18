@@ -204,7 +204,7 @@ export default function NavPanel() {
 
               // style={{ backgroundColor: "#2dafff" }}
             >
-              <div className="flex h-16 shrink-0 items-center mt-6 ">
+              <div className="flex h-16 shrink-0 items-end mt-6 ">
                 <img
                   alt="Your Company"
                   src={lumiWhite}

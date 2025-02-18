@@ -11,6 +11,7 @@ import {
   LockClosedIcon,
   ServerIcon,
 } from "@heroicons/react/20/solid";
+import lumiIndigo from "../images/lumi-indigo-600.svg";
 
 const navigation = [
   { name: "Product", href: "#" },
@@ -233,11 +234,7 @@ export default function Home() {
           <div className="flex lg:flex-1">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
-              <img
-                alt=""
-                src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-                className="h-8 w-auto"
-              />
+              <img alt="Lumi logo" src={lumiIndigo} className="h-8 w-auto" />
             </a>
           </div>
           <div className="flex lg:hidden">
@@ -372,14 +369,17 @@ export default function Home() {
                   </a>
                 </div>
               </div>
-              <h1 className="mt-10 text-5xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-7xl">
-                A better way to ship your projects
-              </h1>
+              <h2 className="mt-10 text-5xl font-semibold tracking-tight text-pretty text-indigo-600 sm:text-7xl">
+                Lumi
+              </h2>
+              <h2 className="mt-10 text-3xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-4xl">
+                Your home, in harmony
+              </h2>
               <p className="mt-8 text-lg font-medium text-pretty text-gray-500 sm:text-xl/8">
-                Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
-                lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat
-                fugiat aliqua. Anim aute id magna aliqua ad ad non deserunt
-                sunt.
+                Lumi brings balance to your home by simplifying household tasks.
+                Organise rooms, assign chores, and keep everything running
+                smoothly—all in one intuitive app. Let Lumi take the stress out
+                of home management so you can focus on what truly matters.
               </p>
               <div className="mt-10 flex items-center gap-x-6">
                 <a
