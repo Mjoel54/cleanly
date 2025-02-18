@@ -1,0 +1,33 @@
+name: Deploy To Render
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy To Render
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: |
+          npm install
+          cd server && npm install
+          cd ../client && npm install
+
+      - name: Build Project
+        run: |
+          cd server && npm run build
+          cd ../client && npm run build
+
+      - name: Deploy to Render
+        if: github.ref == 'refs/heads/main'
+        env:
+          deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL || 'default_value' }}
+        run: |
+          curl -f "$deploy_url"
