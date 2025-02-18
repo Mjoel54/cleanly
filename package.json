@@ -11,7 +11,7 @@
     "build": "npm run client:build && npm run server:build",
     "client:build": "cd client && npm run build",
     "server:build": "cd server && npm run build",
-    "render-build": "npm install && npm run build",
+    "render-build": "npm run build",
     "test": "npx cypress run --browser electron",
     "test-component": "cypress run --component",
     "test-gui": "npx cypress open"
