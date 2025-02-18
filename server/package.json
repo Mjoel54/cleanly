@@ -1,5 +1,5 @@
 {
-  "name": "25-ins_mongoose-crud",
+  "name": "lumi-server",
   "version": "1.0.1",
   "description": "Instructor demo for CRUD operations in Mongoose on subdocuments",
   "main": "server.js",
