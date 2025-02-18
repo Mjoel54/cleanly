@@ -7,6 +7,11 @@ import { expressMiddleware } from "@apollo/server/express4"; // Middleware to in
 import { typeDefs, resolvers } from "./schemas/index.js"; // GraphQL schema and resolvers
 import { authenticateToken } from "./utils/auth.js"; // Middleware for authentication
 
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 // This auth.ts file is setting up an Express server integrated with Apollo Server to serve a GraphQL API
 
 // Creates an Apollo Server instance
@@ -37,10 +42,10 @@ const startApolloServer = async () => {
   );
 
   if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "../client/dist")));
+    app.use(express.static(path.join(__dirname, "../../client/dist")));
 
     app.get("*", (_req: Request, res: Response) => {
-      res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+      res.sendFile(path.join(__dirname, "../../client/dist/index.html"));
     });
   }
 
