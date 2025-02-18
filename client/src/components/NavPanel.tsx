@@ -24,10 +24,7 @@ import {
   ClipboardDocumentCheckIcon,
   Squares2X2Icon,
 } from "@heroicons/react/24/outline";
-import {
-  ChevronDownIcon,
-  MagnifyingGlassIcon,
-} from "@heroicons/react/20/solid";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
@@ -309,8 +306,8 @@ export default function NavPanel() {
                 className="h-6 w-px bg-gray-900/10 lg:hidden"
               />
 
-              <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-                <form
+              <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 justify-end">
+                {/* <form
                   action="#"
                   method="GET"
                   className="grid flex-1 grid-cols-1"
@@ -326,11 +323,11 @@ export default function NavPanel() {
                     aria-hidden="true"
                     className="pointer-events-none col-start-1 row-start-1 size-5 self-center text-gray-400"
                   />
-                </form>
-                <div className="flex items-center gap-x-4 lg:gap-x-6">
+                </form> */}
+                <div className="flex items-center justify-end gap-x-4 lg:gap-x-6">
                   <button
                     type="button"
-                    className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
+                    className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500 cursor-pointer"
                   >
                     <span className="sr-only">View notifications</span>
                     <BellIcon aria-hidden="true" className="size-6" />
@@ -389,8 +386,8 @@ export default function NavPanel() {
             <></>
           )}
 
-          <main className="flex py-10 ">
-            <div className="flex-1 px-4 sm:px-6 lg:px-8 ">
+          <main>
+            <div>
               <Outlet />
             </div>
           </main>
