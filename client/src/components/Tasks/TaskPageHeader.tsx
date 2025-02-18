@@ -24,8 +24,7 @@ export default function TaskPageHeader() {
     setShowForm(false);
   };
 
-  const handleDeleteAllTasksButtonclick = (e: any) => {
-    e.preventDefault();
+  const handleDeleteAllTasksButtonclick = () => {
     deleteAllTasks();
   };
 
@@ -40,7 +39,7 @@ export default function TaskPageHeader() {
   const menuItems: ButtonItem[] = [
     {
       name: "Delete all tasks",
-      action: () => deleteAllTasks(),
+      action: () => handleDeleteAllTasksButtonclick(),
       className: redButtonStyling,
       icon: <TrashIcon className="h-4 w-4" />,
     },
