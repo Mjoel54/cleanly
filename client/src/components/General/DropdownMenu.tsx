@@ -3,9 +3,9 @@ import { ReactNode } from "react";
 
 // Define interface for button items
 export interface ButtonItem {
-  name: string;
+  name?: string;
   action: () => void;
-  icon: ReactNode;
+  icon?: ReactNode;
   className?: string;
 }
 

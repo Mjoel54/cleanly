@@ -1,14 +1,19 @@
 import { useState, type FormEvent, type ChangeEvent } from "react";
 import { Link } from "react-router-dom";
+import lumiIndigo from "../images/lumi-indigo-600.svg";
 
 import { useMutation } from "@apollo/client";
-import { LOGIN_USER } from "../utils/api/index";
+import { ADD_USER } from "../utils/api/index";
 
 import Auth from "../utils/auth";
 
-export default function LoginPage() {
-  const [formState, setFormState] = useState({ email: "", password: "" });
-  const [login, { error, data }] = useMutation(LOGIN_USER);
+export default function Signup() {
+  const [formState, setFormState] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+  const [addUser, { error, data }] = useMutation(ADD_USER);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -21,42 +26,24 @@ export default function LoginPage() {
 
   const handleFormSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    console.log(formState);
+
     try {
-      const { data } = await login({
-        variables: { ...formState },
+      const { data } = await addUser({
+        variables: { input: { ...formState } },
       });
 
-      Auth.login(data.login.token);
+      Auth.login(data.addUser.token);
     } catch (e) {
       console.error(e);
     }
-
-    setFormState({
-      email: "",
-      password: "",
-    });
   };
-
   return (
     <>
-      {/*
-          This example requires updating your template:
-  
-          ```
-          <html class="h-full bg-gray-50">
-          <body class="h-full">
-          ```
-        */}
       <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <img
-            alt="Your Company"
-            src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-            className="mx-auto h-10 w-auto"
-          />
+          <img alt="Lumi" src={lumiIndigo} className="mx-auto h-24 w-auto" />
           <h2 className="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
-            Login to get started
+            Sign up to get started
           </h2>
         </div>
 
@@ -70,6 +57,26 @@ export default function LoginPage() {
             ) : (
               <>
                 <form onSubmit={handleFormSubmit} className="space-y-6">
+                  <div>
+                    <label
+                      htmlFor="email"
+                      className="block text-sm/6 font-medium text-gray-900"
+                    >
+                      Username
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        id="username"
+                        name="username"
+                        type="text"
+                        required
+                        autoComplete="username"
+                        value={formState.username}
+                        onChange={handleChange}
+                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                      />
+                    </div>
+                  </div>
                   <div>
                     <label
                       htmlFor="email"
@@ -167,7 +174,7 @@ export default function LoginPage() {
                       type="submit"
                       className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer"
                     >
-                      Login
+                      Create account
                     </button>
                   </div>
                 </form>
