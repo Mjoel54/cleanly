@@ -51,11 +51,13 @@ export default function Login() {
         */}
       <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <img
-            alt="Your Company"
-            src={lumiIndigo}
-            className="mx-auto h-24 w-auto"
-          />
+          <Link to="/">
+            <img
+              alt="Your Company"
+              src={lumiIndigo}
+              className="mx-auto h-24 w-auto"
+            />
+          </Link>
           <h2 className="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
             Login to get started
           </h2>
@@ -248,15 +250,15 @@ export default function Login() {
             )}
           </div>
 
-          {/* <p className="mt-10 text-center text-sm/6 text-gray-500">
+          <p className="mt-10 text-center text-sm/6 text-gray-500">
             Not a member?{" "}
-            <a
-              href="#"
+            <Link
+              to="/signup"
               className="font-semibold text-indigo-600 hover:text-indigo-500"
             >
-              Start a 14 day free trial
-            </a>
-          </p> */}
+              Sign up
+            </Link>
+          </p>
         </div>
       </div>
     </>
