@@ -12,6 +12,7 @@ import {
   ServerIcon,
 } from "@heroicons/react/20/solid";
 import lumiIndigo from "../images/lumi-indigo-600.svg";
+import lumiWhite from "../images/lumi-white.svg";
 
 const navigation = [
   { name: "Product", href: "#" },
@@ -232,10 +233,10 @@ export default function Home() {
           className="flex items-center justify-between p-6 lg:px-8"
         >
           <div className="flex lg:flex-1">
-            <a href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
+            <Link to="/" className="-m-1.5 p-1.5">
+              <span className="sr-only">Lumi</span>
               <img alt="Lumi logo" src={lumiIndigo} className="h-8 w-auto" />
-            </a>
+            </Link>
           </div>
           <div className="flex lg:hidden">
             <button
@@ -382,12 +383,12 @@ export default function Home() {
                 of home management so you can focus on what truly matters.
               </p>
               <div className="mt-10 flex items-center gap-x-6">
-                <a
-                  href="#"
+                <Link
+                  to="/signup"
                   className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Get started
-                </a>
+                </Link>
                 <a href="#" className="text-sm/6 font-semibold text-gray-900">
                   Learn more <span aria-hidden="true">→</span>
                 </a>
@@ -768,11 +769,7 @@ export default function Home() {
       <footer className="mt-32 bg-gray-900 sm:mt-56">
         <div className="mx-auto max-w-7xl px-6 pt-16 pb-8 sm:pt-24 lg:px-8 lg:pt-32">
           <div className="xl:grid xl:grid-cols-3 xl:gap-8">
-            <img
-              alt="Company name"
-              src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-              className="h-9"
-            />
+            <img alt="Lumi" src={lumiWhite} className="h-9" />
             <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
               <div className="md:grid md:grid-cols-2 md:gap-8">
                 <div>
@@ -893,7 +890,7 @@ export default function Home() {
               ))}
             </div>
             <p className="mt-8 text-sm/6 text-gray-400 md:order-1 md:mt-0">
-              &copy; 2024 Your Company, Inc. All rights reserved.
+              &copy; 2024 Lumi, Inc. All rights reserved.
             </p>
           </div>
         </div>

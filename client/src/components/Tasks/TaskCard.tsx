@@ -19,7 +19,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
   room,
 }: TaskCardProps) => {
   return (
-    <div className="bg-white shadow-sm sm:rounded-lg my-5">
+    <div className="bg-white shadow-sm sm:rounded-lg my-5 ring-1 ring-black/5">
       <div className="px-3 py-4 sm:px-6 sm:py-4">
         <div className="flex flex-col space-y-4 sm:flex-row sm:justify-between sm:items-center sm:space-y-1">
           {/* Left section: Task details */}

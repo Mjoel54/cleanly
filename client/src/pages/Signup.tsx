@@ -41,7 +41,9 @@ export default function Signup() {
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <img alt="Lumi" src={lumiIndigo} className="mx-auto h-24 w-auto" />
+          <Link to="/">
+            <img alt="Lumi" src={lumiIndigo} className="mx-auto h-24 w-auto" />
+          </Link>
           <h2 className="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
             Sign up to get started
           </h2>
@@ -254,15 +256,15 @@ export default function Signup() {
             )}
           </div>
 
-          {/* <p className="mt-10 text-center text-sm/6 text-gray-500">
-            Not a member?{" "}
-            <a
-              href="#"
+          <p className="mt-10 text-center text-sm/6 text-gray-500">
+            Already have an account?{" "}
+            <Link
+              to="/login"
               className="font-semibold text-indigo-600 hover:text-indigo-500"
             >
-              Start a 14 day free trial
-            </a>
-          </p> */}
+              Sign in
+            </Link>
+          </p>
         </div>
       </div>
     </>
