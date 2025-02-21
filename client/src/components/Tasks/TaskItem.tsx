@@ -8,14 +8,16 @@ interface TaskCardProps {
   dueDate: number;
   taskID: string;
   room: string;
+  status: string;
   children?: React.ReactNode; // This allows passing a TaskActions component
 }
 
 // TaskCard Component
-const TaskCard: React.FC<TaskCardProps> = ({
+const TaskItem: React.FC<TaskCardProps> = ({
   taskName,
   dueDate,
   taskID,
+  status,
   room,
 }: TaskCardProps) => {
   return (
@@ -26,6 +28,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
           <div className="flex flex-col space-y-1">
             <h2 className="text-lg font-semibold text-gray-800">{taskName}</h2>
             <p className="text-sm text-gray-500">{room}</p>
+            <p>{status}</p>
             {dueInFormatting(dueDate)}
           </div>
 
@@ -39,4 +42,4 @@ const TaskCard: React.FC<TaskCardProps> = ({
   );
 };
 
-export default TaskCard;
+export default TaskItem;

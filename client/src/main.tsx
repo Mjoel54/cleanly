@@ -1,7 +1,5 @@
 // import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import Auth from "./utils/auth";
-import ProtectedRoute from "./utils/ProtectedRoute.js";
 
 // Bringing in the required imports from 'react-router-dom' to set up application routing behavior
 import {
@@ -9,6 +7,10 @@ import {
   RouterProvider,
   Navigate,
 } from "react-router-dom";
+
+import Auth from "./utils/auth";
+import ProtectedRoute from "./utils/ProtectedRoute.js";
+
 import "./index.css";
 
 import App from "./App.tsx";
