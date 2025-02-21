@@ -15,7 +15,7 @@ export default function dueInFormatting(dueIn: number) {
   if (daysDifference === 0) {
     return (
       <>
-        <div className="flex items-center text-sm text-blue-500">
+        <div className="flex items-center text-sm text-blue-500 truncate">
           <CalendarDaysIcon className={"h-4 w-4 mr-2"} />
           <p>Due today</p>
         </div>
@@ -24,7 +24,7 @@ export default function dueInFormatting(dueIn: number) {
   } else if (daysDifference === 1) {
     return (
       <>
-        <div className="flex items-center text-sm text-green-700">
+        <div className="flex items-center text-sm text-green-700 truncate">
           <CalendarDaysIcon className={"h-4 w-4 mr-2"} />
           <p>Due tomorrow</p>
         </div>
@@ -33,7 +33,7 @@ export default function dueInFormatting(dueIn: number) {
   } else if (daysDifference > 1) {
     return (
       <>
-        <div className="flex items-center text-sm text-green-700">
+        <div className="flex items-center text-sm text-green-700 truncate">
           <CalendarDaysIcon className={"h-4 w-4 mr-2"} />
           <p>Due in {daysDifference} days</p>
         </div>
