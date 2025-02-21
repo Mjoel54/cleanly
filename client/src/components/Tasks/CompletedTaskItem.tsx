@@ -1,11 +1,9 @@
 import React from "react";
 import TaskActions from "./TaskActions";
-import dueInFormatting from "../../utils/dueInFormatting";
 
 // Define props type
-interface TaskItemProps {
+interface CompletedTaskItemProps {
   taskName: string;
-  dueDate: number;
   taskID: string;
   room: string;
   status: string;
@@ -13,23 +11,23 @@ interface TaskItemProps {
 }
 
 // TaskCard Component
-const TaskItem: React.FC<TaskItemProps> = ({
+const CompletedTaskItem: React.FC<CompletedTaskItemProps> = ({
   taskName,
-  dueDate,
   taskID,
   status,
   room,
-}: TaskItemProps) => {
+}: CompletedTaskItemProps) => {
   return (
-    <div className="bg-white shadow-sm sm:rounded-lg my-5 ring-1 ring-black/5">
+    <div className="bg-gray-50 shadow-sm sm:rounded-lg my-5 ring-1 ring-black/5">
       <div className="px-3 py-4 sm:px-6 sm:py-4">
         <div className="flex flex-col space-y-4 sm:flex-row sm:justify-between sm:items-center sm:space-y-1">
           {/* Left section: Task details */}
           <div className="flex flex-col space-y-1">
-            <h2 className="text-lg font-semibold text-gray-800">{taskName}</h2>
-            <p className="text-sm text-gray-500">{room}</p>
-            <p>{status}</p>
-            {dueInFormatting(dueDate)}
+            <h2 className="text-lg font-semibold text-gray-600 line-through">
+              {taskName}
+            </h2>
+            <p className="text-sm text-gray-500 line-through">{room}</p>
+            <p className="line-through text-gray-600">{status}</p>
           </div>
 
           {/* Task Actions (Right Side) */}
@@ -42,4 +40,4 @@ const TaskItem: React.FC<TaskItemProps> = ({
   );
 };
 
-export default TaskItem;
+export default CompletedTaskItem;
