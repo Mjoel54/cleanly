@@ -27,7 +27,7 @@ export const UPDATE_TASK = gql`
       _id
       name
       description
-      status
+      isCompleted
     }
   }
 `;

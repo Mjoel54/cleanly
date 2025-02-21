@@ -6,7 +6,7 @@ export const GET_TASKS = gql`
       _id
       name
       description
-      status
+      isCompleted
       dueDate
       completedAt
       room {

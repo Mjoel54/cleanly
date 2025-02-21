@@ -3,7 +3,7 @@ import TaskActions from "./TaskActions";
 import dueInFormatting from "../../utils/dueInFormatting";
 
 // Define props type
-interface TaskCardProps {
+interface TaskItemProps {
   taskName: string;
   dueDate: number;
   taskID: string;
@@ -12,12 +12,12 @@ interface TaskCardProps {
 }
 
 // TaskCard Component
-const TaskCard: React.FC<TaskCardProps> = ({
+const TaskItem: React.FC<TaskItemProps> = ({
   taskName,
   dueDate,
   taskID,
   room,
-}: TaskCardProps) => {
+}: TaskItemProps) => {
   return (
     <div className="bg-white shadow-sm sm:rounded-lg my-5 ring-1 ring-black/5">
       <div className="px-3 py-4 sm:px-6 sm:py-4">
@@ -39,4 +39,4 @@ const TaskCard: React.FC<TaskCardProps> = ({
   );
 };
 
-export default TaskCard;
+export default TaskItem;

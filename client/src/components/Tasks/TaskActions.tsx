@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { DELETE_TASK, GET_TASKS, GET_ROOMS } from "../../utils/api/index";
+import {
+  DELETE_TASK,
+  GET_TASKS,
+  GET_ROOMS,
+  UPDATE_TASK,
+} from "../../utils/api/index";
 // import TaskActionsDropdown from "./TaskActionsDropdown";
 import DeleteTaskModal from "./DeleteTaskModal";
 import successNotification from "../../utils/successNotification";
@@ -8,8 +13,12 @@ import DropdownMenu, {
   ButtonItem,
   redButtonStyling,
 } from "../General/DropdownMenu";
-import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
-import { TrashIcon, PencilIcon } from "@heroicons/react/24/outline";
+import {
+  TrashIcon,
+  PencilIcon,
+  EllipsisVerticalIcon,
+  CheckIcon,
+} from "@heroicons/react/24/outline";
 
 interface TaskActionsProps {
   taskId: string;
@@ -29,7 +38,27 @@ export default function TaskActions({ taskId }: TaskActionsProps) {
     },
   });
 
+  // Complete Task status mutation
+  const [completeTask] = useMutation(UPDATE_TASK, {
+    variables: {
+      taskId: taskId,
+      input: {
+        isCompleted: true,
+      },
+    },
+    refetchQueries: [{ query: GET_TASKS }],
+    awaitRefetchQueries: true,
+    onCompleted: () => {
+      successNotification("Task completed");
+    },
+  });
+
   const menuItems: ButtonItem[] = [
+    {
+      name: "Mark as done",
+      action: () => completeTask(),
+      icon: <CheckIcon className="h-4 w-4" />,
+    },
     {
       name: "Edit",
       action: () => console.log("Edit task"),
