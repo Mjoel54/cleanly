@@ -22,7 +22,7 @@ export const redButtonStyling =
 
 export default function DropdownMenu({
   buttonIcon,
-  buttonClassName = "inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-inset hover:bg-gray-100 cursor-pointer",
+  buttonClassName = "inline-flex w-full justify-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold text-gray-900 ring-inset cursor-pointer",
   menuItems,
   menuClassName = "absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white ring-1 shadow-lg ring-black/5 transition focus:outline-hidden",
 }: DropdownMenuProps) {
