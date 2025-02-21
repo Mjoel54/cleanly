@@ -3,6 +3,7 @@ import TaskPageHeader from "../components/Tasks/TaskPageHeader";
 import { useQuery } from "@apollo/client";
 import { GET_TASKS } from "../utils/api/index";
 import { useState, useEffect } from "react";
+import { Task } from "../interfaces/Task";
 
 export default function Tasks() {
   const [completedTasks, setCompletedTasks] = useState([]);
@@ -15,10 +16,14 @@ export default function Tasks() {
     const tasks = data?.tasks || [];
 
     if (tasks.length > 0) {
-      const completed = tasks.filter((task) => task.status === "COMPLETED");
+      const completed = tasks.filter(
+        (task: Task) => task.status === "COMPLETED"
+      );
       setCompletedTasks(completed);
 
-      const incomplete = tasks.filter((task) => task.status !== "COMPLETED");
+      const incomplete = tasks.filter(
+        (task: Task) => task.status !== "COMPLETED"
+      );
       setIncompleteTasks(incomplete);
     }
   }, [data]); // Only run when data changes
