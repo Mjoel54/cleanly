@@ -4,16 +4,13 @@
 
 import { Schema, model, Document } from "mongoose";
 
-// Define allowed task statuses
-export type TaskStatus = "ACTIVE" | "COMPLETED" | "DELETED";
-
 // Extends the Mongoose Document interface giving it all MongoDB document properties
 // Defines which properties Room will have
 export interface ITask extends Document {
   name?: string;
   description?: string;
-  status?: TaskStatus;
   dueDate?: number;
+  isCompleted?: boolean;
   completedAt?: Date | null;
   createdAt: Date;
   updatedAt: Date;
@@ -37,15 +34,14 @@ const taskSchema = new Schema<ITask>(
       trim: true,
       maxLength: 100,
     },
-    status: {
-      type: String,
-      required: false,
-      enum: ["ACTIVE", "COMPLETED", "DELETED"],
-      default: "ACTIVE",
-    },
     dueDate: {
       type: Number,
       required: false,
+    },
+    isCompleted: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
     completedAt: {
       type: Date,

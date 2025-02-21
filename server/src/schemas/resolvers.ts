@@ -37,7 +37,7 @@ interface UpdateRoomArgs {
 interface TaskInput {
   name: string;
   description?: string;
-  status?: "ACTIVE" | "COMPLETED" | "DELETED";
+  isCompleted?: boolean;
   dueDate?: number;
   room?: string;
 }
@@ -52,7 +52,7 @@ interface UpdateTaskArgs {
   input: {
     name?: string;
     description?: string;
-    status?: "ACTIVE" | "COMPLETED" | "DELETED";
+    isCompleted?: boolean;
     dueDate?: number;
     room?: string;
   };
@@ -311,7 +311,7 @@ const resolvers = {
         const newTask = await Task.create({
           name: input.name || "",
           description: input.description,
-          status: input.status,
+          isCompleted: input.isCompleted,
           dueDate: input.dueDate,
           room: roomId,
         });
@@ -339,15 +339,14 @@ const resolvers = {
     },
     updateTask: async (_: any, { taskId, input }: UpdateTaskArgs) => {
       try {
-        // Convert the input status to lowercase to match the schema enum if it exists
         const normalizedInput = {
           ...input,
-          ...(input.status && { status: input.status }),
+          ...(input.isCompleted && { status: input.isCompleted }),
           // If status is being set to completed, set completedAt
-          ...(input.status === "COMPLETED" && { completedAt: new Date() }),
+          ...(input.isCompleted === true && { completedAt: new Date() }),
           // If status is being changed from completed to something else, clear completedAt
-          ...(input.status &&
-            input.status !== "COMPLETED" && { completedAt: null }),
+          ...(input.isCompleted &&
+            input.isCompleted !== true && { completedAt: null }),
         };
 
         // Find and update the task

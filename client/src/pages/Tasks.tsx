@@ -16,13 +16,11 @@ export default function Tasks() {
     const tasks = data?.tasks || [];
 
     if (tasks.length > 0) {
-      const completed = tasks.filter(
-        (task: Task) => task.status === "COMPLETED"
-      );
+      const completed = tasks.filter((task: Task) => task.isCompleted === true);
       setCompletedTasks(completed);
 
       const incomplete = tasks.filter(
-        (task: Task) => task.status !== "COMPLETED"
+        (task: Task) => task.isCompleted === false
       );
       setIncompleteTasks(incomplete);
     }

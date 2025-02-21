@@ -6,7 +6,6 @@ interface CompletedTaskItemProps {
   taskName: string;
   taskID: string;
   room: string;
-  status: string;
   children?: React.ReactNode; // This allows passing a TaskActions component
 }
 
@@ -14,7 +13,6 @@ interface CompletedTaskItemProps {
 const CompletedTaskItem: React.FC<CompletedTaskItemProps> = ({
   taskName,
   taskID,
-  status,
   room,
 }: CompletedTaskItemProps) => {
   return (
@@ -23,11 +21,10 @@ const CompletedTaskItem: React.FC<CompletedTaskItemProps> = ({
         <div className="flex flex-col space-y-4 sm:flex-row sm:justify-between sm:items-center sm:space-y-1">
           {/* Left section: Task details */}
           <div className="flex flex-col space-y-1">
-            <h2 className="text-lg font-semibold text-gray-600 line-through">
+            <h2 className="text-lg font-semibold text-gray-500 line-through">
               {taskName}
             </h2>
             <p className="text-sm text-gray-500 line-through">{room}</p>
-            <p className="line-through text-gray-600">{status}</p>
           </div>
 
           {/* Task Actions (Right Side) */}
