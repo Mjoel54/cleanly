@@ -16,15 +16,17 @@ const CompletedTaskItem: React.FC<CompletedTaskItemProps> = ({
   room,
 }: CompletedTaskItemProps) => {
   return (
-    <div className="bg-gray-50 shadow-sm sm:rounded-lg my-5 ring-1 ring-black/5">
-      <div className="px-3 py-4 sm:px-6 sm:py-4">
-        <div className="flex flex-col space-y-4 sm:flex-row sm:justify-between sm:items-center sm:space-y-1">
+    <div className="bg-gray-50 shadow-sm rounded-lg my-5 ring-1 ring-black/5">
+      <div className="px-6 py-4">
+        <div className="flex flex-row justify-between items-center">
           {/* Left section: Task details */}
           <div className="flex flex-col space-y-1">
-            <h2 className="text-lg font-semibold text-gray-500 line-through">
+            <h2 className="text-lg font-semibold text-gray-500 line-through truncate">
               {taskName}
             </h2>
-            <p className="text-sm text-gray-500 line-through">{room}</p>
+            <p className="text-sm text-gray-500 line-through truncate">
+              {room}
+            </p>
           </div>
 
           {/* Task Actions (Right Side) */}
