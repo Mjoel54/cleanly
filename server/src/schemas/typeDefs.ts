@@ -1,16 +1,10 @@
 const typeDefs = `
-  enum TaskStatus {
-    ACTIVE
-    COMPLETED
-    DELETED
-  }
-
   type Task {
     _id: ID!
     name: String
     description: String
-    status: TaskStatus
     dueDate: Int
+    isCompleted: Boolean
     completedAt: String
     createdAt: String
     updatedAt: String
@@ -45,7 +39,7 @@ const typeDefs = `
   input TaskInput {
     name: String
     description: String
-    status: TaskStatus
+    isCompleted: Boolean
     dueDate: Int
   }
 

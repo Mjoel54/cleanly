@@ -77,7 +77,7 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
           // room: formState.roomId,
         },
       };
-      console.log(newTask);
+      // console.log(newTask);
       createTask({ variables: newTask });
       setFormState({
         roomId: "",

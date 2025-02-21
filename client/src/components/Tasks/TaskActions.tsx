@@ -43,7 +43,7 @@ export default function TaskActions({ taskId }: TaskActionsProps) {
     variables: {
       taskId: taskId,
       input: {
-        status: "COMPLETED",
+        isCompleted: true,
       },
     },
     refetchQueries: [{ query: GET_TASKS }],

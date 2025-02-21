@@ -21,7 +21,6 @@ export default function TaskList({
           taskName={task.name}
           taskID={task._id}
           room={task.room.name}
-          status={task.status}
           // dueDate={dayjs.unix(task.dueDate).format("DD/MM/YYYY")}
           dueDate={task.dueDate}
         />
@@ -47,7 +46,7 @@ export default function TaskList({
               taskName={task.name}
               taskID={task._id}
               room={task.room.name}
-              status={task.status}
+              isCompleted={task.isCompleted}
               // dueDate={dayjs.unix(task.dueDate).format("DD/MM/YYYY")}
             />
           ))}

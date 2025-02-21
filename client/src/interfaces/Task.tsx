@@ -4,7 +4,7 @@ export interface Task {
   _id: string;
   name: string;
   description?: string;
-  status: "ACTIVE" | "COMPLETED" | "DELETED";
+  isCompleted?: boolean;
   dueDate: number;
   completedAt?: Date | null;
   createdAt: Date;
@@ -15,7 +15,7 @@ export interface TaskResponse {
   _id: string;
   name: string;
   description?: string;
-  status: "ACTIVE" | "COMPLETED" | "DELETED";
+  isCompleted?: boolean;
   dueDate: number;
   completedAt?: Date | null;
   createdAt: Date;
@@ -29,7 +29,7 @@ export interface TaskRequest {
     name: string;
     description: string;
     dueDate: number;
-    status?: "ACTIVE" | "COMPLETED" | "DELETED";
+    isCompleted?: boolean;
     // room: string;
   };
 }
