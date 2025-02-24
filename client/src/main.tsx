@@ -1,5 +1,9 @@
+import { ApolloProvider } from "@apollo/client";
+import { client } from "./config/apollo";
+
 // import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
+import { SnackbarProvider } from "notistack";
 
 // Bringing in the required imports from 'react-router-dom' to set up application routing behavior
 import {
@@ -52,5 +56,11 @@ const router = createBrowserRouter([
 
 const rootElement = document.getElementById("root");
 if (rootElement) {
-  ReactDOM.createRoot(rootElement).render(<RouterProvider router={router} />);
+  ReactDOM.createRoot(rootElement).render(
+    <ApolloProvider client={client}>
+      <SnackbarProvider>
+        <RouterProvider router={router} />
+      </SnackbarProvider>
+    </ApolloProvider>
+  );
 }
