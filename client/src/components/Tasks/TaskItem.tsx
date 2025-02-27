@@ -1,6 +1,9 @@
 import React from "react";
 import TaskActions from "./TaskActions";
 import dueInFormatting from "../../utils/dueInFormatting";
+// import DeleteTaskModal from "./DeleteTaskModal";
+
+import { useSelector } from "react-redux";
 
 interface TaskItemProps {
   taskName: string;
@@ -16,6 +19,8 @@ const TaskItem: React.FC<TaskItemProps> = ({
   taskID,
   room,
 }: TaskItemProps) => {
+  const taskItemState = useSelector((state: any) => state.taskItem);
+
   return (
     <div className="bg-white shadow-sm rounded-lg my-5 ring-1 ring-black/5">
       <div className="px-6 py-4">
@@ -35,6 +40,12 @@ const TaskItem: React.FC<TaskItemProps> = ({
           </div>
         </div>
       </div>
+      {/* <DeleteTaskModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={() => deleteTask()}
+        isDeleting={isDeleting}
+      /> */}
     </div>
   );
 };
