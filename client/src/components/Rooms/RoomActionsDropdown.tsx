@@ -10,8 +10,8 @@ interface RoomActionsDropdownProps {
 export default function RoomActionsDropdown({
   onDelete,
   onRename,
-  onDuplicate,
-}: RoomActionsDropdownProps) {
+}: // onDuplicate,
+RoomActionsDropdownProps) {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -49,7 +49,7 @@ export default function RoomActionsDropdown({
               Rename
             </button>
           </MenuItem>
-          <MenuItem>
+          {/* <MenuItem>
             <button
               onClick={onDuplicate}
               className="block w-full px-4 py-2 text-left text-sm rounded-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden cursor-pointer inline-flex items-center gap-x-2"
@@ -70,7 +70,7 @@ export default function RoomActionsDropdown({
               </svg>
               Duplicate
             </button>
-          </MenuItem>
+          </MenuItem> */}
           <MenuItem>
             <button
               onClick={onDelete}
