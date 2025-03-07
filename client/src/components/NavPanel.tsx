@@ -18,8 +18,8 @@ import {
 } from "@headlessui/react";
 import {
   Bars3Icon,
-  BellIcon,
-  Cog6ToothIcon,
+  // BellIcon,
+  // Cog6ToothIcon,
   XMarkIcon,
   ClipboardDocumentCheckIcon,
   Squares2X2Icon,
@@ -91,11 +91,11 @@ export default function NavPanel() {
                 className="relative mr-16 flex w-full max-w-xs flex-1 transform transition duration-300 ease-in-out data-closed:-translate-x-full"
               >
                 <TransitionChild>
-                  <div className="absolute top-0 left-full flex w-16 justify-center pt-5 duration-300 ease-in-out data-closed:opacity-0">
+                  <div className="absolute top-0 left-full flex w-16 justify-center pt-5 duration-300 ease-in-out data-closed:opacity-0 cursor-pointer">
                     <button
                       type="button"
                       onClick={() => setSidebarOpen(false)}
-                      className="-m-2.5 p-2.5"
+                      className="-m-2.5 p-2.5 cursor-pointer"
                     >
                       <span className="sr-only">Close sidebar</span>
                       <XMarkIcon
@@ -107,11 +107,11 @@ export default function NavPanel() {
                 </TransitionChild>
                 {/* Sidebar component, swap this element with another sidebar if you like */}
                 <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
-                  <div className="flex h-16 shrink-0 items-center">
+                  <div className="flex h-16 shrink-0 items-center mt-5">
                     <img
                       alt="Your Company"
-                      src="https://tailwindui.com/plus/img/logos/mark.svg?color=white"
-                      className="h-8 w-auto"
+                      src={lumiWhite}
+                      className="h-12 w-auto"
                     />
                   </div>
                   <nav className="flex flex-1 flex-col">
@@ -173,7 +173,7 @@ export default function NavPanel() {
                           ))}
                         </ul>
                       </li> */}
-                      <li className="mt-auto">
+                      {/* <li className="mt-auto">
                         <a
                           href="#"
                           className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-indigo-200 hover:bg-indigo-700 hover:text-white"
@@ -184,7 +184,7 @@ export default function NavPanel() {
                           />
                           Settings
                         </a>
-                      </li>
+                      </li> */}
                     </ul>
                   </nav>
                 </div>
@@ -278,7 +278,7 @@ export default function NavPanel() {
                       ))}
                     </ul>
                   </li> */}
-                  <li className="mt-auto">
+                  {/* <li className="mt-auto">
                     <a
                       href="#"
                       className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-indigo-200 hover:bg-indigo-700 hover:text-white"
@@ -289,7 +289,7 @@ export default function NavPanel() {
                       />
                       Settings
                     </a>
-                  </li>
+                  </li> */}
                 </ul>
               </nav>
             </div>
@@ -304,7 +304,7 @@ export default function NavPanel() {
               <button
                 type="button"
                 onClick={() => setSidebarOpen(true)}
-                className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
+                className="-m-2.5 p-2.5 text-gray-700 lg:hidden cursor-pointer"
               >
                 <span className="sr-only">Open sidebar</span>
                 <Bars3Icon aria-hidden="true" className="size-6" />
@@ -335,13 +335,13 @@ export default function NavPanel() {
                   />
                 </form> */}
                 <div className="flex items-center justify-end gap-x-4 lg:gap-x-6">
-                  <button
+                  {/* <button
                     type="button"
                     className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500 cursor-pointer"
                   >
                     <span className="sr-only">View notifications</span>
                     <BellIcon aria-hidden="true" className="size-6" />
-                  </button>
+                  </button> */}
 
                   {/* Separator */}
                   <div
