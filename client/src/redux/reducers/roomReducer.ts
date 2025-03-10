@@ -1,18 +1,28 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { TaskResponse } from "../../interfaces/Task";
 import { createSlice } from "@reduxjs/toolkit";
-import { client } from "../config/apollo";
-import { GET_ROOMS } from "../utils/api/index";
-import { initialState } from "../interfaces/Room";
+import { fetchAllRooms } from "../actions/roomActions";
 
-export const fetchAllRooms = createAsyncThunk("rooms/fetchAll", async () => {
-  const response = await client.query({
-    query: GET_ROOMS,
-  });
-  // console.log(response);
-  return response.data.rooms;
-});
+// Room typing for redux state
+export interface RoomItem {
+  readonly _id: string;
+  name: string;
+  description: string;
+  tasks: TaskResponse[];
+}
 
-const roomsSlice = createSlice({
+export interface RoomState {
+  rooms: RoomItem[];
+  status: "idle" | "loading" | "succeeded" | "failed";
+  error: string | null;
+}
+
+export const initialState: RoomState = {
+  rooms: [],
+  status: "idle",
+  error: null,
+};
+
+const roomSlice = createSlice({
   name: "rooms",
   initialState,
   reducers: {
@@ -21,21 +31,21 @@ const roomsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllRooms.pending, (state) => {
-        state.loading = true;
+        state.status = "loading";
         state.error = null;
       })
       .addCase(fetchAllRooms.fulfilled, (state, action) => {
         // console.log("Action payload:", action.payload);
-        state.loading = false;
+        state.status = "succeeded";
         state.rooms = action.payload; // Use the payload directly
         // console.log("Updated state:", state.rooms);
       })
 
       .addCase(fetchAllRooms.rejected, (state, action) => {
-        state.loading = false;
+        state.status = "failed";
         state.error = action.error.message || "Failed to fetch tasks";
       });
   },
 });
 
-export default roomsSlice;
+export default roomSlice;

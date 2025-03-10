@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch } from "../../store/store";
-import { fetchAllRooms } from "../../store/roomsSlice"; // Make sure path is correct
+import { RootState, AppDispatch } from "../../redux/store";
+import { fetchAllRooms } from "../../redux/actions/roomActions"; // Make sure path is correct
 import RoomCard from "./RoomCard";
 import { motion } from "framer-motion";
-import { RoomResponse } from "../../interfaces/Room";
+import { RoomItem } from "../../redux/reducers/roomReducer";
 
 export default function RoomsList() {
   const { rooms } = useSelector((state: RootState) => state.rooms);
@@ -34,7 +34,7 @@ export default function RoomsList() {
         initial="hidden"
         animate="show"
       >
-        {rooms.map((room: RoomResponse) => (
+        {rooms.map((room: RoomItem) => (
           <motion.div
             key={room._id}
             variants={{ hidden: { opacity: 0 }, show: { opacity: 1 } }}
