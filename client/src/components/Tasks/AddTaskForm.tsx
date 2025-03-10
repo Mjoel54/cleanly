@@ -7,6 +7,9 @@ import dayjs from "dayjs";
 import capitaliseFirst from "../../utils/capitaliseFirst";
 import { RoomResponse } from "../../interfaces/Room";
 import PrimaryButton from "../General/PrimaryButton";
+import { fetchAllTasks } from "../../store/TaskDataSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
 
 import { useMutation, useQuery } from "@apollo/client";
 
@@ -20,6 +23,8 @@ export interface AddTaskFormProps {
 }
 
 export default function AddTaskForm({ onClose }: AddTaskFormProps) {
+  const dispatch = useDispatch<AppDispatch>();
+
   const [formState, setFormState] = useState({
     roomId: "",
     input: {
@@ -78,7 +83,13 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
         },
       };
       // console.log(newTask);
-      createTask({ variables: newTask });
+      createTask({
+        variables: newTask,
+        onCompleted: () => {
+          // This ensures dispatch is called in the correct context
+          dispatch(fetchAllTasks());
+        },
+      });
       setFormState({
         roomId: "",
         input: {
