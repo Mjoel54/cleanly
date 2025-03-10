@@ -1,31 +1,36 @@
 import React from "react";
 import TaskActions from "./TaskActions";
 import dueInFormatting from "../../utils/dueInFormatting";
+// import DeleteTaskModal from "./DeleteTaskModal";
 
-// Define props type
+import { useSelector } from "react-redux";
+
 interface TaskItemProps {
   taskName: string;
   dueDate: number;
   taskID: string;
   room: string;
-  children?: React.ReactNode; // This allows passing a TaskActions component
+  children?: React.ReactNode;
 }
 
-// TaskCard Component
 const TaskItem: React.FC<TaskItemProps> = ({
   taskName,
   dueDate,
   taskID,
   room,
 }: TaskItemProps) => {
+  const taskItemState = useSelector((state: any) => state.taskItem);
+
   return (
-    <div className="bg-white shadow-sm sm:rounded-lg my-5 ring-1 ring-black/5">
-      <div className="px-3 py-4 sm:px-6 sm:py-4">
-        <div className="flex flex-col space-y-4 sm:flex-row sm:justify-between sm:items-center sm:space-y-1">
+    <div className="bg-white shadow-sm rounded-lg my-5 ring-1 ring-black/5">
+      <div className="px-6 py-4">
+        <div className="flex flex-row justify-between items-center">
           {/* Left section: Task details */}
           <div className="flex flex-col space-y-1">
-            <h2 className="text-lg font-semibold text-gray-800">{taskName}</h2>
-            <p className="text-sm text-gray-500">{room}</p>
+            <h2 className="text-lg font-semibold text-gray-800 truncate">
+              {taskName}
+            </h2>
+            <p className="text-sm text-gray-500 truncate">{room}</p>
             {dueInFormatting(dueDate)}
           </div>
 
@@ -35,6 +40,12 @@ const TaskItem: React.FC<TaskItemProps> = ({
           </div>
         </div>
       </div>
+      {/* <DeleteTaskModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={() => deleteTask()}
+        isDeleting={isDeleting}
+      /> */}
     </div>
   );
 };

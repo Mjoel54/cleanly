@@ -1,20 +1,29 @@
 import TaskList from "../components/Tasks/TaskList";
 import TaskPageHeader from "../components/Tasks/TaskPageHeader";
-import { useQuery } from "@apollo/client";
-import { GET_TASKS } from "../utils/api/index";
 import { useState, useEffect } from "react";
 import { Task } from "../interfaces/Task";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllTasks } from "../store/TaskDataSlice"; // Update the path
+import { RootState, AppDispatch } from "../store/store"; // Make sure to import your store types
 
 export default function Tasks() {
-  const [completedTasks, setCompletedTasks] = useState([]);
-  const [incompleteTasks, setIncompleteTasks] = useState([]);
+  const dispatch = useDispatch<AppDispatch>();
+  const {
+    items: tasks,
+    loading,
+    error,
+  } = useSelector((state: RootState) => state.tasks);
 
-  const { loading, error, data } = useQuery(GET_TASKS);
+  const [completedTasks, setCompletedTasks] = useState<Task[]>([]);
+  const [incompleteTasks, setIncompleteTasks] = useState<Task[]>([]);
 
-  // Move the tasks filtering logic into a useEffect
+  // Fetch tasks when component mounts
   useEffect(() => {
-    const tasks = data?.tasks || [];
+    dispatch(fetchAllTasks());
+  }, [dispatch]);
 
+  // Filter tasks when they change
+  useEffect(() => {
     if (tasks.length > 0) {
       const completed = tasks.filter((task: Task) => task.isCompleted === true);
       setCompletedTasks(completed);
@@ -24,10 +33,10 @@ export default function Tasks() {
       );
       setIncompleteTasks(incomplete);
     }
-  }, [data]); // Only run when data changes
+  }, [tasks]); // Only run when tasks change
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <>

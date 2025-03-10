@@ -1,5 +1,14 @@
+// Apollo imports
+import { ApolloProvider } from "@apollo/client";
+import { client } from "./config/apollo";
+
+// Redux imports
+import { Provider } from "react-redux";
+import store from "./store/store";
+
 // import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
+import { SnackbarProvider } from "notistack";
 
 // Bringing in the required imports from 'react-router-dom' to set up application routing behavior
 import {
@@ -13,6 +22,7 @@ import ProtectedRoute from "./utils/ProtectedRoute.js";
 
 import "./index.css";
 
+// Import components for routes
 import App from "./App.tsx";
 import Rooms from "./pages/Rooms";
 import Tasks from "./pages/Tasks";
@@ -52,5 +62,13 @@ const router = createBrowserRouter([
 
 const rootElement = document.getElementById("root");
 if (rootElement) {
-  ReactDOM.createRoot(rootElement).render(<RouterProvider router={router} />);
+  ReactDOM.createRoot(rootElement).render(
+    <ApolloProvider client={client}>
+      <Provider store={store}>
+        <SnackbarProvider>
+          <RouterProvider router={router} />
+        </SnackbarProvider>
+      </Provider>
+    </ApolloProvider>
+  );
 }
