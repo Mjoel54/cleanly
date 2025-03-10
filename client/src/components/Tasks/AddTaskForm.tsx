@@ -7,9 +7,9 @@ import dayjs from "dayjs";
 import capitaliseFirst from "../../utils/capitaliseFirst";
 import { RoomResponse } from "../../interfaces/Room";
 import PrimaryButton from "../General/PrimaryButton";
-import { fetchAllTasks } from "../../store/TaskDataSlice";
+import { fetchAllTasks } from "../../redux/TaskDataSlice";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/store";
+import { AppDispatch } from "../../redux/store";
 
 import { useMutation, useQuery } from "@apollo/client";
 

@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import tasksReducer from "./TaskDataSlice";
-import roomsSlice from "./roomsSlice";
+import roomsSlice from "./reducers/roomReducer";
 
 const store = configureStore({
   reducer: {
@@ -12,10 +12,10 @@ const store = configureStore({
 // Get the type of our store variable
 export type AppStore = typeof store;
 
-// Infer the 'RootState' and 'AppDispatch' types from the store itself
+// RootState represents the shape of the entire Redux store state
 export type RootState = ReturnType<typeof store.getState>;
 
-// Inferred type: {tasks: TasksState, comments: CommentsState, users: UsersState}
+// AppDispatch represents the dispatch function in our store. It ensures that the actions we dispatch are correctly typed.
 export type AppDispatch = typeof store.dispatch;
 
 export default store;
