@@ -42,7 +42,7 @@ export default function RoomsList() {
             <RoomCard
               roomId={room._id}
               roomName={room.name}
-              // taskCount={room.tasks.length}
+              taskCount={room.tasks.length}
             />
           </motion.div>
         ))}
