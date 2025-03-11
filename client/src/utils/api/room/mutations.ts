@@ -6,6 +6,10 @@ export const CREATE_ROOM = gql`
     createRoom(name: $name) {
       _id
       name
+      tasks {
+        _id
+        name
+      }
     }
   }
 `;

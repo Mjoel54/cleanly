@@ -17,7 +17,7 @@ export const createRoom = createAsyncThunk(
       mutation: CREATE_ROOM,
       variables: { name },
     });
-    // console.log(response);
+    console.log(response);
     return response.data.createRoom;
   }
 );
