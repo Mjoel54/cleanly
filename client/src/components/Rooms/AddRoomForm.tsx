@@ -1,31 +1,13 @@
 import { useState } from "react";
-import { useMutation } from "@apollo/client";
 import SuccessNotification from "../../utils/successNotification";
 import PrimaryButton from "../General/PrimaryButton";
-
-// import helper functions
-import { CREATE_ROOM, GET_ROOMS } from "../../utils/api/index";
-
-// import components
-// import SuccessNotification from "../Notifications/SuccessNotification";
-
-// import types
-import { RoomRequest } from "../../interfaces/Room";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store";
+import { createRoom } from "../../redux/actions/roomActions";
 
 export default function AddTaskForm() {
   const [roomName, setRoomName] = useState("");
-  // const [showNotification, setShowNotification] = useState(false);
-
-  const [createRoom] = useMutation(CREATE_ROOM, {
-    refetchQueries: [{ query: GET_ROOMS }], // ✅ Automatically refresh RoomTable
-    awaitRefetchQueries: true, // ✅ Ensures fresh data before continuing
-    onCompleted: () => {
-      SuccessNotification("Room added");
-      // setShowNotification(true);
-      // // Auto-hide after 3 seconds
-      // setTimeout(() => setShowNotification(false), 3000);
-    },
-  });
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // console.log(e.target.value);
@@ -35,8 +17,9 @@ export default function AddTaskForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (roomName.trim()) {
-      const newRoom: RoomRequest = { name: roomName };
-      createRoom({ variables: newRoom });
+      const newRoom = roomName;
+      dispatch(createRoom(newRoom));
+      SuccessNotification("Room added");
       setRoomName(""); // Reset input field
     }
   };

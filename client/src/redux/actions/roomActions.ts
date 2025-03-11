@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { client } from "../../config/apollo";
-import { GET_ROOMS, DELETE_ROOM } from "../../utils/api/index";
+import { GET_ROOMS, DELETE_ROOM, CREATE_ROOM } from "../../utils/api/index";
 
 export const fetchAllRooms = createAsyncThunk("rooms/fetchAll", async () => {
   const response = await client.query({
@@ -10,6 +10,18 @@ export const fetchAllRooms = createAsyncThunk("rooms/fetchAll", async () => {
   return response.data.rooms;
 });
 
+export const createRoom = createAsyncThunk(
+  "rooms/createRoom",
+  async (name: string) => {
+    const response = await client.mutate({
+      mutation: CREATE_ROOM,
+      variables: { name },
+    });
+    // console.log(response);
+    return response.data.createRoom;
+  }
+);
+
 export const deleteRoom = createAsyncThunk(
   "rooms/deleteRoom",
   async (deleteRoomId: string) => {
@@ -17,7 +29,7 @@ export const deleteRoom = createAsyncThunk(
       mutation: DELETE_ROOM,
       variables: { deleteRoomId },
     });
-    console.log(response);
+    // console.log(response);
     return response.data.deleteRoom;
   }
 );
