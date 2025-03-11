@@ -1,6 +1,3 @@
-// import RoomActionsDropdown from "./RoomActionsDropdown";
-// import EditableRoomName from "./EditableRoomName";
-// import RoomActions from "./RoomActions";
 import RoomItemMenu from "./RoomItemMenu";
 import fridgeIcon from "../../images/fridge.svg";
 
@@ -42,8 +39,7 @@ export default function RoomCard({
           </div>
           {/* Right section: Dropdown */}
           <div>
-            {/* <RoomActions roomId={roomId} currentName={roomName} /> */}
-            <RoomItemMenu roomId={roomId} />
+            <RoomItemMenu roomId={roomId} currentName={roomName} />
           </div>
         </div>
       </div>
