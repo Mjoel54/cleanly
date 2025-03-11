@@ -1,4 +1,4 @@
-import { useState, type FormEvent, type ChangeEvent } from "react";
+import { useState, type FormEvent, type ChangeEvent, useEffect } from "react";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
@@ -7,8 +7,12 @@ import dayjs from "dayjs";
 import capitaliseFirst from "../../utils/capitaliseFirst";
 import { RoomResponse } from "../../interfaces/Room";
 import PrimaryButton from "../General/PrimaryButton";
+import { fetchAllTasks } from "../../redux/TaskDataSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../../redux/store";
+import { fetchAllRooms } from "../../redux/actions/roomActions";
 
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 
 import { CREATE_TASK, GET_TASKS, GET_ROOMS } from "../../utils/api/index";
 import { TaskRequest } from "../../interfaces/Task";
@@ -20,6 +24,9 @@ export interface AddTaskFormProps {
 }
 
 export default function AddTaskForm({ onClose }: AddTaskFormProps) {
+  const { rooms } = useSelector((state: RootState) => state.rooms);
+  const dispatch = useDispatch<AppDispatch>();
+
   const [formState, setFormState] = useState({
     roomId: "",
     input: {
@@ -29,11 +36,14 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
     },
   });
 
-  const {
-    data: roomsData,
-    // loading: roomsLoading,
-    // error: roomsError,
-  } = useQuery(GET_ROOMS);
+  useEffect(() => {
+    dispatch(fetchAllRooms());
+  }, [dispatch]);
+
+  // Find the selected room name based on roomId
+  const selectedRoom = rooms.find(
+    (room: RoomResponse) => room._id === formState.roomId
+  );
 
   const [createTask] = useMutation(CREATE_TASK, {
     refetchQueries: [{ query: GET_TASKS }, { query: GET_ROOMS }],
@@ -78,7 +88,13 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
         },
       };
       // console.log(newTask);
-      createTask({ variables: newTask });
+      createTask({
+        variables: newTask,
+        onCompleted: () => {
+          // This ensures dispatch is called in the correct context
+          dispatch(fetchAllTasks());
+        },
+      });
       setFormState({
         roomId: "",
         input: {
@@ -92,10 +108,6 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
     }
   };
 
-  // Find the selected room name based on roomId
-  const selectedRoom = roomsData?.rooms.find(
-    (room: RoomResponse) => room._id === formState.roomId
-  );
   // console.log(selectedRoom);
 
   return (
@@ -159,7 +171,7 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
                           <div className="flex flex-col p-1">
                             {" "}
                             {/* Use flex column layout */}
-                            {roomsData?.rooms.map((room: RoomResponse) => (
+                            {rooms.map((room: RoomResponse) => (
                               <MenuItem key={room._id} as="button">
                                 {({ active }) => (
                                   <button

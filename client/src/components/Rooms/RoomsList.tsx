@@ -1,22 +1,23 @@
-import { useQuery } from "@apollo/client";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../../redux/store";
+import { fetchAllRooms } from "../../redux/actions/roomActions"; // Make sure path is correct
 import RoomCard from "./RoomCard";
 import { motion } from "framer-motion";
-import { RoomResponse } from "../../interfaces/Room";
-
-// import helper functions
-import { GET_ROOMS } from "../../utils/api/index";
-
-// import types
-// import { RoomResponse } from "../../interfaces/Room";
+import { RoomItem } from "../../redux/reducers/roomReducer";
 
 export default function RoomsList() {
-  const { loading, error, data } = useQuery(GET_ROOMS);
+  const { rooms } = useSelector((state: RootState) => state.rooms);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  const dispatch = useDispatch<AppDispatch>();
 
-  const rooms = data?.rooms || [];
-  // console.log(rooms);
+  useEffect(() => {
+    dispatch(fetchAllRooms());
+  }, [dispatch]);
+
+  // if (loading) return <p>Loading rooms...</p>;
+  // if (error) return <p>Error: {error}</p>;
+  // if (!rooms || rooms.length === 0) return <p>No rooms found</p>;
 
   return (
     <div>
@@ -33,12 +34,12 @@ export default function RoomsList() {
         initial="hidden"
         animate="show"
       >
-        {rooms.map((room: RoomResponse) => (
+        {rooms.map((room: RoomItem) => (
           <motion.div
+            key={room._id}
             variants={{ hidden: { opacity: 0 }, show: { opacity: 1 } }}
           >
             <RoomCard
-              key={room._id}
               roomId={room._id}
               roomName={room.name}
               taskCount={room.tasks.length}

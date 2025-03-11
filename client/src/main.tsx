@@ -4,7 +4,7 @@ import { client } from "./config/apollo";
 
 // Redux imports
 import { Provider } from "react-redux";
-import store from "./store/store";
+import store from "./redux/store";
 
 // import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
