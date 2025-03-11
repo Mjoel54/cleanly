@@ -6,13 +6,13 @@ import {
 } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface RenameRoomModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (newName: string) => void;
-  currentName: string;
+  currentName?: string; // Make it optional with ?
   isSubmitting: boolean;
 }
 
@@ -20,10 +20,17 @@ export default function RenameRoomModal({
   isOpen,
   onClose,
   onSubmit,
-  currentName,
+  currentName = "", // Provide a default empty string
   isSubmitting,
 }: RenameRoomModalProps) {
-  const [newName, setNewName] = useState(currentName);
+  const [newName, setNewName] = useState(currentName || "");
+
+  // Update newName when currentName changes or modal opens
+  useEffect(() => {
+    if (isOpen && currentName) {
+      setNewName(currentName);
+    }
+  }, [currentName, isOpen]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,7 +99,7 @@ export default function RenameRoomModal({
                   }
                   className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 sm:ml-3 sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
-                  Save changes
+                  Rename
                 </button>
                 <button
                   type="button"

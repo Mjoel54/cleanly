@@ -1,37 +1,53 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import DeleteRoomModal from "./DeleteRoomModal";
+import RenameRoomModal from "./RenameRoomModal";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store";
-import { deleteRoom } from "../../redux/actions/roomActions";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
+import { deleteRoom, updateRoom } from "../../redux/actions/roomActions";
+import SuccessNotification from "../../utils/successNotification";
 
-interface RoomActionsDropdownProps {
+interface RoomItemMenuProps {
   roomId: string;
-  // onRename: () => void;
-  // onDuplicate: () => void;
+  currentName: string; // Add this prop to receive the current room name
 }
 
-export default function RoomActionsDropdown({
+export default function RoomItemMenu({
   roomId,
-}: // onRename,
-RoomActionsDropdownProps) {
+  currentName,
+}: RoomItemMenuProps) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
+
+  // Get loading state for rename operation from Redux store
+  const { status } = useSelector((state: RootState) => state.rooms);
+  const loading = status === "loading";
+
+  const handleRenameRoom = (newName: string) => {
+    if (newName.trim() && newName !== currentName) {
+      // Dispatch the updateRoom action
+      dispatch(updateRoom({ updateRoomId: roomId, name: newName }));
+      // Close the modal after dispatching
+      setIsRenameModalOpen(false);
+      SuccessNotification("Room updated");
+    }
+  };
 
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900  ring-inset hover:bg-gray-100 cursor-pointer">
+        <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-inset hover:bg-gray-100 cursor-pointer">
           <EllipsisVerticalIcon className="h-4 w-4" />
         </MenuButton>
       </div>
 
       <MenuItems className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white ring-1 shadow-lg ring-black/5 transition focus:outline-hidden">
         <div className="m-1">
-          {/* <MenuItem>
+          <MenuItem>
             <button
-              onClick={onRename}
+              onClick={() => setIsRenameModalOpen(true)}
               className="block w-full px-4 py-2 text-left text-sm rounded-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden cursor-pointer inline-flex items-center gap-x-2"
             >
               <svg
@@ -50,7 +66,7 @@ RoomActionsDropdownProps) {
               </svg>
               Rename
             </button>
-          </MenuItem> */}
+          </MenuItem>
           <MenuItem>
             <button
               onClick={() => setIsDeleteModalOpen(true)}
@@ -79,6 +95,13 @@ RoomActionsDropdownProps) {
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={() => dispatch(deleteRoom(roomId))}
+      />
+      <RenameRoomModal
+        isOpen={isRenameModalOpen}
+        onClose={() => setIsRenameModalOpen(false)}
+        onSubmit={handleRenameRoom}
+        currentName={currentName}
+        isSubmitting={loading}
       />
     </Menu>
   );

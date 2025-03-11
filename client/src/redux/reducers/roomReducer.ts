@@ -1,6 +1,11 @@
 import { TaskResponse } from "../../interfaces/Task";
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchAllRooms, deleteRoom, createRoom } from "../actions/roomActions";
+import {
+  fetchAllRooms,
+  deleteRoom,
+  createRoom,
+  updateRoom,
+} from "../actions/roomActions";
 
 // Room typing for redux state
 export interface RoomItem {
@@ -69,7 +74,36 @@ const roomSlice = createSlice({
         state.error = action.error.message || "Failed to create room";
       })
 
-      // Handle deleting a room
+      // Handle updateRoom cases
+      .addCase(updateRoom.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(updateRoom.fulfilled, (state, action) => {
+        state.status = "succeeded";
+
+        // Find the room index to update
+        const index = state.rooms.findIndex(
+          (room) => room._id === action.meta.arg.updateRoomId
+        );
+
+        if (index !== -1) {
+          // Create a new object reference to ensure React detects the change
+          // This combines the existing room data with the updated data
+          state.rooms[index] = {
+            ...state.rooms[index],
+            name: action.meta.arg.name,
+            // Include any other updated fields from the payload if necessary
+            ...action.payload,
+          };
+        }
+      })
+      .addCase(updateRoom.rejected, (state) => {
+        state.status = "failed";
+        state.error = "Failed to update room";
+      })
+
+      // Handle deletRoom cases
       .addCase(deleteRoom.pending, (state) => {
         // You might choose to set a separate loading state if needed
         state.error = null;
