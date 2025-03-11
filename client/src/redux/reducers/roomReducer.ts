@@ -1,6 +1,6 @@
 import { TaskResponse } from "../../interfaces/Task";
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchAllRooms } from "../actions/roomActions";
+import { fetchAllRooms, deleteRoom } from "../actions/roomActions";
 
 // Room typing for redux state
 export interface RoomItem {
@@ -30,6 +30,7 @@ const roomSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Handle fetching all rooms
       .addCase(fetchAllRooms.pending, (state) => {
         state.status = "loading";
         state.error = null;
@@ -44,6 +45,20 @@ const roomSlice = createSlice({
       .addCase(fetchAllRooms.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message || "Failed to fetch tasks";
+      })
+      // Handle deleting a room
+      .addCase(deleteRoom.pending, (state) => {
+        // You might choose to set a separate loading state if needed
+        state.error = null;
+      })
+      .addCase(deleteRoom.fulfilled, (state, action) => {
+        // Remove the deleted room from the rooms array
+        state.rooms = state.rooms.filter(
+          (room) => room._id !== action.payload._id
+        );
+      })
+      .addCase(deleteRoom.rejected, (state, action) => {
+        state.error = action.error.message || "Failed to delete room";
       });
   },
 });
