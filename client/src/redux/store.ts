@@ -1,11 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import tasksReducer from "./TaskDataSlice";
-import roomsSlice from "./reducers/roomReducer";
+import rootReducer from "./reducers/rootReducer";
 
 const store = configureStore({
   reducer: {
-    tasks: tasksReducer,
-    rooms: roomsSlice.reducer,
+    reducer: rootReducer,
   },
 });
 

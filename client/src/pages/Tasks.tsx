@@ -12,7 +12,7 @@ export default function Tasks() {
     items: tasks,
     loading,
     error,
-  } = useSelector((state: RootState) => state.tasks);
+  } = useSelector((state: RootState) => state.reducer.tasks);
 
   const [completedTasks, setCompletedTasks] = useState<Task[]>([]);
   const [incompleteTasks, setIncompleteTasks] = useState<Task[]>([]);

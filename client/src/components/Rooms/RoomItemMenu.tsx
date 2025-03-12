@@ -22,7 +22,7 @@ export default function RoomItemMenu({
   const dispatch = useDispatch<AppDispatch>();
 
   // Get loading state for rename operation from Redux store
-  const { status } = useSelector((state: RootState) => state.rooms);
+  const { status } = useSelector((state: RootState) => state.reducer.rooms);
   const loading = status === "loading";
 
   const handleRenameRoom = (newName: string) => {
