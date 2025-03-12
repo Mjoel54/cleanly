@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { RoomItem } from "../../redux/reducers/roomReducer";
 
 export default function RoomsList() {
-  const { rooms } = useSelector((state: RootState) => state.rooms);
+  const { rooms } = useSelector((state: RootState) => state.reducer.rooms);
 
   const dispatch = useDispatch<AppDispatch>();
 

@@ -24,7 +24,7 @@ export interface AddTaskFormProps {
 }
 
 export default function AddTaskForm({ onClose }: AddTaskFormProps) {
-  const { rooms } = useSelector((state: RootState) => state.rooms);
+  const { rooms } = useSelector((state: RootState) => state.reducer.rooms);
   const dispatch = useDispatch<AppDispatch>();
 
   const [formState, setFormState] = useState({
