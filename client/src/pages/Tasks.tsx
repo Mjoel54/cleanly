@@ -3,7 +3,7 @@ import TaskPageHeader from "../components/Tasks/TaskPageHeader";
 import { useState, useEffect } from "react";
 import { Task } from "../interfaces/Task";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllTasks } from "../redux/TaskDataSlice"; // Update the path
+import { fetchAllTasks } from "../redux/actions/taskActions";
 import { RootState, AppDispatch } from "../redux/store"; // Make sure to import your store types
 
 export default function Tasks() {

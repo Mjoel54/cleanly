@@ -1,16 +1,5 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
-import { GET_TASKS } from "../utils/api/index";
-import { client } from "../config/apollo";
-
-export const fetchAllTasks = createAsyncThunk("fetch-all-tasks", async () => {
-  const response = await client.query({
-    query: GET_TASKS,
-  });
-  console.log(response.data.tasks);
-
-  return response.data.tasks; // Assuming the tasks are in response.data.tasks
-});
+import { fetchAllTasks } from "./actions/taskActions";
 
 const tasksSlice = createSlice({
   name: "tasks",
