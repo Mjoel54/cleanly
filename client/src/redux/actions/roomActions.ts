@@ -28,6 +28,8 @@ export const createRoom = createAsyncThunk(
     const response = await client.mutate({
       mutation: CREATE_ROOM,
       variables: { name },
+      refetchQueries: [{ query: GET_ROOMS }],
+      awaitRefetchQueries: true,
     });
     console.log(response);
     return response.data.createRoom;
