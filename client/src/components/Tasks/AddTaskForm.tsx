@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import capitaliseFirst from "../../utils/capitaliseFirst";
 import { RoomResponse } from "../../interfaces/Room";
 import PrimaryButton from "../General/PrimaryButton";
-import { fetchAllTasks } from "../../redux/TaskDataSlice";
+import { fetchAllTasks } from "../../redux/actions/taskActions";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../../redux/store";
 import { fetchAllRooms } from "../../redux/actions/roomActions";

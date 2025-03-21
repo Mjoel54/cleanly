@@ -3,14 +3,14 @@ import TaskPageHeader from "../components/Tasks/TaskPageHeader";
 import { useState, useEffect } from "react";
 import { Task } from "../interfaces/Task";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllTasks } from "../redux/TaskDataSlice"; // Update the path
+import { fetchAllTasks } from "../redux/actions/taskActions";
 import { RootState, AppDispatch } from "../redux/store"; // Make sure to import your store types
 
 export default function Tasks() {
   const dispatch = useDispatch<AppDispatch>();
   const {
     items: tasks,
-    loading,
+    status,
     error,
   } = useSelector((state: RootState) => state.reducer.tasks);
 
@@ -35,7 +35,7 @@ export default function Tasks() {
     }
   }, [tasks]); // Only run when tasks change
 
-  if (loading) return <p>Loading...</p>;
+  if (status === "loading") return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
