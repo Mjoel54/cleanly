@@ -10,7 +10,7 @@ export default function Tasks() {
   const dispatch = useDispatch<AppDispatch>();
   const {
     items: tasks,
-    loading,
+    status,
     error,
   } = useSelector((state: RootState) => state.reducer.tasks);
 
@@ -35,7 +35,7 @@ export default function Tasks() {
     }
   }, [tasks]); // Only run when tasks change
 
-  if (loading) return <p>Loading...</p>;
+  if (status === "loading") return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
