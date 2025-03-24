@@ -27,7 +27,8 @@ import App from "./App.tsx";
 import Rooms from "./pages/Rooms";
 import Tasks from "./pages/Tasks";
 import Signup from "./pages/Signup.tsx";
-import Login from "./pages/Login.tsx";
+// import Login from "./pages/Login.tsx";
+import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 
@@ -46,7 +47,7 @@ const router = createBrowserRouter([
           <Home />
         ),
       },
-      { path: "/login", element: <Login /> },
+      { path: "/login", element: <LoginPage /> },
       { path: "/signup", element: <Signup /> },
       {
         element: <ProtectedRoute isAuthenticated={isAuthenticated} />,
