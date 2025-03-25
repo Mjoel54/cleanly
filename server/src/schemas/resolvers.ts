@@ -144,20 +144,54 @@ const resolvers = {
   },
   Mutation: {
     addUser: async (_parent: any, { input }: AddUserArgs) => {
-      // Check if a user with the same email already exists
-      const existingUser = await User.findOne({ email: input.email });
-      if (existingUser) {
-        throw new Error("A user with this email already exists");
+      try {
+        // Validate input
+        if (!input.username || !input.email || !input.password) {
+          throw new Error("All fields are required");
+        }
+
+        // Validate password length
+        if (input.password.length < 5) {
+          throw new Error("Password must be at least 5 characters long");
+        }
+
+        // Check if a user with the same email already exists
+        const existingUser = await User.findOne({
+          $or: [{ email: input.email }, { username: input.username }],
+        });
+
+        if (existingUser) {
+          throw new Error(
+            existingUser.email === input.email
+              ? "A user with this email already exists"
+              : "This username is already taken"
+          );
+        }
+
+        // Create a new user with the provided username, email, and password
+        const user = await User.create({ ...input });
+
+        // Sign a token with the user's information
+        const token = signToken(user.username, user.email, user._id);
+
+        // Create a user object without the password
+        const userWithoutPassword = {
+          _id: user._id,
+          username: user.username,
+          email: user.email,
+          rooms: user.rooms,
+          createdAt: user.createdAt,
+        };
+
+        // Return the token and the user (without password)
+        return { token, user: userWithoutPassword };
+      } catch (error) {
+        // Handle specific error cases
+        if (error instanceof Error) {
+          throw new Error(error.message);
+        }
+        throw new Error("Failed to create user");
       }
-
-      // Create a new user with the provided username, email, and password
-      const user = await User.create({ ...input });
-
-      // Sign a token with the user's information
-      const token = signToken(user.username, user.email, user._id);
-
-      // Return the token and the user
-      return { token, user };
     },
 
     login: async (_parent: any, { email, password }: LoginUserArgs) => {
