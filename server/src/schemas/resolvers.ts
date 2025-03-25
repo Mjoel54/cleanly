@@ -62,6 +62,12 @@ interface DeleteTaskArgs {
   taskId: string;
 }
 
+interface UpdateUserArgs {
+  input: {
+    password: string;
+  };
+}
+
 const resolvers = {
   Query: {
     rooms: async (_: any, __: any, context: any) => {
@@ -476,6 +482,42 @@ const resolvers = {
       } catch (error) {
         console.error("Error deleting rooms and tasks:", error);
         throw new Error("Failed to delete rooms and tasks");
+      }
+    },
+    updateUser: async (_: any, { input }: UpdateUserArgs, context: any) => {
+      // Check if user is authenticated
+      if (!context.user) {
+        throw new AuthenticationError(
+          "You need to be logged in to update your profile"
+        );
+      }
+
+      try {
+        // Find the user
+        const user = await User.findById(context.user._id);
+
+        if (!user) {
+          throw new AuthenticationError("User not found");
+        }
+
+        // Update the password
+        user.password = input.password;
+
+        // Save the user - this will trigger the pre-save middleware to hash the password
+        const updatedUser = await user.save();
+
+        // Return user without sensitive information
+        return {
+          _id: updatedUser._id,
+          username: updatedUser.username,
+          email: updatedUser.email,
+          rooms: updatedUser.rooms,
+          createdAt: updatedUser.createdAt,
+          isVerified: updatedUser.isVerified,
+        };
+      } catch (error) {
+        console.error("Error updating user:", error);
+        throw new Error("Unable to update user profile");
       }
     },
   },
