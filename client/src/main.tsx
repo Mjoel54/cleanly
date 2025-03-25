@@ -18,7 +18,7 @@ import {
 } from "react-router-dom";
 
 import Auth from "./utils/auth";
-import ProtectedRoute from "./utils/ProtectedRoute.js";
+import PrivateRoute from "./auth/PrivateRoute";
 
 import "./index.css";
 
@@ -51,7 +51,7 @@ const router = createBrowserRouter([
       { path: "/login", element: <LoginPage /> },
       { path: "/signup", element: <SignupPage /> },
       {
-        element: <ProtectedRoute isAuthenticated={isAuthenticated} />,
+        element: <PrivateRoute />,
         children: [
           { path: "/dashboard", element: <Dashboard /> },
           { path: "/rooms", element: <Rooms /> },
