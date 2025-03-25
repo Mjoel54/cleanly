@@ -30,8 +30,9 @@ export default function SignupPage() {
     event.preventDefault();
 
     try {
+      const { username, email, password } = formState;
       const { data } = await addUser({
-        variables: { input: { ...formState } },
+        variables: { input: { username, email, password } },
       });
 
       Auth.login(data.addUser.token);
