@@ -144,6 +144,12 @@ const resolvers = {
   },
   Mutation: {
     addUser: async (_parent: any, { input }: AddUserArgs) => {
+      // Check if a user with the same email already exists
+      const existingUser = await User.findOne({ email: input.email });
+      if (existingUser) {
+        throw new Error("A user with this email already exists");
+      }
+
       // Create a new user with the provided username, email, and password
       const user = await User.create({ ...input });
 
