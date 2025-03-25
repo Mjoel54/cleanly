@@ -8,6 +8,7 @@ interface IUser extends Document {
   password: string;
   rooms: ObjectId[];
   createdAt: Date;
+  isVerified: boolean;
   isCorrectPassword(password: string): Promise<boolean>;
 }
 
@@ -30,6 +31,10 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: [true, "Please provide a password"],
       minlength: 5,
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
     },
     rooms: [
       {

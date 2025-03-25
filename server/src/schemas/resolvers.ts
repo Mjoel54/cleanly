@@ -134,9 +134,20 @@ const resolvers = {
     // Query to get the authenticated user's information
     // The 'me' query relies on the context to check if the user is authenticated
     me: async (_parent: any, _args: any, context: any) => {
-      // If the user is authenticated, find and return the user's information along with their thoughts
+      // If the user is authenticated, find and return the user's information
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate("thoughts");
+        const user = await User.findOne({ _id: context.user._id });
+        if (!user) {
+          throw new AuthenticationError("User not found");
+        }
+        return {
+          _id: user._id,
+          username: user.username,
+          email: user.email,
+          rooms: user.rooms,
+          createdAt: user.createdAt,
+          isVerified: user.isVerified,
+        };
       }
       // If the user is not authenticated, throw an AuthenticationError
       throw new AuthenticationError("Could not authenticate user.");
@@ -181,6 +192,7 @@ const resolvers = {
           email: user.email,
           rooms: user.rooms,
           createdAt: user.createdAt,
+          isVerified: user.isVerified,
         };
 
         // Return the token and the user (without password)
@@ -214,8 +226,18 @@ const resolvers = {
       // Sign a token with the user's information
       const token = signToken(user.username, user.email, user._id);
 
-      // Return the token and the user
-      return { token, user };
+      // Create a user object without the password
+      const userWithoutPassword = {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        rooms: user.rooms,
+        createdAt: user.createdAt,
+        isVerified: user.isVerified,
+      };
+
+      // Return the token and the user (without password)
+      return { token, user: userWithoutPassword };
     },
     createRoom: async (_: any, { name }: CreateRoomArgs, context: any) => {
       // Check if user is authenticated

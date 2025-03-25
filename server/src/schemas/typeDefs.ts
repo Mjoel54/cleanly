@@ -24,6 +24,7 @@ const typeDefs = `
     email: String!
     rooms: [Room]!
     createdAt: String
+    isVerified: Boolean!
   }
 
   input UserInput {
