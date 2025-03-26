@@ -2,6 +2,7 @@
 
 import { Room, User, Task } from "../models/index.js";
 import { signToken, AuthenticationError } from "../utils/auth.js";
+import bcrypt from "bcrypt";
 
 // Define types for the arguments
 
@@ -534,6 +535,34 @@ const resolvers = {
         console.error("Error updating user:", error);
         throw new Error("Unable to update user profile");
       }
+    },
+    deleteUser: async (
+      _: any,
+      { password }: { password: string },
+      context: any
+    ) => {
+      if (!context.user) {
+        throw new AuthenticationError("Not authenticated");
+      }
+
+      const user = await User.findById(context.user._id);
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      const isValidPassword = await bcrypt.compare(password, user.password);
+      if (!isValidPassword) {
+        throw new Error("Invalid password");
+      }
+
+      // Delete all rooms and tasks associated with the user
+      await Room.deleteMany({ _id: { $in: user.rooms } });
+      await Task.deleteMany({ room: { $in: user.rooms } });
+
+      // Delete the user
+      await User.findByIdAndDelete(context.user._id);
+
+      return true;
     },
   },
 };
