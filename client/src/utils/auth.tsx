@@ -12,50 +12,57 @@ interface ExtendedJwt extends JwtPayload {
 class AuthService {
   // This method decodes the JWT token to get the user's profile information.
   getProfile() {
-    // jwtDecode is used to decode the JWT token and return its payload.
-    return jwtDecode<ExtendedJwt>(this.getToken());
+    const token = this.getToken();
+    if (!token) {
+      throw new Error("Unauthorised");
+    }
+    return jwtDecode<ExtendedJwt>(token);
   }
 
   // This method checks if the user is logged in by verifying the presence and validity of the token.
   loggedIn() {
     const token = this.getToken();
     // Returns true if the token exists and is not expired.
-    return !!token && !this.isTokenExpired(token);
+    return token ? !this.isTokenExpired(token) : false;
   }
 
   // This method checks if the provided token is expired.
-  isTokenExpired(token: string) {
+  isTokenExpired(token: string): boolean {
     try {
-      // jwtDecode decodes the token to check its expiration date.
       const decoded = jwtDecode<JwtPayload>(token);
-
-      // Returns true if the token has expired, false otherwise.
-      if (decoded?.exp && decoded?.exp < Date.now() / 1000) {
-        return true;
-      }
-    } catch (err) {
-      // If decoding fails, assume the token is not expired.
-      return false;
+      return decoded?.exp ? decoded.exp < Date.now() / 1000 : true;
+    } catch {
+      // If we can't decode the token, it's invalid and should be considered expired
+      return true;
     }
   }
 
-  // This method retrieves the token from localStorage.
-  getToken(): string {
-    const loggedUser = localStorage.getItem("id_token") || "";
-    // Returns the token stored in localStorage.
-    return loggedUser;
+  // This method retrieves the ID token from localStorage and returns null if not found.
+  getToken(): string | null {
+    return localStorage.getItem("id_token");
   }
 
   // This method logs in the user by storing the token in localStorage and redirecting to the home page.
-  login(idToken: string) {
-    localStorage.setItem("id_token", idToken);
-    window.location.assign("/");
+  login(idToken: string): void {
+    try {
+      // Validate the token before storing
+      jwtDecode<ExtendedJwt>(idToken);
+      localStorage.setItem("id_token", idToken);
+      window.location.assign("/");
+    } catch {
+      throw new Error("Unauthorised");
+    }
   }
 
   // This method logs out the user by removing the token from localStorage and redirecting to the home page.
-  logout() {
-    localStorage.removeItem("id_token");
-    window.location.assign("/");
+  logout(): void {
+    try {
+      localStorage.removeItem("id_token");
+      window.location.assign("/");
+    } catch {
+      // If localStorage fails, we should still try to redirect
+      window.location.assign("/");
+    }
   }
 }
 

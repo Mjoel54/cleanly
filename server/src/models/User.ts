@@ -8,6 +8,7 @@ interface IUser extends Document {
   password: string;
   rooms: ObjectId[];
   createdAt: Date;
+  isVerified: boolean;
   isCorrectPassword(password: string): Promise<boolean>;
 }
 
@@ -31,6 +32,10 @@ const userSchema = new Schema<IUser>(
       required: [true, "Please provide a password"],
       minlength: 5,
     },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
     rooms: [
       {
         type: Schema.Types.ObjectId,
@@ -52,6 +57,15 @@ const userSchema = new Schema<IUser>(
 // set up pre-save middleware to create password
 userSchema.pre<IUser>("save", async function (next) {
   if (this.isNew || this.isModified("password")) {
+    // Password complexity requirements
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(this.password)) {
+      throw new Error(
+        "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character"
+      );
+    }
+
     const saltRounds = 10;
     this.password = await bcrypt.hash(this.password, saltRounds);
   }

@@ -62,6 +62,13 @@ interface DeleteTaskArgs {
   taskId: string;
 }
 
+interface UpdateUserArgs {
+  input: {
+    password: string;
+    currentPassword: string;
+  };
+}
+
 const resolvers = {
   Query: {
     rooms: async (_: any, __: any, context: any) => {
@@ -134,9 +141,20 @@ const resolvers = {
     // Query to get the authenticated user's information
     // The 'me' query relies on the context to check if the user is authenticated
     me: async (_parent: any, _args: any, context: any) => {
-      // If the user is authenticated, find and return the user's information along with their thoughts
+      // If the user is authenticated, find and return the user's information
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate("thoughts");
+        const user = await User.findOne({ _id: context.user._id });
+        if (!user) {
+          throw new AuthenticationError("User not found");
+        }
+        return {
+          _id: user._id,
+          username: user.username,
+          email: user.email,
+          rooms: user.rooms,
+          createdAt: user.createdAt,
+          isVerified: user.isVerified,
+        };
       }
       // If the user is not authenticated, throw an AuthenticationError
       throw new AuthenticationError("Could not authenticate user.");
@@ -144,14 +162,55 @@ const resolvers = {
   },
   Mutation: {
     addUser: async (_parent: any, { input }: AddUserArgs) => {
-      // Create a new user with the provided username, email, and password
-      const user = await User.create({ ...input });
+      try {
+        // Validate input
+        if (!input.username || !input.email || !input.password) {
+          throw new Error("All fields are required");
+        }
 
-      // Sign a token with the user's information
-      const token = signToken(user.username, user.email, user._id);
+        // Validate password length
+        if (input.password.length < 5) {
+          throw new Error("Password must be at least 5 characters long");
+        }
 
-      // Return the token and the user
-      return { token, user };
+        // Check if a user with the same email already exists
+        const existingUser = await User.findOne({
+          $or: [{ email: input.email }, { username: input.username }],
+        });
+
+        if (existingUser) {
+          throw new Error(
+            existingUser.email === input.email
+              ? "A user with this email already exists"
+              : "This username is already taken"
+          );
+        }
+
+        // Create a new user with the provided username, email, and password
+        const user = await User.create({ ...input });
+
+        // Sign a token with the user's information
+        const token = signToken(user.username, user.email, user._id);
+
+        // Create a user object without the password
+        const userWithoutPassword = {
+          _id: user._id,
+          username: user.username,
+          email: user.email,
+          rooms: user.rooms,
+          createdAt: user.createdAt,
+          isVerified: user.isVerified,
+        };
+
+        // Return the token and the user (without password)
+        return { token, user: userWithoutPassword };
+      } catch (error) {
+        // Handle specific error cases
+        if (error instanceof Error) {
+          throw new Error(error.message);
+        }
+        throw new Error("Failed to create user");
+      }
     },
 
     login: async (_parent: any, { email, password }: LoginUserArgs) => {
@@ -174,8 +233,18 @@ const resolvers = {
       // Sign a token with the user's information
       const token = signToken(user.username, user.email, user._id);
 
-      // Return the token and the user
-      return { token, user };
+      // Create a user object without the password
+      const userWithoutPassword = {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        rooms: user.rooms,
+        createdAt: user.createdAt,
+        isVerified: user.isVerified,
+      };
+
+      // Return the token and the user (without password)
+      return { token, user: userWithoutPassword };
     },
     createRoom: async (_: any, { name }: CreateRoomArgs, context: any) => {
       // Check if user is authenticated
@@ -414,6 +483,56 @@ const resolvers = {
       } catch (error) {
         console.error("Error deleting rooms and tasks:", error);
         throw new Error("Failed to delete rooms and tasks");
+      }
+    },
+    updateUser: async (_: any, { input }: UpdateUserArgs, context: any) => {
+      // Check if user is authenticated
+      if (!context.user) {
+        throw new AuthenticationError("Unauthorised");
+      }
+
+      try {
+        // Find the user
+        const user = await User.findById(context.user._id);
+
+        if (!user) {
+          throw new AuthenticationError("User not found");
+        }
+
+        // Verify current password
+        const correctPw = await user.isCorrectPassword(input.currentPassword);
+        if (!correctPw) {
+          throw new AuthenticationError("Current password is incorrect");
+        }
+
+        // Update the password
+        user.password = input.password;
+
+        // Save the user - this will trigger the pre-save middleware to hash the password
+        const updatedUser = await user.save();
+
+        // Generate a new token
+        const token = signToken(
+          updatedUser.username,
+          updatedUser.email,
+          updatedUser._id
+        );
+
+        // Return user without sensitive information and the new token
+        return {
+          token,
+          user: {
+            _id: updatedUser._id,
+            username: updatedUser.username,
+            email: updatedUser.email,
+            rooms: updatedUser.rooms,
+            createdAt: updatedUser.createdAt,
+            isVerified: updatedUser.isVerified,
+          },
+        };
+      } catch (error) {
+        console.error("Error updating user:", error);
+        throw new Error("Unable to update user profile");
       }
     },
   },
