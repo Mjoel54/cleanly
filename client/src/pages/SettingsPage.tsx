@@ -20,26 +20,6 @@ export default function SettingsPage() {
                   Account
                 </a>
               </li>
-              <li>
-                <a href="#" className="text-gray-500 hover:text-gray-700">
-                  Notifications
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-500 hover:text-gray-700">
-                  Billing
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-500 hover:text-gray-700">
-                  Teams
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-500 hover:text-gray-700">
-                  Integrations
-                </a>
-              </li>
             </ul>
           </nav>
         </header>
@@ -268,6 +248,7 @@ export default function SettingsPage() {
             </form>
           </div>
 
+          {/* Log out other sessions section temporarily disabled
           <div className="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
             <div>
               <h2 className="text-base/7 font-semibold text-gray-900">
@@ -310,6 +291,7 @@ export default function SettingsPage() {
               </div>
             </form>
           </div>
+          */}
 
           <div className="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
             <div>

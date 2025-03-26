@@ -50,7 +50,7 @@ const handleSignOutClick = () => {
 };
 
 const userNavigation = [
-  // { name: "Your profile", href: "#" },
+  { name: "Settings", href: "/settings" },
   { name: "Sign out", onClick: handleSignOutClick },
 ];
 
@@ -379,12 +379,21 @@ export default function NavPanel() {
                     >
                       {userNavigation.map((item) => (
                         <MenuItem key={item.name}>
-                          <button
-                            onClick={item.onClick}
-                            className="block px-3 py-1 w-full text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden cursor-pointer text-left"
-                          >
-                            {item.name}
-                          </button>
+                          {item.href ? (
+                            <Link
+                              to={item.href}
+                              className="block px-3 py-1 w-full text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden cursor-pointer text-left"
+                            >
+                              {item.name}
+                            </Link>
+                          ) : (
+                            <button
+                              onClick={item.onClick}
+                              className="block px-3 py-1 w-full text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden cursor-pointer text-left"
+                            >
+                              {item.name}
+                            </button>
+                          )}
                         </MenuItem>
                       ))}
                     </MenuItems>
