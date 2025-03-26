@@ -39,7 +39,7 @@ interface TaskInput {
   name: string;
   description?: string;
   isCompleted?: boolean;
-  dueDate?: number;
+  dueDate?: Date;
   room?: string;
 }
 
@@ -54,7 +54,7 @@ interface UpdateTaskArgs {
     name?: string;
     description?: string;
     isCompleted?: boolean;
-    dueDate?: number;
+    dueDate?: Date;
     room?: string;
   };
 }

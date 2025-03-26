@@ -9,6 +9,7 @@ interface IUser extends Document {
   rooms: ObjectId[];
   createdAt: Date;
   isVerified: boolean;
+  timezone: string;
   isCorrectPassword(password: string): Promise<boolean>;
 }
 
@@ -35,6 +36,22 @@ const userSchema = new Schema<IUser>(
     isVerified: {
       type: Boolean,
       default: false,
+    },
+    timezone: {
+      type: String,
+      required: [true, "Please provide a timezone"],
+      default: "UTC",
+      validate: {
+        validator: function (v: string) {
+          try {
+            Intl.DateTimeFormat(undefined, { timeZone: v });
+            return true;
+          } catch (e) {
+            return false;
+          }
+        },
+        message: (props) => `${props.value} is not a valid timezone!`,
+      },
     },
     rooms: [
       {
