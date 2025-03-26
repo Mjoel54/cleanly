@@ -28,6 +28,7 @@ import Rooms from "./pages/Rooms";
 import Tasks from "./pages/Tasks";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import SettingsPage from "./pages/SettingsPage";
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 
@@ -54,6 +55,7 @@ const router = createBrowserRouter([
           { path: "/dashboard", element: <Dashboard /> },
           { path: "/rooms", element: <Rooms /> },
           { path: "/tasks", element: <Tasks /> },
+          { path: "/settings", element: <SettingsPage /> },
         ],
       },
     ],

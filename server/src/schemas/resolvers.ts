@@ -487,9 +487,7 @@ const resolvers = {
     updateUser: async (_: any, { input }: UpdateUserArgs, context: any) => {
       // Check if user is authenticated
       if (!context.user) {
-        throw new AuthenticationError(
-          "You need to be logged in to update your profile"
-        );
+        throw new AuthenticationError("Unauthorsied");
       }
 
       try {

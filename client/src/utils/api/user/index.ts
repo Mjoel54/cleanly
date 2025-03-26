@@ -1,3 +1,3 @@
-import { ADD_USER } from "./mutations";
+import { ADD_USER, UPDATE_USER } from "./mutations";
 
-export { ADD_USER };
+export { ADD_USER, UPDATE_USER };
