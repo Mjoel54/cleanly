@@ -1,6 +1,7 @@
 import React from "react";
 import { useApolloClient } from "@apollo/client";
 import { UPDATE_USER } from "../utils/api/user/mutations";
+import Auth from "../utils/auth";
 
 interface ChangePasswordFormProps {
   onSubmit?: (data: {
@@ -36,7 +37,7 @@ export default function ChangePasswordForm({
     }
 
     try {
-      await client.mutate({
+      const { data: response } = await client.mutate({
         mutation: UPDATE_USER,
         variables: {
           input: {
@@ -45,6 +46,14 @@ export default function ChangePasswordForm({
           },
         },
       });
+
+      // Update the token in localStorage and Apollo Client
+      if (response.updateUser.token) {
+        Auth.login(response.updateUser.token);
+        // Clear Apollo cache to ensure fresh data
+        await client.resetStore();
+      }
+
       onSubmit?.(data);
     } catch (err) {
       setError(err as Error);

@@ -65,6 +65,7 @@ interface DeleteTaskArgs {
 interface UpdateUserArgs {
   input: {
     password: string;
+    currentPassword: string;
   };
 }
 
@@ -487,7 +488,7 @@ const resolvers = {
     updateUser: async (_: any, { input }: UpdateUserArgs, context: any) => {
       // Check if user is authenticated
       if (!context.user) {
-        throw new AuthenticationError("Unauthorsied");
+        throw new AuthenticationError("Unauthorised");
       }
 
       try {
@@ -498,20 +499,36 @@ const resolvers = {
           throw new AuthenticationError("User not found");
         }
 
+        // Verify current password
+        const correctPw = await user.isCorrectPassword(input.currentPassword);
+        if (!correctPw) {
+          throw new AuthenticationError("Current password is incorrect");
+        }
+
         // Update the password
         user.password = input.password;
 
         // Save the user - this will trigger the pre-save middleware to hash the password
         const updatedUser = await user.save();
 
-        // Return user without sensitive information
+        // Generate a new token
+        const token = signToken(
+          updatedUser.username,
+          updatedUser.email,
+          updatedUser._id
+        );
+
+        // Return user without sensitive information and the new token
         return {
-          _id: updatedUser._id,
-          username: updatedUser.username,
-          email: updatedUser.email,
-          rooms: updatedUser.rooms,
-          createdAt: updatedUser.createdAt,
-          isVerified: updatedUser.isVerified,
+          token,
+          user: {
+            _id: updatedUser._id,
+            username: updatedUser.username,
+            email: updatedUser.email,
+            rooms: updatedUser.rooms,
+            createdAt: updatedUser.createdAt,
+            isVerified: updatedUser.isVerified,
+          },
         };
       } catch (error) {
         console.error("Error updating user:", error);

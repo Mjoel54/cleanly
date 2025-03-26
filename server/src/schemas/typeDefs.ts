@@ -35,6 +35,7 @@ const typeDefs = `
 
   input UpdateUserInput {
     password: String!
+    currentPassword: String!
   }
 
   input RoomInput {
@@ -72,7 +73,7 @@ const typeDefs = `
     deleteTask(taskId: ID!): Task
     deleteAllTasks: Boolean!
     deleteRoomsAndTasks: Boolean!
-    updateUser(input: UpdateUserInput!): User
+    updateUser(input: UpdateUserInput!): Auth
   }
 `;
 

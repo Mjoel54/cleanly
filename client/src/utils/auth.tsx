@@ -37,13 +37,9 @@ class AuthService {
     }
   }
 
-  // This method retrieves the ID token from localStorage and throws an error if not found.
-  getToken(): string {
-    const idToken = localStorage.getItem("id_token");
-    if (!idToken) {
-      throw new Error("Unauthorised");
-    }
-    return idToken;
+  // This method retrieves the ID token from localStorage and returns null if not found.
+  getToken(): string | null {
+    return localStorage.getItem("id_token");
   }
 
   // This method logs in the user by storing the token in localStorage and redirecting to the home page.

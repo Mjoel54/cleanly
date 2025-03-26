@@ -16,14 +16,17 @@ export const ADD_USER = gql`
 export const UPDATE_USER = gql`
   mutation UpdateUser($input: UpdateUserInput!) {
     updateUser(input: $input) {
-      _id
-      username
-      email
-      rooms {
+      token
+      user {
         _id
+        username
+        email
+        rooms {
+          _id
+        }
+        createdAt
+        isVerified
       }
-      createdAt
-      isVerified
     }
   }
 `;
