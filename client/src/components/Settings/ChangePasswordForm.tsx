@@ -1,7 +1,7 @@
 import React from "react";
 import { useApolloClient } from "@apollo/client";
-import { UPDATE_USER } from "../utils/api/user/mutations";
-import Auth from "../utils/auth";
+import { UPDATE_USER } from "../../utils/api";
+import Auth from "../../utils/auth";
 
 interface ChangePasswordFormProps {
   onSubmit?: (data: {

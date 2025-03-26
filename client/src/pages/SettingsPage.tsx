@@ -1,7 +1,8 @@
 "use client";
 
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
-import ChangePasswordForm from "../auth/ChangePasswordForm";
+import ChangePasswordForm from "../components/Settings/ChangePasswordForm";
+import DeleteAccountForm from "../components/Settings/DeleteAccountForm";
 
 export default function SettingsPage() {
   const handlePasswordChange = (data: {
@@ -11,6 +12,11 @@ export default function SettingsPage() {
   }) => {
     // TODO: Implement password change logic
     console.log("Password change:", data);
+  };
+
+  const handleAccountDelete = () => {
+    // TODO: Handle account deletion (e.g., redirect to login page)
+    console.log("Account deleted");
   };
 
   return (
@@ -205,14 +211,7 @@ export default function SettingsPage() {
               </p>
             </div>
 
-            <form className="flex items-start md:col-span-2">
-              <button
-                type="submit"
-                className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 cursor-pointer"
-              >
-                Yes, delete my account
-              </button>
-            </form>
+            <DeleteAccountForm onDelete={handleAccountDelete} />
           </div>
         </div>
       </main>

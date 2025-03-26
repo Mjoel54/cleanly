@@ -74,6 +74,7 @@ const typeDefs = `
     deleteAllTasks: Boolean!
     deleteRoomsAndTasks: Boolean!
     updateUser(input: UpdateUserInput!): Auth
+    deleteUser(password: String!): Boolean!
   }
 `;
 
