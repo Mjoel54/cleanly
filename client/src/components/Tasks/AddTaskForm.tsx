@@ -49,8 +49,14 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
     refetchQueries: [{ query: GET_TASKS }, { query: GET_ROOMS }],
     awaitRefetchQueries: true,
     onCompleted: () => {
+      // Update Redux state with the new task
+      dispatch(fetchAllTasks());
       onClose();
       successNotification("Task created");
+    },
+    onError: (error) => {
+      console.error("Error creating task:", error);
+      alert("Failed to create task. Please try again.");
     },
   });
 
@@ -74,37 +80,48 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
     }));
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (formState.roomId && formState.input.name) {
+      const selectedDate = dayjs(formState.input.dueDate);
+      const now = dayjs();
+
+      if (!selectedDate.isValid()) {
+        alert("Please select a valid date");
+        return;
+      }
+
+      if (selectedDate.isBefore(now, "day")) {
+        alert("Due date cannot be in the past");
+        return;
+      }
+
       const newTask: TaskRequest = {
         roomId: formState.roomId,
         input: {
           name: capitaliseFirst(formState.input.name),
           description: capitaliseFirst(formState.input.description),
-          dueDate: dayjs(formState.input.dueDate).unix(), // Convert to Unix timestamp (seconds)
-          // or use .valueOf() for milliseconds: dayjs(formState.input.dueDate).valueOf()
-          // room: formState.roomId,
+          dueDate: selectedDate.startOf("day").unix(), // Convert to Unix timestamp at start of day
         },
       };
-      // console.log(newTask);
-      createTask({
-        variables: newTask,
-        onCompleted: () => {
-          // This ensures dispatch is called in the correct context
-          dispatch(fetchAllTasks());
-        },
-      });
-      setFormState({
-        roomId: "",
-        input: {
-          name: "",
-          description: "",
-          dueDate: "",
-        },
-      });
-      // console.log("Unix timestamp:", dayjs(formState.input.dueDate).unix());
-      // console.log("Original date:", formState.input.dueDate);
+
+      try {
+        await createTask({
+          variables: newTask,
+        });
+
+        // Reset form state after successful creation
+        setFormState({
+          roomId: "",
+          input: {
+            name: "",
+            description: "",
+            dueDate: "",
+          },
+        });
+      } catch (error) {
+        console.error("Error creating task:", error);
+      }
     }
   };
 
@@ -245,16 +262,9 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
                         name="dueDate"
                         value={formState.input.dueDate}
                         onChange={handleInputChange}
-                      />
-
-                      {/* <input
-                        id="taskDescriptionInput"
-                        name="description"
-                        type="text"
-                        value={formState.input.description}
-                        onChange={handleInputChange}
+                        min={dayjs().format("YYYY-MM-DD")} // Prevent selecting past dates
                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                      /> */}
+                      />
                     </div>
                   </div>
 

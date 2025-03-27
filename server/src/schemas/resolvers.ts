@@ -396,14 +396,16 @@ const resolvers = {
             new: true,
             runValidators: true,
           }
-        ).populate("tasks"); // Ensure tasks are populated
+        );
 
         if (!updatedRoom) {
           throw new Error("Room not found");
         }
 
-        return updatedRoom;
+        // Return the new task with populated room field
+        return await Task.findById(newTask._id).populate("room");
       } catch (error) {
+        console.error("Error in createTask:", error);
         throw new Error(`Failed to create task: ${error}`);
       }
     },

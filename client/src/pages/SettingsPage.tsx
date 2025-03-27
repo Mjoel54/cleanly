@@ -1,6 +1,5 @@
 "use client";
 
-import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import ChangePasswordForm from "../components/Settings/ChangePasswordForm";
 import DeleteAccountForm from "../components/Settings/DeleteAccountForm";
 
@@ -149,30 +148,6 @@ export default function SettingsPage() {
                     </div>
                   </div>
                 </div>
-
-                <div className="col-span-full">
-                  <label
-                    htmlFor="timezone"
-                    className="block text-sm/6 font-medium text-gray-900"
-                  >
-                    Timezone
-                  </label>
-                  <div className="mt-2 grid grid-cols-1">
-                    <select
-                      id="timezone"
-                      name="timezone"
-                      className="col-start-1 row-start-1 w-full appearance-none rounded-md border-0 py-1.5 pr-8 pl-3 text-base text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 sm:text-sm/6"
-                    >
-                      <option>Pacific Standard Time</option>
-                      <option>Eastern Standard Time</option>
-                      <option>Greenwich Mean Time</option>
-                    </select>
-                    <ChevronDownIcon
-                      aria-hidden="true"
-                      className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-400 sm:size-4"
-                    />
-                  </div>
-                </div>
               </div>
 
               <div className="mt-8 flex">
@@ -185,7 +160,6 @@ export default function SettingsPage() {
               </div>
             </form>
           </div>
-
           <div className="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
             <div>
               <h2 className="text-base/7 font-semibold text-gray-900">
