@@ -1,12 +1,7 @@
 import { useState } from "react";
-import { useMutation } from "@apollo/client";
-import {
-  DELETE_TASK,
-  GET_TASKS,
-  GET_ROOMS,
-  UPDATE_TASK,
-} from "../../utils/api/index";
-// import TaskActionsDropdown from "./TaskActionsDropdown";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store";
+import { deleteTask } from "../../redux/actions/taskActions";
 import DeleteTaskModal from "./DeleteTaskModal";
 import successNotification from "../../utils/successNotification";
 import DropdownMenu, {
@@ -20,43 +15,33 @@ import {
   CheckIcon,
 } from "@heroicons/react/24/outline";
 
-interface TaskActionsProps {
+interface TaskItemDropdownProps {
   taskId: string;
 }
 
-export default function TaskActions({ taskId }: TaskActionsProps) {
+export default function TaskItemDropdown({ taskId }: TaskItemDropdownProps) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
 
-  // Delete mutation
-  const [deleteTask, { loading: isDeleting }] = useMutation(DELETE_TASK, {
-    variables: { taskId: taskId },
-    refetchQueries: [{ query: GET_TASKS }, { query: GET_ROOMS }],
-    awaitRefetchQueries: true,
-    onCompleted: () => {
+  const handleDeleteTask = async () => {
+    try {
+      await dispatch(deleteTask(taskId));
       setIsDeleteModalOpen(false);
       successNotification("Task deleted");
-    },
-  });
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
+  };
 
-  // Complete Task status mutation
-  const [completeTask] = useMutation(UPDATE_TASK, {
-    variables: {
-      taskId: taskId,
-      input: {
-        isCompleted: true,
-      },
-    },
-    refetchQueries: [{ query: GET_TASKS }],
-    awaitRefetchQueries: true,
-    onCompleted: () => {
-      successNotification("Task completed");
-    },
-  });
+  const handleCompleteTask = () => {
+    // TODO: Implement complete task action
+    console.log("Complete task");
+  };
 
   const menuItems: ButtonItem[] = [
     {
       name: "Mark as done",
-      action: () => completeTask(),
+      action: handleCompleteTask,
       icon: <CheckIcon className="h-4 w-4" />,
     },
     {
@@ -82,8 +67,8 @@ export default function TaskActions({ taskId }: TaskActionsProps) {
       <DeleteTaskModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
-        onConfirm={() => deleteTask()}
-        isDeleting={isDeleting}
+        onConfirm={handleDeleteTask}
+        isDeleting={false}
       />
     </>
   );

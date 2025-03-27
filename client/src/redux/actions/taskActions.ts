@@ -1,6 +1,6 @@
 import { createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
 import { client } from "../../config/apollo";
-import { GET_TASKS, CREATE_TASK } from "../../utils/api/index";
+import { GET_TASKS, CREATE_TASK, DELETE_TASK } from "../../utils/api/index";
 
 export const fetchAllTasks = createAsyncThunk("fetch-all-tasks", async () => {
   try {
@@ -37,6 +37,25 @@ export const addTask = createAsyncThunk(
     } catch (err: unknown) {
       return isRejectedWithValue(
         err instanceof Error ? err.message : "Error creating task"
+      );
+    }
+  }
+);
+
+export const deleteTask = createAsyncThunk(
+  "tasks/deleteTask",
+  async (taskId: string) => {
+    try {
+      const response = await client.mutate({
+        mutation: DELETE_TASK,
+        variables: { taskId },
+        refetchQueries: [{ query: GET_TASKS }],
+        awaitRefetchQueries: true,
+      });
+      return response.data.deleteTask;
+    } catch (err: unknown) {
+      return isRejectedWithValue(
+        err instanceof Error ? err.message : "Error deleting task"
       );
     }
   }
