@@ -1,6 +1,6 @@
 import React from "react";
-import TaskActions from "./TaskActions";
 import dueInFormatting from "../../utils/dueInFormatting";
+import TaskItemDropdown from "./TaskItemDropdown";
 // import DeleteTaskModal from "./DeleteTaskModal";
 
 interface TaskItemProps {
@@ -32,7 +32,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 
           {/* Task Actions (Right Side) */}
           <div>
-            <TaskActions taskId={taskID} />
+            <TaskItemDropdown taskId={taskID} />
           </div>
         </div>
       </div>
