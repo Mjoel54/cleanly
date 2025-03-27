@@ -9,7 +9,7 @@ import { Schema, model, Document } from "mongoose";
 export interface ITask extends Document {
   name?: string;
   description?: string;
-  dueDate?: Date;
+  dueDate?: number;
   isCompleted?: boolean;
   completedAt?: Date | null;
   createdAt: Date;
@@ -35,7 +35,7 @@ const taskSchema = new Schema<ITask>(
       maxLength: 100,
     },
     dueDate: {
-      type: Date,
+      type: Number,
       required: false,
     },
     isCompleted: {

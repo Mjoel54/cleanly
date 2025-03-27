@@ -2,11 +2,11 @@ import dayjs from "dayjs";
 import { CalendarDaysIcon } from "@heroicons/react/24/outline";
 
 export default function dueInFormatting(dueIn: number) {
-  // Get the current date
-  const now = dayjs();
+  // Get the current date at start of day for accurate comparison
+  const now = dayjs().startOf("day");
 
-  // Convert the Unix timestamp to a Day.js object
-  const dueDate = dayjs.unix(dueIn);
+  // Convert the Unix timestamp to a Day.js object at start of day
+  const dueDate = dayjs.unix(dueIn).startOf("day");
 
   // Calculate the difference in days
   const daysDifference = dueDate.diff(now, "day");

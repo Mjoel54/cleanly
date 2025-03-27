@@ -3,7 +3,7 @@ const typeDefs = `
     _id: ID!
     name: String
     description: String
-    dueDate: String
+    dueDate: Int
     isCompleted: Boolean
     completedAt: String
     createdAt: String
@@ -46,7 +46,7 @@ const typeDefs = `
     name: String
     description: String
     isCompleted: Boolean
-    dueDate: String
+    dueDate: Int
   }
 
   type Auth {

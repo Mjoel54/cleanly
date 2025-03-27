@@ -40,7 +40,7 @@ const tasksSlice = createSlice({
       })
       .addCase(fetchAllTasks.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.items = action.payload;
+        state.items = Array.isArray(action.payload) ? action.payload : [];
       })
       .addCase(fetchAllTasks.rejected, (state, action) => {
         state.status = "failed";
