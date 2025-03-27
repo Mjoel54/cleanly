@@ -25,7 +25,7 @@ import "./index.css";
 // Import components for routes
 import App from "./App.tsx";
 import Rooms from "./pages/Rooms";
-import Tasks from "./pages/Tasks";
+import TasksPage from "./pages/TasksPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import SettingsPage from "./pages/SettingsPage";
@@ -54,7 +54,7 @@ const router = createBrowserRouter([
         children: [
           { path: "/dashboard", element: <Dashboard /> },
           { path: "/rooms", element: <Rooms /> },
-          { path: "/tasks", element: <Tasks /> },
+          { path: "/tasks", element: <TasksPage /> },
           { path: "/settings", element: <SettingsPage /> },
         ],
       },
