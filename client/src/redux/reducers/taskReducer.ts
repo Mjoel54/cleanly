@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchAllTasks } from "../actions/taskActions";
+import { fetchAllTasks, addTask } from "../actions/taskActions";
 import { Room } from "../../interfaces/Room";
 
 export interface TaskItem {
@@ -45,6 +45,19 @@ const tasksSlice = createSlice({
       .addCase(fetchAllTasks.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message || "Failed to fetch tasks";
+      })
+      // Handle addTask cases
+      .addCase(addTask.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(addTask.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.items.push(action.payload);
+      })
+      .addCase(addTask.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message || "Failed to create task";
       });
   },
 });
