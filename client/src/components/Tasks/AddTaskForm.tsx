@@ -7,16 +7,11 @@ import dayjs from "dayjs";
 import capitaliseFirst from "../../utils/capitaliseFirst";
 import { RoomResponse } from "../../interfaces/Room";
 import PrimaryButton from "../General/PrimaryButton";
-import { fetchAllTasks } from "../../redux/actions/taskActions";
+import { fetchAllTasks, addTask } from "../../redux/actions/taskActions";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../../redux/store";
 import { fetchAllRooms } from "../../redux/actions/roomActions";
-
-import { useMutation } from "@apollo/client";
-
-import { CREATE_TASK, GET_TASKS, GET_ROOMS } from "../../utils/api/index";
 import { TaskRequest } from "../../interfaces/Task";
-
 import successNotification from "../../utils/successNotification";
 
 export interface AddTaskFormProps {
@@ -44,21 +39,6 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
   const selectedRoom = rooms.find(
     (room: RoomResponse) => room._id === formState.roomId
   );
-
-  const [createTask] = useMutation(CREATE_TASK, {
-    refetchQueries: [{ query: GET_TASKS }, { query: GET_ROOMS }],
-    awaitRefetchQueries: true,
-    onCompleted: () => {
-      // Update Redux state with the new task
-      dispatch(fetchAllTasks());
-      onClose();
-      successNotification("Task created");
-    },
-    onError: (error) => {
-      console.error("Error creating task:", error);
-      alert("Failed to create task. Please try again.");
-    },
-  });
 
   const handleRoomSelect = (roomId: string) => {
     setFormState((prevState) => ({
@@ -106,9 +86,11 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
       };
 
       try {
-        await createTask({
-          variables: newTask,
-        });
+        await dispatch(addTask(newTask)).unwrap();
+        // Update tasks list
+        dispatch(fetchAllTasks());
+        onClose();
+        successNotification("Task created");
 
         // Reset form state after successful creation
         setFormState({
@@ -121,6 +103,7 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
         });
       } catch (error) {
         console.error("Error creating task:", error);
+        alert("Failed to create task. Please try again.");
       }
     }
   };
