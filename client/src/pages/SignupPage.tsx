@@ -8,7 +8,6 @@ import { ADD_USER } from "../utils/api/index";
 import Auth from "../utils/auth";
 
 export default function SignupPage() {
-  const [errorMessage, setErrorMessage] = useState("");
   const [formState, setFormState] = useState({
     username: "",
     email: "",
@@ -43,7 +42,6 @@ export default function SignupPage() {
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
-        {errorMessage && <div>{errorMessage}</div>}
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <Link to="/">
             <img alt="Lumi" src={lumiIndigo} className="mx-auto h-24 w-auto" />
