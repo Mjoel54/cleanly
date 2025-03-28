@@ -18,16 +18,17 @@ import {
 } from "react-router-dom";
 
 import Auth from "./utils/auth";
-import ProtectedRoute from "./utils/ProtectedRoute.js";
+import PrivateRoute from "./auth/PrivateRoute";
 
 import "./index.css";
 
 // Import components for routes
 import App from "./App.tsx";
 import Rooms from "./pages/Rooms";
-import Tasks from "./pages/Tasks";
-import Signup from "./pages/Signup.tsx";
-import Login from "./pages/Login.tsx";
+import TasksPage from "./pages/TasksPage";
+import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
+import SettingsPage from "./pages/SettingsPage";
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 
@@ -46,14 +47,15 @@ const router = createBrowserRouter([
           <Home />
         ),
       },
-      { path: "/login", element: <Login /> },
-      { path: "/signup", element: <Signup /> },
+      { path: "/login", element: <LoginPage /> },
+      { path: "/signup", element: <SignupPage /> },
       {
-        element: <ProtectedRoute isAuthenticated={isAuthenticated} />,
+        element: <PrivateRoute />,
         children: [
           { path: "/dashboard", element: <Dashboard /> },
           { path: "/rooms", element: <Rooms /> },
-          { path: "/tasks", element: <Tasks /> },
+          { path: "/tasks", element: <TasksPage /> },
+          { path: "/settings", element: <SettingsPage /> },
         ],
       },
     ],

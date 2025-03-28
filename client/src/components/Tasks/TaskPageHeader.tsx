@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import AddTaskForm from "./AddTaskForm";
 import { DELETE_ALL_TASKS, GET_TASKS, GET_ROOMS } from "../../utils/api/index";
 import { useMutation } from "@apollo/client";
@@ -13,7 +13,7 @@ import { EllipsisVerticalIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 import { PlusIcon } from "@heroicons/react/20/solid";
 
-export default function TaskPageHeader() {
+const TaskPageHeader = memo(function TaskPageHeader() {
   const [showForm, setShowForm] = useState(false);
 
   const handleButtonClick = () => {
@@ -71,4 +71,6 @@ export default function TaskPageHeader() {
       {showForm && <AddTaskForm onClose={closeForm} />}
     </>
   );
-}
+});
+
+export default TaskPageHeader;

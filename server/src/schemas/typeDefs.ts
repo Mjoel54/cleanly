@@ -24,12 +24,18 @@ const typeDefs = `
     email: String!
     rooms: [Room]!
     createdAt: String
+    isVerified: Boolean!
   }
 
   input UserInput {
     username: String!
     email: String!
     password: String!
+  }
+
+  input UpdateUserInput {
+    password: String!
+    currentPassword: String!
   }
 
   input RoomInput {
@@ -67,6 +73,8 @@ const typeDefs = `
     deleteTask(taskId: ID!): Task
     deleteAllTasks: Boolean!
     deleteRoomsAndTasks: Boolean!
+    updateUser(input: UpdateUserInput!): Auth
+    deleteUser(password: String!): Boolean!
   }
 `;
 

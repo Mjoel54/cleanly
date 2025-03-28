@@ -13,15 +13,35 @@ export const ADD_USER = gql`
   }
 `;
 
-/*
-EXAMPLE ARGUMMENT:
+export const UPDATE_USER = gql`
+  mutation UpdateUser($input: UpdateUserInput!) {
+    updateUser(input: $input) {
+      token
+      user {
+        _id
+        username
+        email
+        rooms {
+          _id
+        }
+        createdAt
+        isVerified
+      }
+    }
+  }
+`;
 
+export const DELETE_USER = gql`
+  mutation DeleteUser($password: String!) {
+    deleteUser(password: $password)
+  }
+`;
+
+/*
+EXAMPLE ARGUMENT:
 {
   "input": {
-    "username": "Mjoel54",
-    "email": "mitch@hotmail.com",
-    "password": "Test4571"
+    "password": "NewSecurePassword123!"
   }
 }
-
 */

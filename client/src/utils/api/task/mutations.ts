@@ -5,6 +5,16 @@ export const CREATE_TASK = gql`
     createTask(roomId: $roomId, input: $input) {
       _id
       name
+      description
+      isCompleted
+      dueDate
+      completedAt
+      createdAt
+      updatedAt
+      room {
+        _id
+        name
+      }
     }
   }
 `;

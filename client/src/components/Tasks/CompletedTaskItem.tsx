@@ -1,5 +1,5 @@
 import React from "react";
-import TaskActions from "./TaskActions";
+import TaskItemDropdown from "./TaskItemDropdown";
 
 // Define props type
 interface CompletedTaskItemProps {
@@ -31,7 +31,7 @@ const CompletedTaskItem: React.FC<CompletedTaskItemProps> = ({
 
           {/* Task Actions (Right Side) */}
           <div>
-            <TaskActions taskId={taskID} />
+            <TaskItemDropdown taskId={taskID} />
           </div>
         </div>
       </div>
