@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { deleteTask } from "../../redux/actions/taskActions";
 import DeleteTaskModal from "./DeleteTaskModal";
+import UpdateTaskForm from "./UpdateTaskForm";
 import successNotification from "../../utils/successNotification";
 import DropdownMenu, {
   ButtonItem,
@@ -14,13 +15,19 @@ import {
   EllipsisVerticalIcon,
   CheckIcon,
 } from "@heroicons/react/24/outline";
+import { Task } from "../../interfaces/Task";
 
 interface TaskItemDropdownProps {
   taskId: string;
+  task: Task;
 }
 
-export default function TaskItemDropdown({ taskId }: TaskItemDropdownProps) {
+export default function TaskItemDropdown({
+  taskId,
+  task,
+}: TaskItemDropdownProps) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
 
   const handleDeleteTask = async () => {
@@ -46,7 +53,7 @@ export default function TaskItemDropdown({ taskId }: TaskItemDropdownProps) {
     },
     {
       name: "Edit",
-      action: () => console.log("Edit task"),
+      action: () => setIsUpdateModalOpen(true),
       icon: <PencilIcon className="h-4 w-4" />,
     },
     {
@@ -69,6 +76,12 @@ export default function TaskItemDropdown({ taskId }: TaskItemDropdownProps) {
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={handleDeleteTask}
         isDeleting={false}
+      />
+
+      <UpdateTaskForm
+        task={task}
+        isOpen={isUpdateModalOpen}
+        onClose={() => setIsUpdateModalOpen(false)}
       />
     </>
   );

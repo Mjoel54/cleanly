@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchAllTasks, addTask, deleteTask } from "../actions/taskActions";
+import {
+  fetchAllTasks,
+  addTask,
+  deleteTask,
+  updateTask,
+} from "../actions/taskActions";
 import { Room } from "../../interfaces/Room";
 
 export interface TaskItem {
@@ -73,6 +78,24 @@ const tasksSlice = createSlice({
       .addCase(deleteTask.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message || "Failed to delete task";
+      })
+      // Handle updateTask cases
+      .addCase(updateTask.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(updateTask.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        const index = state.items.findIndex(
+          (task) => task._id === action.payload._id
+        );
+        if (index !== -1) {
+          state.items[index] = action.payload;
+        }
+      })
+      .addCase(updateTask.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message || "Failed to update task";
       });
   },
 });

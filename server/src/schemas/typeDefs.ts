@@ -47,6 +47,7 @@ const typeDefs = `
     description: String
     isCompleted: Boolean
     dueDate: Int
+    room: ID
   }
 
   type Auth {
