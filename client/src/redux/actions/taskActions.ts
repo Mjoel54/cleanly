@@ -6,6 +6,7 @@ import {
   DELETE_TASK,
   UPDATE_TASK,
 } from "../../utils/api/index";
+import { GET_ROOMS } from "../../utils/api/rooms/queries";
 
 export const fetchAllTasks = createAsyncThunk("fetch-all-tasks", async () => {
   try {
@@ -73,13 +74,18 @@ export const updateTask = createAsyncThunk(
     input,
   }: {
     taskId: string;
-    input: { name?: string; description?: string; isCompleted?: boolean };
+    input: {
+      name?: string;
+      description?: string;
+      isCompleted?: boolean;
+      room?: string;
+    };
   }) => {
     try {
       const response = await client.mutate({
         mutation: UPDATE_TASK,
         variables: { taskId, input },
-        refetchQueries: [{ query: GET_TASKS }],
+        refetchQueries: [{ query: GET_TASKS }, { query: GET_ROOMS }],
         awaitRefetchQueries: true,
       });
       return response.data.updateTask;
