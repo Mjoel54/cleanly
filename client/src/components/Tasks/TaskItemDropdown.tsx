@@ -14,6 +14,7 @@ import {
   PencilIcon,
   EllipsisVerticalIcon,
   CheckIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Task } from "../../interfaces/Task";
 
@@ -56,12 +57,38 @@ export default function TaskItemDropdown({
     }
   };
 
+  const handleIncompleteTask = async () => {
+    try {
+      await dispatch(
+        updateTask({
+          taskId,
+          input: {
+            isCompleted: false,
+          },
+        })
+      );
+      successNotification("Task marked as incomplete");
+    } catch (error) {
+      console.error("Error updating task:", error);
+    }
+  };
+
   const menuItems: ButtonItem[] = [
-    {
-      name: "Mark as done",
-      action: handleCompleteTask,
-      icon: <CheckIcon className="h-4 w-4" />,
-    },
+    ...(task.isCompleted
+      ? [
+          {
+            name: "Mark as incomplete",
+            action: handleIncompleteTask,
+            icon: <XMarkIcon className="h-4 w-4" />,
+          },
+        ]
+      : [
+          {
+            name: "Mark as done",
+            action: handleCompleteTask,
+            icon: <CheckIcon className="h-4 w-4" />,
+          },
+        ]),
     {
       name: "Edit",
       action: () => setIsUpdateModalOpen(true),
