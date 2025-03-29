@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
-import { deleteTask } from "../../redux/actions/taskActions";
+import { deleteTask, updateTask } from "../../redux/actions/taskActions";
 import DeleteTaskModal from "./DeleteTaskModal";
 import UpdateTaskForm from "./UpdateTaskForm";
 import successNotification from "../../utils/successNotification";
@@ -40,9 +40,20 @@ export default function TaskItemDropdown({
     }
   };
 
-  const handleCompleteTask = () => {
-    // TODO: Implement complete task action
-    console.log("Complete task");
+  const handleCompleteTask = async () => {
+    try {
+      await dispatch(
+        updateTask({
+          taskId,
+          input: {
+            isCompleted: true,
+          },
+        })
+      );
+      successNotification("Task completed");
+    } catch (error) {
+      console.error("Error updating task:", error);
+    }
   };
 
   const menuItems: ButtonItem[] = [
