@@ -78,4 +78,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-For technical inquiries or collaboration opportunities, please reach out through GitHub issues or email at support@lumi.com.
+For technical inquiries or collaboration opportunities, please reach out through GitHub.
