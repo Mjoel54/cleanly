@@ -14,13 +14,7 @@ function FilteredTasks({ tasks }: { tasks: TaskResponse[] }) {
   return (
     <div>
       {incompleteTasks.map((task: TaskResponse) => (
-        <TaskItem
-          key={task._id}
-          taskName={task.name}
-          taskID={task._id}
-          room={task.room.name}
-          dueDate={task.dueDate}
-        />
+        <TaskItem key={task._id} task={task} />
       ))}
       {completedTasks.length > 0 ? (
         <>
@@ -34,12 +28,7 @@ function FilteredTasks({ tasks }: { tasks: TaskResponse[] }) {
           ) : null}
 
           {completedTasks.map((task: TaskResponse) => (
-            <CompletedTaskItem
-              key={task._id}
-              taskName={task.name}
-              taskID={task._id}
-              room={task.room.name}
-            />
+            <CompletedTaskItem key={task._id} task={task} />
           ))}
         </>
       ) : null}

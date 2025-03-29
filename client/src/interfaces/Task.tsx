@@ -30,6 +30,6 @@ export interface TaskRequest {
     description: string;
     dueDate: number;
     isCompleted?: boolean;
-    // room: string;
+    room?: string;
   };
 }

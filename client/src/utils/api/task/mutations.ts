@@ -38,6 +38,18 @@ export const UPDATE_TASK = gql`
       name
       description
       isCompleted
+      dueDate
+      completedAt
+      createdAt
+      updatedAt
+      room {
+        _id
+        name
+        tasks {
+          _id
+          name
+        }
+      }
     }
   }
 `;
@@ -48,7 +60,8 @@ EXAMPLE ARGUMENT:
 {  "taskId": "67a67258265f23eeeefb15ec",
   "input": {
     "name": "UPDATED - Clean the cupboards",
-    "description": "UPDATED - dust and disinfect"
+    "description": "UPDATED - dust and disinfect",
+    "room": "67a66d9e265f23eeeefb15dd"
   }
 }
 

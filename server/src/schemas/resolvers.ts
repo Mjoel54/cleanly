@@ -421,6 +421,25 @@ const resolvers = {
             input.isCompleted !== true && { completedAt: null }),
         };
 
+        // Find the current task to get its current room
+        const currentTask = await Task.findById(taskId);
+        if (!currentTask) {
+          throw new Error("Task not found");
+        }
+
+        // If room is being changed
+        if (input.room && input.room !== currentTask.room.toString()) {
+          // Remove task from old room
+          await Room.findByIdAndUpdate(currentTask.room, {
+            $pull: { tasks: taskId },
+          });
+
+          // Add task to new room
+          await Room.findByIdAndUpdate(input.room, {
+            $push: { tasks: taskId },
+          });
+        }
+
         // Find and update the task
         const updatedTask = await Task.findByIdAndUpdate(
           taskId,
@@ -429,7 +448,14 @@ const resolvers = {
             new: true, // Return the updated document
             runValidators: true, // Run schema validators on update
           }
-        );
+        ).populate({
+          path: "room",
+          select: "_id name description tasks",
+          populate: {
+            path: "tasks",
+            select: "_id name",
+          },
+        });
 
         // Check if task exists
         if (!updatedTask) {
