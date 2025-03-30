@@ -1,6 +1,7 @@
 import { useState, type FormEvent, type ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 import AuthenticationHeader from "../components/General/AuthenticationHeader";
+import AuthenticationFooter from "../components/General/AuthenticationFooter";
 
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../utils/api/index";
@@ -230,16 +231,11 @@ export default function LoginPage() {
               </div>
             )}
           </div>
-
-          <p className="mt-10 text-center text-sm/6 text-gray-500">
-            Not a member?{" "}
-            <Link
-              to="/signup"
-              className="font-semibold text-indigo-600 hover:text-indigo-500"
-            >
-              Sign up
-            </Link>
-          </p>
+          <AuthenticationFooter
+            linkPath="/signup"
+            linkText="Sign up"
+            paragraphText="Not a member? "
+          />
         </div>
       </div>
     </>
