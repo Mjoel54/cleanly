@@ -1,6 +1,6 @@
 import { useState, type FormEvent, type ChangeEvent } from "react";
 import { Link } from "react-router-dom";
-import lumiIndigo from "../images/lumi-indigo-600.svg";
+import AuthenticationHeader from "../components/General/AuthenticationHeader";
 
 import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../utils/api/index";
@@ -77,15 +77,7 @@ export default function SignupPage() {
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <Link to="/">
-            <img alt="Lumi" src={lumiIndigo} className="mx-auto h-24 w-auto" />
-          </Link>
-          <h2 className="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
-            Sign up to get started
-          </h2>
-        </div>
-
+        <AuthenticationHeader title="Sign up to get started" />
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
           <div className="bg-white px-6 py-12 shadow-sm sm:rounded-lg sm:px-12">
             {data ? (
