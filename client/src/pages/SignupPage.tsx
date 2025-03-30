@@ -14,7 +14,35 @@ export default function SignupPage() {
     password: "",
     confirmPassword: "",
   });
+
+  const [passwordValidation, setPasswordValidation] = useState({
+    hasUpperCase: false,
+    hasLowerCase: false,
+    hasSpecialChar: false,
+    hasMinLength: false,
+    hasNumber: false,
+    passwordsMatch: false,
+  });
+
   const [addUser, { error, data }] = useMutation(ADD_USER);
+
+  const validatePassword = (password: string, confirmPassword: string) => {
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const hasMinLength = password.length >= 8;
+    const hasNumber = /[1-9]/.test(password);
+    const passwordsMatch = password === confirmPassword;
+
+    setPasswordValidation({
+      hasUpperCase,
+      hasLowerCase,
+      hasSpecialChar,
+      hasMinLength,
+      hasNumber,
+      passwordsMatch,
+    });
+  };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -23,6 +51,13 @@ export default function SignupPage() {
       ...formState,
       [name]: value,
     });
+
+    if (name === "password" || name === "confirmPassword") {
+      validatePassword(
+        name === "password" ? value : formState.password,
+        name === "confirmPassword" ? value : formState.confirmPassword
+      );
+    }
   };
 
   const handleFormSubmit = async (event: FormEvent) => {
@@ -142,6 +177,62 @@ export default function SignupPage() {
                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                       />
                     </div>
+                    <div className="mt-3 text-xs text-gray-600 space-y-1">
+                      <p
+                        className={
+                          passwordValidation.hasUpperCase
+                            ? "text-green-600"
+                            : "text-gray-500"
+                        }
+                      >
+                        • Contains uppercase letter
+                      </p>
+                      <p
+                        className={
+                          passwordValidation.hasLowerCase
+                            ? "text-green-600"
+                            : "text-gray-500"
+                        }
+                      >
+                        • Contains lowercase letter
+                      </p>
+                      <p
+                        className={
+                          passwordValidation.hasSpecialChar
+                            ? "text-green-600"
+                            : "text-gray-500"
+                        }
+                      >
+                        • Contains special character {`(!@#$%^&*)`}
+                      </p>
+                      <p
+                        className={
+                          passwordValidation.hasNumber
+                            ? "text-green-600"
+                            : "text-gray-500"
+                        }
+                      >
+                        • Contains number
+                      </p>
+                      <p
+                        className={
+                          passwordValidation.hasMinLength
+                            ? "text-green-600"
+                            : "text-gray-500"
+                        }
+                      >
+                        • At least 8 characters
+                      </p>
+                      <p
+                        className={
+                          passwordValidation.passwordsMatch
+                            ? "text-green-600"
+                            : "text-gray-500"
+                        }
+                      >
+                        • Passwords match
+                      </p>
+                    </div>
                   </div>
                   <hr className="border-t border-gray-200" />
 
@@ -152,9 +243,10 @@ export default function SignupPage() {
                         !formState.username ||
                         !formState.email ||
                         !formState.password ||
-                        formState.password !== formState.confirmPassword
+                        !formState.confirmPassword ||
+                        !Object.values(passwordValidation).every(Boolean)
                       }
-                      className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer"
+                      className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Create account
                     </button>

@@ -12,8 +12,43 @@ export default function Signup() {
     username: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
+
+  const [passwordValidation, setPasswordValidation] = useState({
+    hasUpperCase: false,
+    hasLowerCase: false,
+    hasSpecialChar: false,
+    hasNumber: false,
+    passwordsMatch: false,
+    hasMinLength: false,
+  });
+
   const [addUser, { error, data }] = useMutation(ADD_USER);
+
+  const validatePassword = (password: string, confirmPassword: string) => {
+    setPasswordValidation({
+      hasUpperCase: /[A-Z]/.test(password),
+      hasLowerCase: /[a-z]/.test(password),
+      hasSpecialChar: /[@$!%*?&]/.test(password),
+      hasNumber: /\d/.test(password),
+      hasMinLength: password.length >= 8,
+      passwordsMatch: password === confirmPassword && password !== "",
+    });
+  };
+
+  const getPasswordStrength = () => {
+    const validations = Object.values(passwordValidation);
+    const passedChecks = validations.filter(Boolean).length;
+    const totalChecks = validations.length;
+    const percentage = (passedChecks / totalChecks) * 100;
+
+    if (percentage === 0) return { text: "Very Weak", color: "bg-red-500" };
+    if (percentage <= 20) return { text: "Weak", color: "bg-orange-500" };
+    if (percentage <= 40) return { text: "Fair", color: "bg-yellow-500" };
+    if (percentage <= 60) return { text: "Good", color: "bg-blue-500" };
+    return { text: "Strong", color: "bg-green-500" };
+  };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -22,10 +57,21 @@ export default function Signup() {
       ...formState,
       [name]: value,
     });
+
+    if (name === "password" || name === "confirmPassword") {
+      validatePassword(
+        name === "password" ? value : formState.password,
+        name === "confirmPassword" ? value : formState.confirmPassword
+      );
+    }
   };
 
   const handleFormSubmit = async (event: FormEvent) => {
     event.preventDefault();
+
+    if (!passwordValidation.passwordsMatch) {
+      return;
+    }
 
     try {
       const { data } = await addUser({
@@ -37,6 +83,39 @@ export default function Signup() {
       console.error(e);
     }
   };
+
+  const getValidationIcon = (isValid: boolean) => {
+    return isValid ? (
+      <svg
+        className="h-4 w-4 text-green-500"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M5 13l4 4L19 7"
+        />
+      </svg>
+    ) : (
+      <svg
+        className="h-4 w-4 text-gray-400"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    );
+  };
+
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -118,6 +197,131 @@ export default function Signup() {
                         onChange={handleChange}
                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                       />
+                    </div>
+                    <div className="mt-2">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-gray-500">
+                          Password Strength:
+                        </span>
+                        <span
+                          className={`font-medium ${
+                            getPasswordStrength().color
+                          } text-white px-2 py-1 rounded`}
+                        >
+                          {getPasswordStrength().text}
+                        </span>
+                      </div>
+                      <div className="mt-1 h-1 w-full bg-gray-200 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full ${
+                            getPasswordStrength().color
+                          } transition-all duration-300`}
+                          style={{
+                            width: `${
+                              (Object.values(passwordValidation).filter(Boolean)
+                                .length /
+                                Object.keys(passwordValidation).length) *
+                              100
+                            }%`,
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="confirmPassword"
+                      className="block text-sm/6 font-medium text-gray-900"
+                    >
+                      Confirm Password
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        type="password"
+                        required
+                        autoComplete="new-password"
+                        value={formState.confirmPassword}
+                        onChange={handleChange}
+                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center gap-2">
+                      {getValidationIcon(passwordValidation.hasMinLength)}
+                      <span
+                        className={
+                          passwordValidation.hasMinLength
+                            ? "text-green-600"
+                            : "text-gray-500"
+                        }
+                      >
+                        At least 8 characters long
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {getValidationIcon(passwordValidation.hasUpperCase)}
+                      <span
+                        className={
+                          passwordValidation.hasUpperCase
+                            ? "text-green-600"
+                            : "text-gray-500"
+                        }
+                      >
+                        Contains an uppercase letter
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {getValidationIcon(passwordValidation.hasLowerCase)}
+                      <span
+                        className={
+                          passwordValidation.hasLowerCase
+                            ? "text-green-600"
+                            : "text-gray-500"
+                        }
+                      >
+                        Contains a lowercase letter
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {getValidationIcon(passwordValidation.hasSpecialChar)}
+                      <span
+                        className={
+                          passwordValidation.hasSpecialChar
+                            ? "text-green-600"
+                            : "text-gray-500"
+                        }
+                      >
+                        Contains a special character (@$!%*?&)
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {getValidationIcon(passwordValidation.hasNumber)}
+                      <span
+                        className={
+                          passwordValidation.hasNumber
+                            ? "text-green-600"
+                            : "text-gray-500"
+                        }
+                      >
+                        Contains a number
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {getValidationIcon(passwordValidation.passwordsMatch)}
+                      <span
+                        className={
+                          passwordValidation.passwordsMatch
+                            ? "text-green-600"
+                            : "text-gray-500"
+                        }
+                      >
+                        Passwords match
+                      </span>
                     </div>
                   </div>
 
