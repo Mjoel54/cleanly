@@ -9,13 +9,13 @@ export default function AuthenticationHeader({
   title,
 }: AuthenticationHeaderProps) {
   return (
-    <div className="sm:mx-auto sm:w-full sm:max-w-md">
+    <header className="sm:mx-auto sm:w-full sm:max-w-md">
       <Link to="/">
         <img alt="Lumi" src={lumiIndigo} className="mx-auto h-24 w-auto" />
       </Link>
       <h2 className="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
         {title}
       </h2>
-    </div>
+    </header>
   );
 }
