@@ -1,6 +1,7 @@
 import { useState, type FormEvent, type ChangeEvent } from "react";
 import { Link } from "react-router-dom";
-import lumiIndigo from "../images/lumi-indigo-600.svg";
+import AuthenticationHeader from "../components/General/AuthenticationHeader";
+import AuthenticationFooter from "../components/General/AuthenticationFooter";
 
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../utils/api/index";
@@ -41,18 +42,7 @@ export default function LoginPage() {
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <Link to="/">
-            <img
-              alt="Your Company"
-              src={lumiIndigo}
-              className="mx-auto h-24 w-auto"
-            />
-          </Link>
-          <h2 className="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
-            Login to get started
-          </h2>
-        </div>
+        <AuthenticationHeader title="Login to get started" />
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
           <div className="bg-white px-6 py-12 shadow-sm sm:rounded-lg sm:px-12">
@@ -241,16 +231,11 @@ export default function LoginPage() {
               </div>
             )}
           </div>
-
-          <p className="mt-10 text-center text-sm/6 text-gray-500">
-            Not a member?{" "}
-            <Link
-              to="/signup"
-              className="font-semibold text-indigo-600 hover:text-indigo-500"
-            >
-              Sign up
-            </Link>
-          </p>
+          <AuthenticationFooter
+            linkPath="/signup"
+            linkText="Sign up"
+            paragraphText="Not a member? "
+          />
         </div>
       </div>
     </>
